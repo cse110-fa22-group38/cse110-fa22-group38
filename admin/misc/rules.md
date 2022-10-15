@@ -5,7 +5,7 @@ Revised October 15, 2022
 
 - Honesty : We would be honest about the work we have done / are doing.
 - Safe Space : The group meetings/slack are a safe space for everyone where everyone's ideas are welcome and heard equally without any hesitation.
-- Equal Opportunity : Members are expected to share their actual oppinion, and have it evaluated equally, even if it conflicts with others.
+- Equal Opportunity : Members are expected to share their actual opinion, and have it evaluated equally, even if it conflicts with others.
 
 ## Commitment
 
@@ -27,10 +27,11 @@ Revised October 15, 2022
 - We would break larger tasks into smaller, manageable tasks.
 - We would have a meeting on Monday for setting up the expectations and tasks for the week.
 - We would have a mid-week status check on Wednesday, it is expected something has been started.
-- The Scrum master would ensure to follow up on any empediments.
+- The Scrum master would ensure to follow up on any impediments.
 - We would have daily standups where you report what you expect to work on (even if it is "nothing").
 
-***
 
 
-#### Sign Here____________________________________ **Date**___________________
+ *Sign & Date*:
+ 
+ ***
