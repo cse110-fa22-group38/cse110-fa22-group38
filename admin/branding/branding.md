@@ -1,12 +1,23 @@
 # Branding
 
-## Name: _To be diced via poll_
+## Name: Powell Puff
+
+#### Logo:
+
+![square logo](./logo-square.png)
+
+![banner logo](./logo-banner.png)
 
 ## Theme:
-- _to be decided based on the name_
+#### Color:
+- pink #ee6fa8
+- red #40a9e2
+- green #40a9e2
+- blue #40a9e2
 
-## Logo:
-_to be created based on the name_
+#### font:
+- power puff girls font
+
 
 ## Values:
 1. Productivity
