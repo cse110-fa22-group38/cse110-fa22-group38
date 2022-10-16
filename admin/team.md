@@ -34,11 +34,11 @@ Yo! I'm a junior majoring in Computer Engineering. I'm usually at the library wi
 
 #### [Rachel Lin](https://rachelayaka.github.io/CSE110-LAB1/) (Role or whatever you wanna put here)
 
-Hi, I'm a 4th year majoring in Math-CS. I have an eyelashing business, so that is what I do and gym outside of school.
+I'm a 4th year majoring in Math-CS. I have an eyelashing business, so that is what I do and gym outside of school.
 
 #### [Vedant Goradia](https://vedant2812.github.io/CSE110/) (Developer)
 
-I'm a senior at UCSD, and my friends describe me as laid back, zoned out, and annoyingly outgoing. Outside of class I enjoy hiking and cycling outdoors.
+I'm a senior studying Computer Engineering. I like hiking and playing poker.
 
 #### [Yousuf Gharib]() (Developer)
 
