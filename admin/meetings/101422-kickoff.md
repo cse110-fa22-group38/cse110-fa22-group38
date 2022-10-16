@@ -91,7 +91,7 @@ There is a lot to take care of, last week's zoom meeting (introductions) will co
 4. Group Contract (Sign & Upload)
 5. When 2 Meet (for Monday)
 6. Repo Access
-7. Pole for Roels
+7. Pole for Roles
 
 ### Media
 ![whiteboard with notes on group contract and team values](./images/101422-whiteboard.jpg)
