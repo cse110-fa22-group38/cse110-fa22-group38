@@ -4,12 +4,6 @@
 
 Issues commands when things get out of hand. Does research on internet network measurements.
 
-```
-#### [Name](link-to-your-personal-page) (Role or whatever you wanna put here)
-
-brief description of what you like about software engineering or literally anything at all. As long as it's appropriate
-```
-
 #### [Divyam Rana](https://divyamrana007.github.io/Lab01/) (Primary Lead)
 
 A senior majoring in Math - CS and minor in Data Science. After my classes, you would typically find me in the soccer field.
@@ -33,3 +27,19 @@ I go by Jason. I'm a junior Math-CS major. I like video games a lot and I have a
 #### [Hieu Pham](https://hugompham.github.io/Week-0-1-Lab/) (Role or whatever you wanna put here)
 
 I go by Hugo. I'm a third year Computer Engineering major. If I am not working or watching anime, you will probably see me in the gym.
+
+#### [Tung Nguyen](https://tan002-fall2022.github.io/CSE110/) (Planner)
+
+Yo! I'm a junior majoring in Computer Engineering. I'm usually at the library with my homies either grinding school work or watching some e-sports and memes.
+
+#### [Rachel Lin](https://rachelayaka.github.io/CSE110-LAB1/) (Role or whatever you wanna put here)
+
+Hi, I'm a 4th year majoring in Math-CS. I have an eyelashing business, so that is what I do and gym outside of school.
+
+#### [Vedant Goradia](https://vedant2812.github.io/CSE110/) (Developer)
+
+I'm a senior at UCSD, and my friends describe me as laid back, zoned out, and annoyingly outgoing. Outside of class I enjoy hiking and cycling outdoors.
+
+#### [Yousuf Gharib]() (Developer)
+
+I'm the newest member to this group, but I'm excited to get working on a real project!
