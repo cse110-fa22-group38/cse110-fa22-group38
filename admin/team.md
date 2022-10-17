@@ -12,7 +12,7 @@ A senior majoring in Math - CS and minor in Data Science. After my classes, you 
 
 Not good at HTML/CSS, but excited to build something cool & useful! I'm interested in Machine Learning and retro video game consoles
 
-#### [Yining Gu](https://github.com/YGnina) (Developer)
+#### [Yining Gu](https://ygnina.github.io/fa22-cse110-lab0-1/) (Developer)
 
 You can call me Nina. I'm a senior majoring in CS. I like to watch movies or go hiking when I have spare time.
 
