@@ -94,4 +94,4 @@ There is a lot to take care of, last week's zoom meeting (introductions) will co
 7. Pole for Roles
 
 ### Media
-![whiteboard with notes on group contract and team values](./images/101422-whiteboard.jpg)
+![whiteboard with notes on group contract and team values](./assets/images/101422-whiteboard.jpg)

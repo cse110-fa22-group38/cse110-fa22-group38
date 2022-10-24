@@ -32,8 +32,9 @@
 - "Personal"
 - Local First "privacy"
 - App made with "Core Web"
-  + Ex: Python, Javascript
+  + Ex: html, css, Javascript
 <hr>
+
 
 **Brainstorming and voting on Miro whiteboard:**
 https://miro.com/app/board/uXjVPLlcz60=/
@@ -41,21 +42,21 @@ https://miro.com/app/board/uXjVPLlcz60=/
 **Top 3 results:**
 Consult with the respective pictures for more details:
 
-![Schedule's whiteboard](102122-whiteboard-schedule.jpg "Schedule Whiteboard.jpg")
+![planner whiteboard](./assets/images/102122-planner.heic)
 - Schedule Planner (8 votes): 
   + C: Add task
   + R: Read task
   + U: Update wrong entries
   + D: Delete after it ends
 
-![Movie's whiteboard](102122-whiteboard-movie.jpg "Movie Whiteboard.jpg")
+![movie suggestion whiteboard](./assets/images/102122-movie.heic)
 - Movie Selector (7 votes): 
   + C: #TODO
   + R: #TODO
   + U: #TODO
   + D: #TODO
 
-![Timer's whiteboard](102122-whiteboard-timer.jpg "Timer Whiteboard.jpg")
+![timer whiteboard](./assets/images/102122-timer.heic)
 - Timer (7 votes): 
   + C: #TODO
   + R: #TODO
@@ -80,3 +81,8 @@ N/A
 3) (Optional) Deciding which group bonding activity we want to do.
 <hr>
 
+### Primary Whiteboard
+![planner whiteboard](./assets/images/102122-board.heic)
+
+### Miro Board:
+![Miro board pdf document](./assets/documents/102122-miro.pdf)
