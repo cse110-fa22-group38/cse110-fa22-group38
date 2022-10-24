@@ -11,8 +11,8 @@
 ## Theme:
 #### Color:
 - pink #ee6fa8
-- red #40a9e2
-- green #40a9e2
+- red #da2d39
+- green #47b830
 - blue #40a9e2
 
 #### font:
