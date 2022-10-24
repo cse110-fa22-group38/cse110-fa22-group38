@@ -85,5 +85,5 @@ N/A
 ![planner whiteboard](./assets/images/102122-board.heic)
 
 ### Miro Board:
-![Miro board](./assets/documents/102122-miro.png)
-Find a high-resolution copy of this board at `./assets/document/102122-miro.pdf`
+![Miro board](./assets/images/102122-miro.png)
+Find a high-resolution copy of this board at `./spec/brainstorm/102122-miro.pdf`
