@@ -42,21 +42,21 @@ https://miro.com/app/board/uXjVPLlcz60=/
 **Top 3 results:**
 Consult with the respective pictures for more details:
 
-![planner whiteboard](./assets/images/102122-planner.heic)
+![planner whiteboard](./assets/images/102122-planner.jpg)
 - Schedule Planner (8 votes): 
   + C: Add task
   + R: Read task
   + U: Update wrong entries
   + D: Delete after it ends
 
-![movie suggestion whiteboard](./assets/images/102122-movie.heic)
+![movie suggestion whiteboard](./assets/images/102122-movie.jpg)
 - Movie Selector (7 votes): 
   + C: #TODO
   + R: #TODO
   + U: #TODO
   + D: #TODO
 
-![timer whiteboard](./assets/images/102122-timer.heic)
+![timer whiteboard](./assets/images/102122-timer.jpg)
 - Timer (7 votes): 
   + C: #TODO
   + R: #TODO
@@ -85,4 +85,4 @@ N/A
 ![planner whiteboard](./assets/images/102122-board.heic)
 
 ### Miro Board:
-![Miro board pdf document](./assets/documents/102122-miro.pdf)
+![Miro board pdf document](./assets/documents/102122-miro.png)
