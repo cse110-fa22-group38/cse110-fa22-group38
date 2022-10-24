@@ -6,6 +6,8 @@
 
 ![square logo](./logo-square.png)
 
+![header logo](./logo-header.png)
+
 ![banner logo](./logo-banner.png)
 
 ## Theme:
