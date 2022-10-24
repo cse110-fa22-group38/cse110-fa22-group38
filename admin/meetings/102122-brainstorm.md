@@ -82,7 +82,7 @@ N/A
 <hr>
 
 ### Primary Whiteboard
-![planner whiteboard](./assets/images/102122-board.heic)
+![planner whiteboard](./assets/images/102122-board.jpg)
 
 ### Miro Board:
 ![Miro board](./assets/images/102122-miro.png)
