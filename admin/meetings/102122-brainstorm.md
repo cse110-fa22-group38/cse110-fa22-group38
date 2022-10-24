@@ -43,32 +43,32 @@ https://miro.com/app/board/uXjVPLlcz60=/
 Consult with the respective pictures for more details:
 
 ![planner whiteboard](./assets/images/102122-planner.jpg)
-- Schedule Planner (8 votes): 
+- **Schedule Planner** (8 votes): 
   + C: Add task
   + R: Read task
   + U: Update wrong entries
   + D: Delete after it ends
 
 ![movie suggestion whiteboard](./assets/images/102122-movie.jpg)
-- Movie Selector (7 votes): 
-  + C: #TODO
-  + R: #TODO
-  + U: #TODO
-  + D: #TODO
+- **Movie Selector** (7 votes): 
+  + C: create movie list
+  + R: choose a movie based on previously watched movies
+  + U: update movies as "watched"
+  + D: remove movies from the list if you dislike them
 
 ![timer whiteboard](./assets/images/102122-timer.jpg)
-- Timer (7 votes): 
-  + C: #TODO
-  + R: #TODO
-  + U: #TODO
-  + D: #TODO
+- **Timer** (7 votes): 
+  + C: add websites to whitelist
+  + R: compare current webpage to whitelist
+  + U: add/change whitelisted sites as needed during session
+  + D: remove sites from whitelist
 <hr>
 
 ## Social Ideas
 - Bonfire at the beach
 - Movie
 - Beach Day
-- Improvise/Comedy
+- Improv/Comedy show 
 <hr>
 
 ## Other concerns
@@ -76,7 +76,7 @@ N/A
 <hr>
 
 ## TODO AFTER MEETING
-1) Deciding which idea we should go with. Ideally by <span style="color:red"> **Monday's Noon** </span> so we can propose to Allison and get started early.
+1) Deciding which idea we should go with. Ideally by <span style="color:red"> **Monday's Meeting** </span> so we can propose to Allison and get started early.
 2) Think about which role you want to do (once we have decided the project)
 3) (Optional) Deciding which group bonding activity we want to do.
 <hr>
@@ -85,4 +85,5 @@ N/A
 ![planner whiteboard](./assets/images/102122-board.heic)
 
 ### Miro Board:
-![Miro board pdf document](./assets/documents/102122-miro.png)
+![Miro board](./assets/documents/102122-miro.png)
+Find a high-resolution copy of this board at `./assets/document/102122-miro.pdf`
