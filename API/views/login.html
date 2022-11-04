@@ -1,1 +1,155 @@
-
+<html lang="en">
+    <head>
+        <title>Powell Puff Planner</title>
+        <meta name="description" content="Powell Puff Planner">
+        <meta name="author" content="Powell Puff Group 38">
+        <meta name="keywords" content="Powell Puff Planner, Powell Puff, Planner">
+        <meta http-equiv="refresh" content="60">
+        <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
+        <link rel="Web Icon" href="" type="">
+    </head>
+    <style>
+        Body {    
+            background-color: black;  
+        } 
+        .header{
+            width: 38.02%;
+            color: rgba(238,111,168,1);
+            position: absolute;
+            top: 7%;
+            left: 31.7%;
+            font-family: IBM Plex Mono;
+            font-weight: Regular;
+            font-size: 64px;
+            opacity: 1;
+            text-align: left;
+        }
+        .loginbox{
+            width: 33.8%;
+            height: 41.7%;
+            background: rgba(238,111,168,1);
+            opacity: 1;
+            position: absolute;
+            top: 26.1%;
+            left: 33.33%;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            overflow: hidden;
+        }
+        
+        button{
+            background-color: rgba(238,111,168,1);   
+            width: 100%;  
+            color: white;   
+            padding: 15px;   
+            margin: 10px 0px;   
+            border: none;   
+            cursor: pointer;   
+        }
+        input[type="text"] {   
+            width: 75%; 
+            margin: 8px 0;  
+            padding: 12px 20px;
+            position: absolute;
+            top: 20%;
+            left: 12%;
+            display: inline-block;   
+            border: 2px solid rgba(238,111,168,1);   
+            box-sizing: border-box;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px; 
+        }
+        input[type="password"] {   
+            width: 75%; 
+            margin: 8px 0;  
+            padding: 12px 20px;
+            position: absolute;
+            top: 40%;
+            left: 12%;
+            display: inline-block;   
+            border: 2px solid rgba(238,111,168,1);   
+            box-sizing: border-box;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;  
+        }
+        button[type="submit"] {   
+            width: 75%; 
+            margin: 8px 0;  
+            padding: 12px 20px;
+            position: absolute;
+            top: 65%;
+            left: 12%;
+            display: inline-block;   
+            border: 2px solid rgba(238,111,168,1);   
+            box-sizing: border-box;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            font-size: 30;  
+        }
+        #new {
+            width: 77px;
+            color: rgba(255,255,255,1);
+            position: absolute;
+            top: 71.02%;
+            left: 48.5%;
+            font-family: IBM Plex Mono;
+            font-weight: Regular;
+            font-size: 20px;
+            opacity: 1;
+            text-align: left;
+        }
+        button[type="info"] {   
+            width: 15.625%; 
+            height: 5.56%;
+            position: absolute;
+            top: 77.78%;
+            left: 42%;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            font-size: 16;
+            text-align: center;
+        }
+        button[type="signup"] {   
+            width: 15.625%; 
+            height: 5.56%;
+            position: absolute;
+            top: 86.2%;
+            left: 42%;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            font-size: 16;
+            text-align: center;
+        }
+    </style>
+    <body>
+        <main>
+            <header>
+                <h1 class="header">
+                    Powell Puff Planner
+                </h1>
+            </header>
+            <div class="loginbox"> 
+                <!-- We added the class type to <input> so that it works with our login.js -->
+                <input class="userName" type="text" placeholder="Username" name="username" required>    
+                <input class="password" type="password" placeholder="Password" name="password" required>  
+                <button type="submit">Login</button>  
+            </div>
+            <p id="new">New?</p>
+            <button type="info">Learn More</button>
+            <button type="signup">Sign Up</button>
+            
+        </main>
+    </body>
+</html>
