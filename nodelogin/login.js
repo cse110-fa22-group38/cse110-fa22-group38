@@ -1,79 +1,99 @@
-//Intiilizing the instances
-const express = require('express');
-const session = require('express-session');
-const path = require('path');
+//load in all our environment variables
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config()
+}
+
+const express = require('express')
+const app = express()
 const bcrypt = require('bcrypt')
+const passport = require('passport')
+const flash = require('express-flash')
+const session = require('express-session')
+const methodOverride = require('method-override')
 
-// initializing express
-const app = express();
+const initializePassport = require('./passport-config')
+initializePassport(
+    passport, 
+    email => users.find(user => user.email === email),
+    id => users.find(user => user.id === id)
+)
 
-//create database connection
+//store them in local variable inside server
+const users = []
 
-
-//creating connection between express and modules
+app.set('view-engine', 'ejs')
+//tells application form to access them inside req inside post method
+app.use(express.urlencoded({extended: false}))
+app.use(flash())
 app.use(session({
-	secret: 'secret',
-	resave: true,
-	saveUninitialized: true
-}));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'static')));
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
+}))
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(methodOverride('_method'))
 
-//initializing the connection
-app.get('/', function(request, response) {
-	// Render login template
-	response.sendFile(path.join(__dirname + '/login.html'));
-});
+app.get('/', checkAuthenticated, (req, res) => {
+    res.render('index.ejs', {name: req.user.name })
+})
 
-//user authentication
-// http://localhost:3000/auth
-app.post('/auth', async function(request, response) {
-	// Capture the input fields
-	let username = request.body.userName;
-	let password = request.body.password;
+//login
+app.get('/login', checkNotAuthenticated, (req, res) => {
+    res.render('login.ejs')
+})
+app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login',
+    failureFlash: true
+}))
 
-    //hashing
-    const salt = await bcrypt.genSalt()
-    const hashPassword = await bcrypt.hash(password, salt)
+//reguster
+app.get('/register', checkNotAuthenticated, (req, res) => {
+    res.render('register.ejs')
+})
+app.post('/register', checkNotAuthenticated, async (req, res) => {
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10)
+        users.push({
+            id: Date.now().toString(),
+            name: req.body.name,
+            email: req.body.email,
+            password: hashedPassword
+        })
+        res.redirect('/login')
+    } catch {
+        res.redirect('/register')
+    }
+})
 
-	// Ensure the input fields exists and are not empty
-	if (username && password) {
-		// Execute SQL query that'll select the account from the database based on the specified username and password
-		connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
-			// If there is an issue with the query, output the error
-			if (error) throw error;
-			// If the account exists
-			if (results.length > 0) {
-				// Authenticate the user
-				request.session.loggedin = true;
-				request.session.username = username;
-				// Redirect to home page
-				response.redirect('/home');
-			} else {
-				response.send('Incorrect Username and/or Password!');
-			}			
-			response.end();
-		});
-	} else {
-		response.send('Please enter Username and Password!');
-		response.end();
-	}
-});
+//to log out
+app.delete('/logout', (req, res) => {
+    req.logOut()
+    res.redirect('/login')
+})
 
-//auth message
-// http://localhost:3000/home
-app.get('/home', function(request, response) {
-	// If the user is loggedin
-	if (request.session.loggedin) {
-		// Output username
-		response.send('Welcome back, ' + request.session.username + '!');
-	} else {
-		// Not logged in
-		response.send('Please login to view this page!');
-	}
-	response.end();
-});
+function checkAuthenticated(req, res, next) {
+    //check if the uswer is authenticated
+    if (req.isAuthenticated()) {
+        //if returns true
+        return next()
+    } else {
+        //if returns false
+        res.redirect('/login')
+    }
+}
 
-//listening to local port
-app.listen(3000);
+//if user is already loged in, they shouldn't go to login page
+function checkNotAuthenticated(req, res, next) {
+    //check if the uswer is authenticated
+    if (req.isAuthenticated()) {
+        //if returns true
+        return res.redirect('/')
+    } else {
+        //if returns false
+        next()
+    }
+}
+
+app.listen(3000)
