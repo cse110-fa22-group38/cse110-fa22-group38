@@ -21,7 +21,7 @@ initializePassport(
 //store them in local variable inside server
 const users = []
 
-app.set('view-engine', 'ejs')
+app.set('view-engine', 'html')
 //tells application form to access them inside req inside post method
 app.use(express.urlencoded({extended: false}))
 app.use(flash())
@@ -35,12 +35,12 @@ app.use(passport.session())
 app.use(methodOverride('_method'))
 
 app.get('/', checkAuthenticated, (req, res) => {
-    res.render('index.ejs', {name: req.user.name })
+    res.render('index.html', {name: req.user.name })
 })
 
 //login
 app.get('/login', checkNotAuthenticated, (req, res) => {
-    res.render('login.ejs')
+    res.render('login.html')
 })
 app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
     successRedirect: '/',
@@ -50,7 +50,7 @@ app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
 
 //reguster
 app.get('/register', checkNotAuthenticated, (req, res) => {
-    res.render('register.ejs')
+    res.render('register.html')
 })
 app.post('/register', checkNotAuthenticated, async (req, res) => {
     try {
