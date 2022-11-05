@@ -141,8 +141,9 @@
                 </h1>
             </header>
             <div class="loginbox"> 
-                <input type="text" placeholder="Username" name="username" required>    
-                <input type="password" placeholder="Password" name="password" required>  
+                <!-- We added the class type to <input> so that it works with our login.js -->
+                <input class="userName" type="text" placeholder="Username" name="username" required>    
+                <input class="password" type="password" placeholder="Password" name="password" required>  
                 <button type="submit">Login</button>  
             </div>
             <p id="new">New?</p>

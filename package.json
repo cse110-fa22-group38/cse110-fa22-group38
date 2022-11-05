@@ -2,9 +2,9 @@
   "name": "website",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "login.js",
   "scripts": {
-    "devStart": "nodemon login.js"
+    "devStart": "nodemon nodelogin/login.js"
   },
   "author": "",
   "license": "ISC",
