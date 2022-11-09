@@ -11,118 +11,125 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
   </head>
   <style>
-     .header {
-      z-index: 1;
+    header {
+      position: relative;
       background-color: rgba(238,111,168,1);
       color: white;
       text-align: center;
-      margin-top:0;
-      padding-top: 50px;
-      padding-bottom: 20%;
+      font-size: 5vw;
+      padding-top: 2%;
+      padding-bottom: 5%;
       border-bottom-left-radius: 20px;
       border-bottom-right-radius: 20px;
-      font-size: 60px;
     }
+
     body {
-      background-color: black;
+      background-color: rgb(227, 176, 197);
     }
-    main {
-      z-index: 2;
-      position:relative;
-      top: -150px;
-      margin-left:50px;
-      margin-right:50px;
-      padding-top: 20px;
-      padding-bottom: 20px;
-      text-align: center;
-      border-radius: 20px;
-      border: 8px solid white;
-      background-color: #D9D9D9;
+
+    form {
+      position: relative;
+      display: grid;
+      padding: 1em;
+      background: #f9f9f9;
+      border: 1px solid #c1c1c1;
+      margin: 2rem auto 0 auto;
+      max-width: 600px;
+      padding: 1em;
     }
-    button{
-      background-color: rgba(238,111,168,1);   
-      color: black;
-      cursor: pointer;  
-      margin-bottom: 20px; 
+
+    form input {
+      background: #fff;
+      border: 1px solid #9c9c9c;
     }
-    button[type="button-settings"] {
-      width: 20%; 
-      height: 50px;
-      top: 50px;
-      left: 42%;
-      border-radius: 7px;
-      border: 2px solid rgba(238,111,168,1);
-      font-size: 100%;
-      text-align: center;
-      offset: 5px;
+
+    form button[type="save"] {
+      background: lightgrey;
+      padding: 0.7em;
+      width: 100%;
+      border: 0;
     }
-    footer {
-      position: sticky;
-      text-align: center;
-      background-color: #D9D9D9;
+
+    button[type="back"] {
+      margin-top: 20px;
+      background: rgba(238,111,168,1);
+      padding: 0.7em;
+      width: 100%;
+      border-radius: 10px;
+      border: 0;
+      width: 44%;
+      margin-left: 28%;
+      margin-right: 28%;
+    }
+    
+    form button[type="save"]:hover {
+      background: rgba(238,111,168,1);
+    }
+
+    button[type="back"]:hover {
+      background: rgba(82, 59, 71, 0.773);
+    }
+    
+    label {
+      padding: 0.5em 0.5em 0.5em 0;
+    }
+    
+    input {
+      padding: 0.7em;
+      margin-bottom: 0.5rem;
+    }
+    input:focus {
+      outline: 3px solid rgba(238,111,168,1);
+    }
+    
+    @media (min-width: 400px) {
+      form {
+        grid-template-columns: 200px 1fr;
+        grid-gap: 16px;
+      }
+    
+      label {
+        text-align: right;
+        grid-column: 1 / 2;
+      }
+    
+      input,
+      button {
+        grid-column: 2 / 3;
+      }
     }  
 
-    label {
-        /* background-color: white; */
-        display: inline-block;
-        clear: left;
-        width: 100px;
-        text-align: right;
-        padding: 1%;
-    }
-    input {
-        display: inline-block;
-    }
-
-    .leftbutton {
-        float: left;
-    }
-    button[type="back"] {
-      background-color: black;;   
-      color: white;
-      cursor: pointer;  
-      margin-bottom: 20px; 
-      border-radius: 7px;
-      border: 2px solid black;;
-    }
-
-    .rightbutton {
-        float: right;
-    }
-    button[type="savechanges"] {
-      background-color: rgba(238,111,168,1);   
-      color: white;
-      cursor: pointer;  
-      margin-bottom: 20px; 
-      border-radius: 7px;
-      border: 2px solid rgba(238,111,168,1);
-    }
   </style>
   <body>
     <!-- Main Login Page -->
       <header>
-        <h1 class="header">Account Settings</h1>
+        <div class="header">Account Settings</div>
       </header>
     <main>
-        
-        <label for="Name">Name:</label>
-        <input type="text" size="50%" name="name"><br>
-        <label for="Username">Username:</label>
-        <input type="text" size="50%" name="username"><br>
-        <label for="Email">Email:</label>
-        <input type="text" size="50%" name="email"><br>
-        <label for="Timezone">Timezone:</label>
-        <input type="text" size="50%" name="timezone"><br>
-        <footer>
-            <div class="leftbutton">
-                <button type="back" onclick="location.href='settings.html'">Back</button>
-            </div>
-            <div class="rightbutton">
-            <button type="savechanges">Save Changes</button>
-            </div>
-        </footer>
+      <form class="form1" action="">
+        <label for="firstName" class="first-name">First Name:</label>
+        <input id="firstName" type="text">
+  
+        <label for="lastName" class="last-name">Last Name:</label>
+        <input id="lastName" type="text">
+  
+        <label for="username">Username:</label>
+        <input id="username" type="text">
+  
+        <label for="email">Email:</label>
+        <input id="email" type="email">
+
+        <label for="password">Password:</label>
+        <input id="password" type="password">
+  
+        <label for="timezone">Timezone:</label>
+        <input id="timezone" type="datetime-local">
+  
+        <button type="save">Save Changes</button>
+      </form>
+      <div>
+        <button type="back" onclick="location.href='settings.html'">Back</button>
+      </div>
     </main>    
-
-
     </body>
 </html>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title> Settings </title>
     <meta name = "Description" content = "Settings"> 
+    <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
     <link rel="Web Icon" href="./assets/favicon.ico" type="">
     <!--Font Linking-->
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
@@ -13,24 +14,26 @@
 
   <style>
     .header {
+      position: relative;
       z-index: 1;
       background-color: rgba(238,111,168,1);
       color: white;
       text-align: center;
       margin-top:0;
       padding-top: 0px;
-      padding-bottom: 20%;
+      padding-bottom: 10%;
       border-bottom-left-radius: 20px;
       border-bottom-right-radius: 20px;
-      font-size: 60px;
+      font-size: 5vw;
     }
+
     body {
       background-color: black;
     }
+
     main {
       z-index: 2;
       position:relative;
-      top: -150px;
       margin-left:50px;
       margin-right:50px;
       padding-top: 20px;
@@ -65,7 +68,7 @@
       <a href="login.html"><img src="/source/assets/exitbutton.png" alt="exit-button" width="2%"></a>
     </div>
         <header>
-          <h1 class="header">Settings</h1>
+          <div class="header">Settings</div>
         </header>
   <main>
     <button type="button-settings" onclick="location.href='accountsettings.html'">Account</button> <br>
