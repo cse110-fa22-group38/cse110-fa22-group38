@@ -19,16 +19,16 @@
 header {
   display: flex;
   flex-direction: row;
-  width: 98%;
-  left: 1%;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
   align-items: center;
-  top: 1.5vh;
-  position: absolute;
+  position: relative;
 }
 .title {
   font-family: IBM Plex Sans;
   font-weight: 600;
-  font-size: 4vh;
+  font-size: 20pt;
   color: white;
   margin-top: 0;
   margin-left: 1vh;
@@ -40,40 +40,39 @@ header {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  height: 4vh;
-  width: 4vh;
+  height: 20pt;
+  width: 20pt;
   margin-right: 2vh;
   cursor: pointer;
 }
 .hamburger-line {
-  height: .5vh;
+  height: 3px;
   width: 100%;
   background-color: white;
   border-radius: 2.5px;
 }
 .content {
   display: flex;
-  gap: 2%;
-  width: 98%;
-  height: 90%;
-  left: 1%;
+  gap: 10px;
+  margin: 10px 0px 0px 0px;
   background: rgb(40,40,40);/**/
-  position: absolute;
-  top: 8vh;
-  align-self: center;
+  position: relative;
+  flex-wrap: wrap;
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 10px;
+  align-content: space-between;
 }
 .container {
   flex-grow: 1;
-  align-items: stretch;
-  flex-basis: 30%;
-  border-radius: 20px;
-  overflow: hidden;
+  flex-basis: 300px;
+  border-radius: 10px;
+  overflow: scroll;
   position: relative;
+  margin: 10px 10px 10px 10px
 }
 
 #timelinecontainer {
+  height: 800px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -185,6 +184,7 @@ Body {
         <div id="tasklistcontainer" class="container">
           <!--Tasks go in here, they should expand horizontally to fill up all available space, and will contract vertically to math the size of their contents-->
         </div>
+        <div class="container"></div>
       </div>
     </main>
     </body>
