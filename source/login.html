@@ -106,7 +106,7 @@
             font-size: 16;
             text-align: center;
         }
-        
+    <!--
     /* Signup Popup */
         /* Username and Password Input box within popup */
         input[type="usernameSU"], input[type="passwordSU"] {
@@ -189,7 +189,7 @@
             clear: both;
             display: table;
         }
-
+    -->
     </style>
     <body>
         <main>
@@ -203,16 +203,16 @@
                 <input type="username" placeholder="Username" name="username" class="textentry" required>    
                 <input type="password" placeholder="Password" name="password" class="textentry" required>  
                 <div style="flex-shrink: 1;"></div>
-                <button type="submit">Login</button>  
+                <button type="submit">Login</button> 
             </div>
             <div id="new">New?</div>
             <div style="display: flex; flex-direction: column; align-items: center; top: 78%; left: 1%; position: absolute; width: 98%; gap: 10px;">
                 <button type="info" class="info-button">Learn More</button>
-                <button type="signup" class="info-button" onclick="document.getElementById('popup').style.display='block'" >Sign Up</button>
+                <button type="signup" class="info-button" onclick="window.location.href='./signup.html'" >Sign Up</button>
             </div>
             
 
-            <!-- Popup HTML --> 
+            <!-- Popup HTML  
             <div id="popup" class="popup">
                 <form class="popup-content">
                     <div class="container">
@@ -238,7 +238,8 @@
                     popup.style.display = "none";
                   }
                 }
-            </script>          
+            </script>
+        -->      
         </main>
     </body>
 </html>
