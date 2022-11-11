@@ -45,16 +45,16 @@ app.use(passport.session())
 app.use(methodOverride('_method'))
  
 // Rendering the login.html page
-app.get('/login', checkNotAuthenticated, (req, res) => {
+app.get('/', checkNotAuthenticated, (req, res) => {
     // res.render('API/views/index.html/login.html')
     // res.sendFile('cse110-fa22-group38/API/views/index.html');
     res.sendFile(path.join(__dirname + '/../source/login.html'));
 })
 
 // Handling the output on the login page
-app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
+app.post('/', checkNotAuthenticated, passport.authenticate('local', {
     successRedirect: '/',
-    failureRedirect: '/login',
+    failureRedirect: '/',
     failureFlash: true
 }))
 
@@ -62,7 +62,7 @@ app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
 app.get('/register', checkNotAuthenticated, (req, res) => {
     // res.render('API/views/index.html/register.html')
     // res.sendFile('cse110-fa22-group38/API/views/index.html');
-    rres.sendFile(path.join(__dirname + '/../source/login.html'));
+    res.sendFile(path.join(__dirname + '/../source/login.html'));
 })
 // Handling the output on the register page
 app.post('/register', checkNotAuthenticated, async (req, res) => {
@@ -77,10 +77,10 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
             password: hashedPassword
         })
         // Aftering registering, redirect to the login page
-        res.redirect('/login')
+        res.redirect('/')
     } catch {
         // If somehow failed, redirect to registering again
-        res.redirect('/register')
+        res.redirect('/')
     }
 })
 
