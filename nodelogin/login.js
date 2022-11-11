@@ -43,19 +43,12 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(methodOverride('_method'))
-
-// Rendering the index.html page
-app.get('/', checkAuthenticated, (req, res) => {
-    // res.render('API/views/index.html', {name: req.user.name })
-    // res.sendFile('cse110-fa22-group38/API/views/index.html');
-    res.sendFile(path.join(__dirname + '/index.html'));
-})
  
 // Rendering the login.html page
 app.get('/login', checkNotAuthenticated, (req, res) => {
     // res.render('API/views/index.html/login.html')
     // res.sendFile('cse110-fa22-group38/API/views/index.html');
-    res.sendFile(path.join(__dirname + '/login.html'));
+    res.sendFile(path.join(__dirname + '/../source/login.html'));
 })
 
 // Handling the output on the login page
@@ -69,7 +62,7 @@ app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
 app.get('/register', checkNotAuthenticated, (req, res) => {
     // res.render('API/views/index.html/register.html')
     // res.sendFile('cse110-fa22-group38/API/views/index.html');
-    res.sendFile(path.join(__dirname + '/register.html'));
+    rres.sendFile(path.join(__dirname + '/../source/login.html'));
 })
 // Handling the output on the register page
 app.post('/register', checkNotAuthenticated, async (req, res) => {
