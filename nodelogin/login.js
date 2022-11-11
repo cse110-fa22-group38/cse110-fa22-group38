@@ -12,6 +12,7 @@ const app = express()
 const path = require('path');
 //delete
 const router = express.Router();
+const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt')
 const passport = require('passport')
 const flash = require('express-flash')
