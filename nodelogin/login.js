@@ -12,7 +12,6 @@ const app = express()
 const path = require('path');
 //delete
 const router = express.Router();
-const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt')
 const passport = require('passport')
 const flash = require('express-flash')
@@ -80,6 +79,7 @@ app.use(passport.session())
 app.use(methodOverride('_method'))
  
 // Rendering the login.html page
+// FIX REDIRECTS
 app.get('/', checkNotAuthenticated, (req, res) => {
     // res.render('API/views/index.html/login.html')
     // res.sendFile('cse110-fa22-group38/API/views/index.html');
@@ -88,7 +88,7 @@ app.get('/', checkNotAuthenticated, (req, res) => {
 
 // Handling the output on the login page
 app.post('/', checkNotAuthenticated, passport.authenticate('local', {
-    successRedirect: '/',
+    successRedirect: '/',   //redirect change
     failureRedirect: '/',
     failureFlash: true
 }))
@@ -97,7 +97,7 @@ app.post('/', checkNotAuthenticated, passport.authenticate('local', {
 app.get('/register', checkNotAuthenticated, (req, res) => {
     // res.render('API/views/index.html/register.html')
     // res.sendFile('cse110-fa22-group38/API/views/index.html');
-    res.sendFile(path.join(__dirname + '/../source/login.html'));
+    res.sendFile(path.join(__dirname + '/../source/register.html'));
 })
 // Handling the output on the register page
 app.post('/register', checkNotAuthenticated, async (req, res) => {
@@ -122,14 +122,14 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
         res.redirect('/')
     } catch {
         // If somehow failed, redirect to registering again
-        res.redirect('/')
+        res.redirect('/register')   //redirect change
     }
 })
 
 //to log out
 app.delete('/logout', (req, res) => {
     req.logOut() // Log out first
-    res.redirect('/login') // Redirect to login
+    res.redirect('/') // Redirect to login
 })
 
 /*
@@ -143,7 +143,7 @@ function checkAuthenticated(req, res, next) {
         return next()
     } else {
         //if returns false
-        res.redirect('/login')
+        res.redirect('/')
     }
 }
 
@@ -155,7 +155,7 @@ function checkNotAuthenticated(req, res, next) {
     //check if the user is authenticated
     if (req.isAuthenticated()) {
         //if returns true
-        return res.redirect('/')
+        return res.redirect('/')    //change redirect
     } else {
         //if returns false
         next()
