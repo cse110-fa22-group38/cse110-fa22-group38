@@ -13,6 +13,7 @@ const path = require('path');
 //delete
 const router = express.Router();
 const bcrypt = require('bcrypt')
+const sqlite3 = require('sqlite3').verbose();
 const passport = require('passport')
 const flash = require('express-flash')
 const session = require('express-session')
@@ -27,18 +28,18 @@ let db = new sqlite3.Database("./database/app_database.db",sqlite3.OPEN_READWRIT
 })
 
 //function to get user information
-db.all(`SELECT * from user_information u where u.username = ? and u.password = password`, [username, password],(err, rows ) => {
-    if (err){
-        console.log('Unable to authenticate')
-    }
+// db.all(`SELECT * from user_information u where u.username = ? and u.password = password`, [username, password],(err, rows ) => {
+//     if (err){
+//         console.log('Unable to authenticate')
+//     }
 
-    if  (rows == null){
-        console.log('user not found')
-    }else{
-    return rows.uuid;
-    }
-    return null;
-});
+//     if  (rows == null){
+//         console.log('user not found')
+//     }else{
+//     return rows.uuid;
+//     }
+//     return null;
+// });
 
 
 // passport-config.js should be in the same folder
