@@ -19,16 +19,50 @@ const flash = require('express-flash')
 const session = require('express-session')
 const methodOverride = require('method-override')
 
+//DB instance started
+let db = new sqlite3.Database("./database/app_database.db",sqlite3.OPEN_READWRITE, (err) => {
+    if (err){
+        console.log("ERR DB connection")
+    }
+    console.log('Connected to DB')
+})
+
+//function to get user information
+db.all(`SELECT * from user_information u where u.username = ? and u.password = password`, [username, password],(err, rows ) => {
+    if (err){
+        console.log('Unable to authenticate')
+    }
+
+    if  (rows == null){
+        console.log('user not found')
+    }else{
+    return rows.uuid;
+    }
+    return null;
+});
+
+
 // passport-config.js should be in the same folder
 const initializePassport = require('./passport-config')
 initializePassport(
     passport, 
-    email => users.find(user => user.email === email),
+    username => users.find(user => user.username === username),
     id => users.find(user => user.id === id)
 )
 
 //store them in local variable inside server
 const users = []
+
+
+
+// //insertion function
+// db.run(`INSERT INTO user_information values()`,[uuid, username, password], function(err) {
+//     if (err){
+//         console.error('unable to insert into db')
+//     }
+//     console.log('inserted into db')
+// } )
+
 
 // app.set('view-engine', 'ejs') // #TODO FIX THIS SHIT
 //tells application form to access them inside req inside post method
@@ -70,13 +104,20 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
     try {
         // Hasing the password
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
-        users.push({
-            // Pushing to the users array at the top
-            id: Date.now().toString(),
-            name: req.body.name,
-            email: req.body.email,
-            password: hashedPassword
-        })
+        //insert user in db param : uuid, username, password
+        db.run(`INSERT INTO user_information values()`,[Date.now().toString(), req.body.name, hashedPassword], function(err) {
+            if (err){
+                console.error('unable to insert into db')
+            }
+            console.log('inserted into db')
+        } )
+        // users.push({
+        //     // Pushing to the users array at the top
+        //     id: Date.now().toString(),
+        //     name: req.body.name,
+        //     email: req.body.email,
+        //     password: hashedPassword
+        // })
         // Aftering registering, redirect to the login page
         res.redirect('/')
     } catch {
@@ -120,6 +161,9 @@ function checkNotAuthenticated(req, res, next) {
         next()
     }
 }
+
+//closing db
+db.close()
 
 // Starting up the local server at port 3000
 app.listen(3000)
