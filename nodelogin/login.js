@@ -10,6 +10,7 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express')
 const app = express()
 const path = require('path');
+const db = require("./database.js") //one err
 //delete
 const router = express.Router();
 const bcrypt = require('bcrypt')
