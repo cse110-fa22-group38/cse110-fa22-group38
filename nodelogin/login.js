@@ -13,34 +13,10 @@ const path = require('path');
 //delete
 const router = express.Router();
 const bcrypt = require('bcrypt')
-const sqlite3 = require('sqlite3').verbose();
 const passport = require('passport')
 const flash = require('express-flash')
 const session = require('express-session')
 const methodOverride = require('method-override')
-
-//DB instance started
-let db = new sqlite3.Database("./database/app_database.db",sqlite3.OPEN_READWRITE, (err) => {
-    if (err){
-        console.log("ERR DB connection")
-    }
-    console.log('Connected to DB')
-})
-
-//function to get user information
-// db.all(`SELECT * from user_information u where u.username = ? and u.password = password`, [username, password],(err, rows ) => {
-//     if (err){
-//         console.log('Unable to authenticate')
-//     }
-
-//     if  (rows == null){
-//         console.log('user not found')
-//     }else{
-//     return rows.uuid;
-//     }
-//     return null;
-// });
-
 
 // passport-config.js should be in the same folder
 const initializePassport = require('./passport-config')
@@ -52,17 +28,6 @@ initializePassport(
 
 //store them in local variable inside server
 const users = []
-
-
-
-// //insertion function
-// db.run(`INSERT INTO user_information values()`,[uuid, username, password], function(err) {
-//     if (err){
-//         console.error('unable to insert into db')
-//     }
-//     console.log('inserted into db')
-// } )
-
 
 // app.set('view-engine', 'ejs') // #TODO FIX THIS SHIT
 //tells application form to access them inside req inside post method
@@ -163,8 +128,7 @@ function checkNotAuthenticated(req, res, next) {
     }
 }
 
-//closing db
-db.close()
+
 
 // Starting up the local server at port 3000
 app.listen(3000)

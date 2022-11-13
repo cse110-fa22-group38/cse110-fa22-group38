@@ -1,3 +1,56 @@
+const express = require('express')
+const app = express()
+const sqlite3 = require('sqlite3').verbose();
+const md5 = require('md5');
+
+let db = new sqlite3.Database("./database/app_database.db",sqlite3.OPEN_READWRITE, (err) => {
+    if (err){
+        console.log("ERR DB connection")
+    }
+    else {
+        console.log('Connected to DB')
+    }
+})
+
+module.exports = db //why
+
+app.get("/api/users", (req, res, next) => {
+    var sql = "select * from user"
+    var params = []
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+          res.status(400).json({"error":err.message});
+          return;
+        }
+        res.json({
+            "message":"success",
+            "data":rows
+        })
+      });
+});
+
+//function to get user information
+/*db.all(`SELECT * from user_information u where u.username = username and u.password = password`, [username, password],(err, rows ) => {
+    if (err){
+        console.log('Unable to authenticate')
+    }
+
+    if  (rows == null){
+        console.log('user not found')
+    }else{
+    return rows.uuid;
+    }
+    return null;
+});
+
+//insertion function
+db.run(`INSERT INTO user_information values()`,[uuid, username, password], function(err) {
+    if (err){
+        console.error('unable to insert into db')
+    }
+    console.log('inserted into db')
+} )*/
+
 const dataentryarray = [];
 
 var dataentry = {
@@ -14,163 +67,5 @@ var dataentry = {
     color: "#ffffff"
 };
 
-function getByUIUD(UIUDCheck) {
-    const returnArray = [];
-
-    for(let i = 0;i < dataentryarray.length;i++) {
-        if(dataentryarray[i].UIUD == UIUDCheck) {
-            returnArray.push(
-                dataentryarray[i]
-            )
-        }
-    }
-    return returnArray
-};
-
-function getByDEID(DEIDCheck) {
-    const returnArray = [];
-
-    for(let i = 0;i < dataentryarray.length;i++) {
-        if(dataentryarray[i].DEID == DEIDCheck) {
-            returnArray.push(
-                dataentryarray[i]
-            )
-        }
-    }
-    return returnArray
-};
-
-function getByType(typeCheck) {
-    const returnArray = [];
-
-    for(let i = 0;i < dataentryarray.length;i++) {
-        if(dataentryarray[i].type == typeCheck) {
-            returnArray.push(
-                dataentryarray[i]
-            )
-        }
-    }
-    return returnArray
-};
-
-function getByName(nameCheck) {
-    const returnArray = [];
-
-    for(let i = 0;i < dataentryarray.length;i++) {
-        if(dataentryarray[i].name == nameCheck) {
-            returnArray.push(
-                dataentryarray[i]
-            )
-        }
-    }
-    return returnArray
-};
-
-function getByRelation(relationCheck) {
-    const returnArray = [];
-
-    for(let i = 0;i < dataentryarray.length;i++) {
-        if(dataentryarray[i].relation == relationCheck) {
-            returnArray.push(
-                dataentryarray[i]
-            )
-        }
-    }
-    return returnArray
-};
-
-function getByLocation(locationCheck) {
-    const returnArray = [];
-
-    for(let i = 0;i < dataentryarray.length;i++) {
-        if(dataentryarray[i].location == locationCheck) {
-            returnArray.push(
-                dataentryarray[i]
-            )
-        }
-    }
-    return returnArray
-};
-
-function getByStart(startCheck) {
-    const returnArray = [];
-
-    for(let i = 0;i < dataentryarray.length;i++) {
-        if(dataentryarray[i].start == startCheck) {
-            returnArray.push(
-                dataentryarray[i]
-            )
-        }
-    }
-    return returnArray
-};
-
-function getByEnd(endCheck) {
-    const returnArray = [];
-
-    for(let i = 0;i < dataentryarray.length;i++) {
-        if(dataentryarray[i].end == endCheck) {
-            returnArray.push(
-                dataentryarray[i]
-            )
-        }
-    }
-    return returnArray
-};
-
-function getByDone(doneCheck) {
-    const returnArray = [];
-
-    for(let i = 0;i < dataentryarray.length;i++) {
-        if(dataentryarray[i].done == doneCheck) {
-            returnArray.push(
-                dataentryarray[i]
-            )
-        }
-    }
-    return returnArray
-};
-
-function getByColor(colorCheck) {
-    const returnArray = [];
-
-    for(let i = 0;i < dataentryarray.length;i++) {
-        if(dataentryarray[i].color == colorCheck) {
-            returnArray.push(
-                dataentryarray[i]
-            )
-        }
-    }
-    return returnArray
-};
-
-function update(dataentryCheck) {
-    let updateArray = [];
-    updateArray = getByDEID(dataentryCheck.DEID)
-
-    for(let i = 0;i < updateArray.length;i++) {
-        updateArray[i].UIUD = dataentryCheck.UIUD
-        updateArray[i].type = dataentryCheck.type
-        updateArray[i].name = dataentryCheck.name
-        updateArray[i].relation = dataentryCheck.relation
-        updateArray[i].location = dataentryCheck.location
-        updateArray[i].details = dataentryCheck.details
-        updateArray[i].start = dataentryCheck.start
-        updateArray[i].end = dataentryCheck.end
-        updateArray[i].done = dataentryCheck.done
-        updateArray[i].color = dataentryCheck.color
-    }
-};
-
-function create(dataentryCheck) {
-    dataentry.push(dataentryCheck)
-};
-
-function remove(dataentryCheck) {
-    let updateArray = [];
-    updateArray = getByDEID(dataentryCheck.DEID)
-
-    for(let i = 0;i < updateArray.length;i++) {
-        updateArray.splice(i, 1)
-    }
-};
+//closing db
+db.close();
