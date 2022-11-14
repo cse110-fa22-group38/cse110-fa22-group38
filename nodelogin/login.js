@@ -55,10 +55,14 @@ app.get('/', checkNotAuthenticated, (req, res) => {
 
 // Handling the output on the login page
 app.post('/', checkNotAuthenticated, passport.authenticate('local', {
-    successRedirect: '/',   //redirect change
+    successRedirect: '/../source/after-login.html',   //redirect change
     failureRedirect: '/',
     failureFlash: true
 }))
+//we need to fix this for login button
+app.post('/', (req, res) => {
+    res.send('/../source/after-login.html');
+})
 
 // register page (but not ready yet)
 app.get('/register', checkNotAuthenticated, (req, res) => {
