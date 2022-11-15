@@ -11,7 +11,7 @@ let data; // To store parsed data of all courses
 
 // TODO: FILL YOYR CANVAS API KEY HERE IF YOU WANT TO TRY THIS OUT
 // THERE ARE TUTORIALS ON HOW TO GET THE CANVAS API KEY, LOOK IT UP!
-let apiToken = "13171~IAu8yjQC3jNUnooJkPPoBEgugKNoaYcEjCEgs69H2FBKuzqVYx8Qb9wro8vAoYrV";
+let apiToken = "";
 
 const milliInDay = 1000 * 60 * 60 * 24;
 const daysInQuarter = 100;
@@ -19,7 +19,6 @@ const todayDate = new Date();
 const EVENT = "event-calendar-event-";
 const ASSIGNMENT = "event-assignment-"; 
 const coursesURL = "https://canvas.ucsd.edu/api/v1/courses?per_page=100";
-const assignmentsURL = "https://canvas.ucsd.edu/api/v1/courses/COURSEID/assignments/ASSID"
 const options = {
     method: 'GET',
     headers: {
@@ -107,6 +106,9 @@ for (let i = 0; i < test.length; i++) {
 }
 */
 
+// Grab the UUID first, store somewhere
+// Then moveon to this portion
+
 /* ICAL SESSION */
 for (let COURSE_NUM = 0; COURSE_NUM < myCourses.length; COURSE_NUM++) {
     const calendarData = ical.parse(icsStringsArray[COURSE_NUM]);
@@ -127,7 +129,6 @@ for (let COURSE_NUM = 0; COURSE_NUM < myCourses.length; COURSE_NUM++) {
             end: "N/A",
             done: Boolean(false),
             color: "#ffffff",
-            URL: "N/A",
         }
         
         if (event.hasProperty('summary')) {
@@ -150,13 +151,9 @@ for (let COURSE_NUM = 0; COURSE_NUM < myCourses.length; COURSE_NUM++) {
             }
             else if (UID.includes(ASSIGNMENT)) {
                 dataentry.type = "ASSIGNMENT";
-                dataentry.URL = "https://canvas.ucsd.edu/courses/" + myCourses[COURSE_NUM]['id']
+                dataentry.details = "https://canvas.ucsd.edu/courses/" + myCourses[COURSE_NUM]['id']
                 + "/assignments/" + dataentry.DEID;
             }
-        }
-        
-        if (event.hasProperty('description')) {
-            dataentry.details = event.getFirstPropertyValue('description');
         }
     
         if (event.hasProperty('dtstart')) {
@@ -174,14 +171,13 @@ for (let COURSE_NUM = 0; COURSE_NUM < myCourses.length; COURSE_NUM++) {
         console.log("Relation: " + dataentry.relation);
         console.log("Location: " + dataentry.location);
         console.log("Details: " + dataentry.details);
-        console.log("URL to assignment: " + dataentry.URL);
         console.log("Start time: " + dataentry.start);
         console.log("End date: " + dataentry.end);
         console.log("Done?: " + dataentry.done);
         console.log("Color?: " + dataentry.color);
         console.log("");
+
+        // dataentry read to be inserted into database
     })
 }
 
-// console.log(icsStringsArray[0]);
-// console.log(myCourses[0]);
