@@ -29,6 +29,7 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+      
     - name: JSDoc Action
       uses: andstor/jsdoc-action@v1.2.1
       with:
@@ -37,6 +38,13 @@ jobs:
         output_dir: ./
         template: minami
         front_page : Docs.md
+        
+    - name: Run Jest
+      uses: stefanoeb/jest-action@1.0.3
+      with:
+        jestArgs: admin/jest_testing.js
+        
+        
         
     
 
