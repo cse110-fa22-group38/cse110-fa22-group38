@@ -44,6 +44,11 @@ jobs:
       with:
         jestArgs: admin/jest_testing.js
         
+    - name: Codacy Coverage Reporter
+      uses: codacy/codacy-coverage-reporter-action@v1.3.0
+      with:
+        coverage-reports: cobertura.xml
+        
         
         
     
