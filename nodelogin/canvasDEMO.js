@@ -11,7 +11,7 @@ let data; // To store parsed data of all courses
 
 // TODO: FILL YOYR CANVAS API KEY HERE IF YOU WANT TO TRY THIS OUT
 // THERE ARE TUTORIALS ON HOW TO GET THE CANVAS API KEY, LOOK IT UP!
-let apiToken = "";
+let apiToken = "13171~IAu8yjQC3jNUnooJkPPoBEgugKNoaYcEjCEgs69H2FBKuzqVYx8Qb9wro8vAoYrV";
 
 const milliInDay = 1000 * 60 * 60 * 24;
 const daysInQuarter = 100;
@@ -19,13 +19,13 @@ const todayDate = new Date();
 const EVENT = "event-calendar-event-";
 const ASSIGNMENT = "event-assignment-"; 
 const coursesURL = "https://canvas.ucsd.edu/api/v1/courses?per_page=100";
+const assignmentsURL = "https://canvas.ucsd.edu/api/v1/courses/COURSEID/assignments/ASSID"
 const options = {
     method: 'GET',
     headers: {
         Authorization: 'Bearer ' + apiToken
     },
 }
-
 
 async function getAllCourses() {
     let courses = await fetch(coursesURL, options);
@@ -75,7 +75,7 @@ async function getICStexts(dataArray) {
 
         // 2) Fetch the raw response from the given URL
         let icsStringRAW = await fetch(icsURL);
-
+            
         // 3) Parse the response as texts
         let icsString = await icsStringRAW.text();
 
@@ -108,71 +108,80 @@ for (let i = 0; i < test.length; i++) {
 */
 
 /* ICAL SESSION */
-const calendarData = ical.parse(icsStringsArray[0]);
-let comp = new ical.Component(calendarData);
-let allEvents = comp.getAllSubcomponents('vevent');
-
-allEvents.map((event) => {
-    let name = "N/A";
-    let UID = "N/A";
-    let DEID = "N/A";
-    let type = "N/A";
-    let URL = "N/A"; // Do we need this?
-    // let relation = "N/A";  ???
-    let location = "N/A";
-    let details = "N/A";
-    let start = "N/A";
-    let end = "N/A";
-
-    if (event.hasProperty('summary')) {
-        name = event.getFirstPropertyValue('summary');
-    }
-
-    if (event.hasProperty('uid')) {
-        UID = event.getFirstPropertyValue('uid');
-
-        // Finding the type of event
-        if (UID.includes(EVENT)) {
-            type = "EVENT";
-        }
-        else if (UID.includes(ASSIGNMENT)) {
-            type = "ASSIGNMENT"
-        }
-
-        // Finding the DEID of this event
-        DEID = UID.match(/\d+/)[0];
-    }
-
-    if (event.hasProperty('location')) {
-        location = event.getFirstPropertyValue('location');
-    }
-
-    if (event.hasProperty('url')) {
-        URL = event.getFirstPropertyValue('url');
-    }
-
-    if (event.hasProperty('description')) {
-        details = event.getFirstPropertyValue('description');
-    }
-
-    if (event.hasProperty('dtstart')) {
-        start = event.getFirstPropertyValue('dtstart').toJSDate();
-    }
-
-    if (event.hasProperty('dtend')) {
-        end = event.getFirstPropertyValue('dtend').toJSDate();
-    }
+for (let COURSE_NUM = 0; COURSE_NUM < myCourses.length; COURSE_NUM++) {
+    const calendarData = ical.parse(icsStringsArray[COURSE_NUM]);
+    let comp = new ical.Component(calendarData);
+    let allEvents = comp.getAllSubcomponents('vevent');
     
-    console.log("Name: " + name);
-    console.log("Type of event: " + type);
-    console.log("DEID: " + DEID);
-    console.log("Location: " + location);
-    console.log("Details: " + details);
-    console.log("URL: " + URL);
-    console.log("Start time: " + start);
-    console.log("End date: " + end);
-    console.log("");
-})
+    // Treating this as a for loop
+    allEvents.map((event) => {
+        let dataentry = {
+            UUID: "PLACEBO", // Can be a constant here
+            DEID: "N/A",
+            type: "N/A",
+            name: "N/A",
+            relation: myCourses[COURSE_NUM]['course_code'],
+            location: "N/A",
+            details: "N/A",
+            start: "N/A",
+            end: "N/A",
+            done: Boolean(false),
+            color: "#ffffff",
+            URL: "N/A",
+        }
+        
+        if (event.hasProperty('summary')) {
+            dataentry.name = event.getFirstPropertyValue('summary').replace(/ *\[[^)]*\] */g, "");
+        }
+    
+        if (event.hasProperty('location')) {
+            dataentry.location = event.getFirstPropertyValue('location');
+        }
+    
+        if (event.hasProperty('uid')) {
+            let UID = event.getFirstPropertyValue('uid');
+    
+            // Finding the DEID of this event (NEED MORE THOUGHTS)
+            dataentry.DEID = UID.match(/\d+/)[0];
+    
+            // Finding the type of event
+            if (UID.includes(EVENT)) {
+                dataentry.type = "EVENT";
+            }
+            else if (UID.includes(ASSIGNMENT)) {
+                dataentry.type = "ASSIGNMENT";
+                dataentry.URL = "https://canvas.ucsd.edu/courses/" + myCourses[COURSE_NUM]['id']
+                + "/assignments/" + dataentry.DEID;
+            }
+        }
+        
+        if (event.hasProperty('description')) {
+            dataentry.details = event.getFirstPropertyValue('description');
+        }
+    
+        if (event.hasProperty('dtstart')) {
+            dataentry.start = event.getFirstPropertyValue('dtstart').toJSDate();
+        }
+    
+        if (event.hasProperty('dtend')) {
+            dataentry.end = event.getFirstPropertyValue('dtend').toJSDate();
+        }
+        
+        // Debugging
+        console.log("Name: " + dataentry.name);
+        console.log("Type of event: " + dataentry.type);
+        console.log("DEID: " + dataentry.DEID);
+        console.log("Relation: " + dataentry.relation);
+        console.log("Location: " + dataentry.location);
+        console.log("Details: " + dataentry.details);
+        console.log("URL to assignment: " + dataentry.URL);
+        console.log("Start time: " + dataentry.start);
+        console.log("End date: " + dataentry.end);
+        console.log("Done?: " + dataentry.done);
+        console.log("Color?: " + dataentry.color);
+        console.log("");
+    })
+}
 
 // console.log(icsStringsArray[0]);
-// console.log(summary);
+// console.log(myCourses[0]);
