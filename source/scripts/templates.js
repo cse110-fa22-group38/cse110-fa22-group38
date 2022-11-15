@@ -19,19 +19,57 @@ console.log("templates ran");
 };
 
 /**
- * Events for the timelines on the Today-View and Weekly View
+ * These are functions that add html components to an object you pass in with a particular data-entry object.
+ */
+
+/**
+ * Events for the **timelines** on the Today-View and Weekly View
  */
 
 function tevent(element, de) {
     if (!element) return;
     if (!de) return;
+
+    //setup absolute positioning for timing events
+
     let start = new Date(de.start);
     let end = new Date(de.end);
 
     let top = ((start.getHours() - 6) + (start.getMinutes() / 60)) / .18;
     let bottom = 100 - ((end.getHours() - 6) + (end.getMinutes() / 60)) / .18;
 
+    
 
+    // if time is shorter than 1 hour, use a different display type with less information
+    if ((end - start) < 3600000) {
+        let elapsedTime = ((end.getTime() - start.getTime()) / 60000) % 61; //in minutes
+
+        element.innerHTML = `
+        <div class="tevent-box">
+            <p class="name">${de.name}</p>
+            <p class="location">${elapsedTime} minutes ${de.location}</p>
+        </div>
+        `;
+    } else {
+        element.innerHTML = `
+        <div class="tevent-box">
+            <p class="name">${de.name}</p>
+            <p class="location">${de.location}</p>
+            <p class="time">${start.toLocaleTimeString()} — ${end.toLocaleTimeString()}</p>
+        </div>
+        `;
+    }
+    element.style=`background-color: ${de.color}; top: ${top}%; bottom: ${bottom}%; overflow: hidden;`;
+    element.classList.add("ID" + de.DEID);
+    element.classList.add("tevent");
+}
+
+function ttask(element, de) {
+    if (!element) return;
+    if (!de) return;
+    let end = new Date(de.end);
+
+    let top = ((end.getHours() - 6) + (end.getMinutes() / 60)) / .18;
 
     console.log(bottom);
 
@@ -169,29 +207,7 @@ class qtask extends HTMLElement {
 }
 
 class qexam extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({mode: "open"});
-        let article = document.createElement("article");
-        let style = document.createElement("style");
-        style.innerHTML = ``;
-        this.shadowRoot.appendChild(style);
-        this.shadowRoot.appendChild(article);
-    }
-    set data(de) {
-        if (!de) return;
-        const article = this.shadowRoot.querySelector("article");
-        article.innerHtml = ``;
-    }
 }
-
-//customElements.define('t-event', tevent);
-customElements.define('t-task', ttask);
-customElements.define('l-event', levent);
-customElements.define('l-task', ltask);
-customElements.define('q-event', qevent);
-customElements.define('q-task', qtask);
-customElements.define('q-exam', qexam);
 
 window.addEventListener('DOMContentLoaded', init);
 
