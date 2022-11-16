@@ -5,6 +5,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Quarter View</title>
+
+	<!--Template Object Linking-->
+	<script src="./scripts/templates.js"></script>
+	<link rel="stylesheet" href="./scripts/templatestyle.css">
 	
 	<!--Font Linking-->
 	<link rel="preconnect" href="https://fonts.googleapis.com"> 
@@ -51,6 +55,8 @@
 </table>
 </body>
 <script>
+window.addEventListener('DOMContentLoaded', init);
+function init() {
 	let quarter = {
 		start: "2022-09-22T00:00:00",
 		end: "2022-12-10T00:00:00"
@@ -115,9 +121,10 @@
 		let eventcontainer = document.createElement("div");
 		eventcontainer.classList.add("event-container");
 		
+		
 		let taskcontainer = document.createElement("div");
 		taskcontainer.classList.add("task-container");
-		
+
 		//for each event in eventsfromdatabase {add the event to the box in some clever way}
 		//for each task in eventsfromdatabase {add the event to the box in some clever way}
 		
@@ -129,6 +136,7 @@
 		currdate.setDate(currdate.getDate() + 1);
 		i++;
 	}
+}
 </script>
 
 <style>
@@ -139,10 +147,12 @@
 	.task-container {
 		display: flex;
 		flex-direction: row;
+		justify-content: center;
 	}
 	.event-container {
 		display: flex;
 		flex-direction: row;
+		justify-content: center;
 	}
 	.day-container {
 		background-color:#1F1F1F;

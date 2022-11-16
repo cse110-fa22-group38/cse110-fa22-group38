@@ -2,8 +2,6 @@
  * random test object
  */
 
-console.log("templates ran");
-
  var d1 = {
     UUID: "John",
     DEID: 1,
@@ -14,9 +12,39 @@ console.log("templates ran");
     details: "this class is difficult",
     start: "2022-11-21T14:00:00.000",
     end: "2022-11-21T15:50:00.000",
-    done: 0,
+    done: false,
     color: "#FF0000"
 };
+
+var t1 = {
+    UUID: "John",
+    DEID: 2,
+    type: "task",
+    name: "lab 1",
+    relation: "cse110",
+    location: "center hall 113",
+    details: "probably some rediculous javascript assignment",
+    start: "2022-11-21T17:00:00.000",
+    end: "2022-11-21T17:00:00.000",
+    done: false,
+    color: "#FF0000"
+}
+
+var e1 = {
+    UUID: "John",
+    DEID: 3,
+    type: "exam",
+    name: "midterm 1",
+    relation: "math100a",
+    location: "Price Center",
+    details: "chapters 2,3,6\ncan use 1 page of notes",
+    start: "2022-11-21T12:00:00.000",
+    end: "2022-11-21T12:50:00.000",
+    done: false,
+    color: "#0033AA"
+}
+
+var darray = [d1,t1,e1];
 
 /**
  * These are functions that add html components to an object you pass in with a particular data-entry object.
@@ -47,7 +75,7 @@ function tevent(element, de) {
         element.innerHTML = `
         <div class="tevent-box">
             <p class="name">${de.name}</p>
-            <p class="location">${elapsedTime} minutes ${de.location}</p>
+            <p class="location">${elapsedTime} min | ${de.location}</p>
         </div>
         `;
     } else {
@@ -71,161 +99,103 @@ function ttask(element, de) {
 
     let top = ((end.getHours() - 6) + (end.getMinutes() / 60)) / .18;
 
-    console.log(bottom);
-
-    // if time is shorter than 1 hour, use a different display type
-    if ((end - start) < 3600000) {
-
-    }
     element.innerHTML = `
-    <div class="tevent-box">
-        <p class="name">${de.name}</p>
-        <p class="location">${de.location}</p>
-        <p class="time">${start.toLocaleTimeString()} — ${end.toLocaleTimeString()}</p>
-    </div>
-    `
-    element.style=`background-color: ${de.color}; top: ${top}%; bottom: ${bottom}%; overflow: hidden;`;
+        <div style="opacity: 0.75;position: relative; top: -2px; border-radius: 2px; width: 100%; height: 4px; background-color: ${de.color};"></div>
+        `;
+    element.style = `top: ${top}%`;
+    element.classList.add("ttask");
     ;
 }
 
-class ttask extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({mode: "open"});
-        let div = document.createElement("div");
-        let style = document.createElement("style");
-        this.shadowRoot.appendChild(style);
-        this.shadowRoot.appendChild(div);
-        console.log("constructed");
-    }
-    set data(de) {
-        if (!de) return;
-        const div = this.shadowRoot.querySelector("div");
-        const style = this.shadowRoot.querySelector("style");
-
-        let end = new Date(de.end);
-
-        div.innerHtml = ``;
-        let top = ((end.getHours() - 6) + (end.getMinutes() / 60)) / .18;
-        style.innerHTML = `
-        div {
-            background-color: ${de.color};
-            height: 5px;
-            position: absolute;
-            top: ${top}%;
-            width: 100%;
-            border-radius: 3px;
-        }
-        `;
-    }
-}
 
 /**
  * Templates for lists of objects on the Today iewid
  */
 
-class levent extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({mode: "open"});
-        let div = document.createElement("div");
-        let style = document.createElement("style");
-        this.shadowRoot.appendChild(style);
-        this.shadowRoot.appendChild(article);
-    }
-    set data(de) {
-        if (!de) return;
-        const div = this.shadowRoot.querySelector("div");
-        const style = this.shadowRoot.querySelector("style");
-        article.innerHtml = ``;
-        let top = ((start.getHours() - 6) + (start.getMinutes() / 60)) / .18;
-        let bottom = ((end.getHours() - 6) + (end.getMinutes() / 60)) / .18;
-        style.innerHTML = `
-        div {
-            background-color: ${de.color};
-            height: 5px;
-            position: absolute;
-            top: ${bottom}%;
-        }
-        `;
-    }
+function levent(element, de) {
+    if (!element) return;
+    if (!de) return;
+
+    //create start and end Date objects for time manipulation
+    let start = new Date(de.start);
+    let end = new Date(de.end);
+
+    //define contents and fill in using information from de object
+    element.innerHTML = `
+    <div class="levent-box">
+        <p class="name">${de.name}</p>
+        <p class="location">${de.location}</p>
+        <p class="time">${start.toDateString()} | ${start.toLocaleTimeString()} — ${end.toLocaleTimeString()}</p>
+        <p class="details">${de.details} </p>
+    </div>
+    `;
+    element.style=`background-color: ${de.color}; height: match-content;`;
+    element.classList.add("ID" + de.DEID);
+    element.classList.add("levent");
 }
 
-class ltask extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({mode: "open"});
-        let article = document.createElement("article");
-        let style = document.createElement("style");
-        style.innerHTML = ``;
-        this.shadowRoot.appendChild(style);
-        this.shadowRoot.appendChild(article);
+/*Please take note that the checkbox can be accessed using id=done${DEID} for adding parameters and modifying database*/
+function ltask(element, de) {
+    if (!element) return;
+    if (!de) return;
+
+    //create start and end Date objects for time manipulation
+    let start = new Date(de.start);
+    let end = new Date(de.end);
+
+    //set checked or not checked
+
+    let checked = '';
+
+    if (de.done) {
+        checked = "checked";
     }
-    set data(de) {
-        if (!de) return;
-        const article = this.shadowRoot.querySelector("article");
-        article.innerHtml = ``;
-    }
+
+    //define contents and fill in using information from de object
+    element.innerHTML = `
+    <div class="ltask-box">
+        <span style="display: flex; gap: 10px; height: match-content; align-items: center;">
+            <input id="done${de.DEID}" style="height: 12pt; width: 12pt; margin: 0px;" type="checkbox" ${checked}></input>
+            <div style="margin: 0px;" class="name">${de.name} | ${de.relation}</div>
+        </span>
+        <p class="location">${de.location}</p>
+        <p class="time">Due ${start.toDateString()} @ ${end.toLocaleTimeString()}</p>
+        <p class="details">${de.details}</p>
+    </div>
+    `;
+    element.style=`background-color: ${de.color}; height: match-content;`;
+    element.classList.add("ID" + de.DEID);
+    element.classList.add("ltask");
 }
 
 /**
  * Templates for the Quarter View
  */
 
-class qevent extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({mode: "open"});
-        let article = document.createElement("article");
-        let style = document.createElement("style");
-        style.innerHTML = ``;
-        this.shadowRoot.appendChild(style);
-        this.shadowRoot.appendChild(article);
-    }
-    set data(de) {
-        if (!de) return;
-        const article = this.shadowRoot.querySelector("article");
-        article.innerHtml = ``;
-    }
+function qevent(element, de) {
+    if (!element) return;
+    if (!de) return;
+    element.classList.add("qevent");
+    element.style = `background-color: ${de.color}`;
 }
 
-class qtask extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({mode: "open"});
-        let article = document.createElement("article");
-        let style = document.createElement("style");
-        style.innerHTML = ``;
-        this.shadowRoot.appendChild(style);
-        this.shadowRoot.appendChild(article);
-    }
-    set data(de) {
-        if (!de) return;
-        const article = this.shadowRoot.querySelector("article");
-        article.innerHtml = ``;
-    }
+function qtask(element, de) {
+    if (!element) return;
+    if (!de) return;
+    element.classList.add("qtask");
+    element.style = `background-color: ${de.color}`;
 }
 
-class qexam extends HTMLElement {
+function qexam(element, de) {
+    if (!element) return;
+    if (!de) return;
+    element.classList.add("qexam");
+    element.innerHTML = `
+    <div class="qexam-dot"></div>
+    `;
+    element.style = `background-color: ${de.color}`;
 }
 
-window.addEventListener('DOMContentLoaded', init);
-
-function init() {
-    console.log("init ran");
-    let body = document.querySelector("body");
-    let event = document.createElement("div");
-    body.appendChild(event);
-    tevent(event, d1);
-    event.data = d1;
-    event.classList.add("tevent");
-
-    //position on timeline
-
-    let start = new Date(d1.start);
-    let end = new Date(d1.end);
-
-    let task = document.createElement("t-task");
-    task.data = d1;
-    body.appendChild(task);
+function sde() {
+    let i = 0;
 }
