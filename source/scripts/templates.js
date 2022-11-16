@@ -1,8 +1,9 @@
 /**
- * random test object
+ * sample test data
  */
 
- var d1 = {
+// sample event
+var d1 = {
     UUID: "John",
     DEID: 1,
     type: "event",
@@ -16,6 +17,7 @@
     color: "#FF0000"
 };
 
+// sample task
 var t1 = {
     UUID: "John",
     DEID: 2,
@@ -30,6 +32,7 @@ var t1 = {
     color: "#FF0000"
 }
 
+// sample exam
 var e1 = {
     UUID: "John",
     DEID: 3,
@@ -47,13 +50,41 @@ var e1 = {
 var darray = [d1,t1,e1];
 
 /**
- * These are functions that add html components to an object you pass in with a particular data-entry object.
+ * These are functions that add html components to an object you pass in
+ * with a particular data-entry object.
  */
+
+/************************************************************************* 
+ * IMPORTANT USAGE INFORMATION:
+    
+    // pick the correct container for the element
+    let container = document.querySelector("<where the element will go>");
+
+    // make an empty <div> to pass in
+    let Emptydiv = document.createElement("div");
+    
+    // pass in <div> and the dataentry you want used to fill the function.
+    tevent(Emptydiv, darray[0]); // this modifys the <div> to make it an event for the timeline.
+
+    // add <div> to the container
+    container.appendChild(Div);
+**************************************************************************/
+
+
+
+/**************************************************************************************** 
+ * Templates for timelines of objects on the Today/Week views: tevent, ttask */
+
 
 /**
- * Events for the **timelines** on the Today-View and Weekly View
+ * Timeline Event
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a timeline
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
  */
-
 function tevent(element, de) {
     if (!element) return;
     if (!de) return;
@@ -92,6 +123,16 @@ function tevent(element, de) {
     element.classList.add("tevent");
 }
 
+
+/**
+ * Timeline Task
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a timeline.
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
 function ttask(element, de) {
     if (!element) return;
     if (!de) return;
@@ -108,10 +149,18 @@ function ttask(element, de) {
 }
 
 
-/**
- * Templates for lists of objects on the Today iewid
- */
+/*******************************************************************
+ * Templates for lists of objects on the Today view: ltask, levent */
 
+/**
+ * List Event
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a list.
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
 function levent(element, de) {
     if (!element) return;
     if (!de) return;
@@ -134,7 +183,17 @@ function levent(element, de) {
     element.classList.add("levent");
 }
 
-/*Please take note that the checkbox can be accessed using id=done${DEID} for adding parameters and modifying database*/
+/**
+ * List Task
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a list.
+ * 
+ * Note: checkbox can be accessed using id=done${DEID}
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
 function ltask(element, de) {
     if (!element) return;
     if (!de) return;
@@ -168,34 +227,73 @@ function ltask(element, de) {
     element.classList.add("ltask");
 }
 
-/**
+/********************************
  * Templates for the Quarter View
  */
 
+/**
+ * Quarter Event
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a quarter view day.
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
 function qevent(element, de) {
     if (!element) return;
     if (!de) return;
     element.classList.add("qevent");
+    element.classList.add("ID" + de.DEID);
     element.style = `background-color: ${de.color}`;
 }
 
+/**
+ * Quarter Task
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a quarter view day.
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
 function qtask(element, de) {
     if (!element) return;
     if (!de) return;
     element.classList.add("qtask");
+    element.classList.add("ID" + de.DEID);
     element.style = `background-color: ${de.color}`;
 }
 
+/**
+ * Quarter Exam
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a quarter view day.
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
 function qexam(element, de) {
     if (!element) return;
     if (!de) return;
     element.classList.add("qexam");
+    element.classList.add("ID" + de.DEID);
     element.innerHTML = `
     <div class="qexam-dot"></div>
     `;
     element.style = `background-color: ${de.color}`;
 }
 
-function sde() {
+/**
+ * Settings Dataentry
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a table on the settings page.
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
+function sde(element, de) {
     let i = 0;
 }
