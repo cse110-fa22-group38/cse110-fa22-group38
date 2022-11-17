@@ -1,0 +1,25 @@
+{
+  "name": "express-api",
+  "version": "1.0.0",
+  "description": "Express REST API",
+  "main": "main.js",
+  "scripts": {
+    "server": "nodemon node_express/main.js"
+  },
+  "author": "Tung Nguyen",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.17.3",
+    "ical.js": "^1.5.0",
+    "md5": "^2.3.0",
+    "method-override": "^3.0.0",
+    "node-fetch": "^3.3.0",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
+    "sqlite3": "^5.1.2"
+  }
+}
