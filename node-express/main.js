@@ -36,6 +36,7 @@ const users = []
 
 // Create application/json parser
 app.use(bodyParser.json());
+//middleware used to process requests
 app.use(bodyParser.urlencoded({extended: true})); 
 
 // Serving all the important files via express to our local server
@@ -73,6 +74,7 @@ app.post('/login', checkNotAuthenticated, async (req, res) => {
     
     // Making sure they ain't empty
     if (username && password) {
+        let checkMatch = false;
         let queryDB = 'SELECT * FROM users WHERE username = ?';
         db.all(queryDB, [username], function (err, results) {
             if (err) {
@@ -85,22 +87,25 @@ app.post('/login', checkNotAuthenticated, async (req, res) => {
             // Username found
             if (results.length > 0) {
                 results.forEach((result) => {
-                    let matched = bcrypt.compareSync(result.password_hash, password);
+                    console.log("match");
+                    let matched = bcrypt.compareSync(password, result.password_hash);
                     console.log(matched); 
                     if (matched) {
+                        checkMatch = true;
                         // Authenticate the user
                         res.redirect('/register');
                         console.log("SUCCESS");
                     }
-                    else {
-                        // PLACEBO
-                        res.send("Incorrect Username and/or Password!");
-                    }
                 })
+                console.log("End of for loop reached");
+                if(!checkMatch){
+                    res.send("Incorrect Username and/or Password!");
+                }
             }   
             else {
                 // PLACEBO
                 res.send("Incorrect Username and/or Password!");
+
             }
         })
     }
@@ -125,6 +130,7 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
     try {
         let uuid = Date.now().toString(); // Grabbing the uuid
         let username = await req.body.username; // Grabbing the username
+        let password = await req.body.password;
         let hashedPassword = bcrypt.hashSync(req.body.password, 10); // Hasing the password
         let apiToken = await req.body.apiToken;
 
@@ -137,6 +143,11 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
                 throw err;
             }
             else {
+                console.log(uuid);
+                console.log(username);
+                console.log(password);
+                console.log(hashedPassword);
+                console.log(bcrypt.compareSync(password, hashedPassword))
                 console.log('Succesffuly registered new user');
 
                 // Instantly populate our database with info from CANVAS

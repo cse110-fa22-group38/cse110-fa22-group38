@@ -19,7 +19,6 @@ function initialize(passport, getUserByUsername, getUserById) {
         if (user == null) {
             return done(null, false, {message: 'No user with that username' })
         }
-
         try {
             if (await bcrypt.compare(password, user.password)) {
                 //user password did match
