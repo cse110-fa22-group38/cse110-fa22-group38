@@ -1,13 +1,15 @@
-const LocalStratery = require('passport-local').Strategy
-const bcrypt = require('bcrypt')
+const LocalStratery = require('passport-local').Strategy;
+const bcrypt = require('bcrypt');
 const sqlite3 = require('sqlite3').verbose();
 
-//DB instance started
-let db = new sqlite3.Database("./database/app_database.db",sqlite3.OPEN_READWRITE, (err) => {
+// DB instance started
+let db = new sqlite3.Database("./database/user.sqlite", sqlite3.OPEN_READWRITE, (err) => {
     if (err){
-        console.log("ERR DB connection")
+        console.log("passport-config: ERR DB connection");
     }
-    console.log('Connected to DB')
+    else {
+        console.log('passport-config: Connected to DB');
+    }
 })
 
 function initialize(passport, getUserByUsername, getUserById) {
@@ -32,10 +34,11 @@ function initialize(passport, getUserByUsername, getUserById) {
 
     passport.use(new LocalStratery({ usernameField: 'email'}, 
     authenticateUser)),
-    passport.serializeUser((user, done) => done(null, user.id))
-    passport.deserializeUser((id, done) => {
-        return done(null, getUserById(id))
+    passport.serializeUser((user, done) => done(null, user.uuid))
+    passport.deserializeUser((uuid, done) => {
+        return done(null, getUserById(uuid))
      })
 }
+
 db.close()
 module.exports = initialize
