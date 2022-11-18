@@ -409,3 +409,24 @@ app.get("/api/events/event_id/:event_id", (req, res, next) => {
         res.json({row});
     });
 });
+
+// Delete a user in the users table by their username
+app.delete("/api/users/delete/:username", (req, res, next) => {
+    var deletesql = "delete from users where username = ?"
+    var username = req.params.username;
+    var params = [req.params.username];
+    db.run(deletesql, params, (err, row) => {
+            if (err){
+                res.status(400).json({"error": res.message})
+                return;
+            }
+            else {
+                if (this.changes != 0) {
+                    console.log(username + " wasn't found");
+                }
+                else {
+                    console.log(username + " was succesffuly deleted");
+                }
+            }
+    });
+});

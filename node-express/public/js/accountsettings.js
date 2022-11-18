@@ -11,11 +11,11 @@ async function init() {
     // For calling other functions
     // No crazy scripting
     // We wana keep this function neat and tidy
-    let username = "tonyshark1166";
+    let username = "tonyshark116";
     modifyPLACEHOLDER(username);
 
-    let retData = await dbAPI.queryUsernameFromUsers(username);
-    console.log(retData);
+    // Delete username
+    deleteUser(username);
 }
 
 function modifyPLACEHOLDER(username) {
@@ -27,4 +27,12 @@ function modifyPLACEHOLDER(username) {
         <p> Username: ${username} </p>
     </div>
     `
+}
+
+function deleteUser(username) {
+    let deleteButton = document.querySelector(".delete")
+
+    deleteButton.addEventListener('click', async () => {
+        return await dbAPI.deleteUserByUsername(username);
+    })
 }

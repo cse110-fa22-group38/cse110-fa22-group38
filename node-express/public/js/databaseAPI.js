@@ -15,9 +15,14 @@ let eventsSTART = "api/events/event_start/";
 let eventsEND = "api/events/event_end/";
 let eventsCOMPLETED = "api/events/event_completed/";
 let eventsCOLOR = "api/events/event_color/";
+let deleteByUSERNAME = "api/users/delete/";
 
 const options =  {
     method: 'GET',
+}
+
+const options2 = {
+    method: 'DELETE',
 }
 
 // From table users
@@ -87,6 +92,13 @@ export async function queryColorFromEvents(color) {
     return await fetchForMe(URL, options);
 }
 
+// Deleting a user based on their username from the users table
+// This function always returns an empty array
+export async function deleteUserByUsername(username) {
+    let URL = baseURL + deleteByUSERNAME + username;
+    await fetchForMe(URL, options2);
+}
+
 // Helper function to fetch data from our local server/database
 // via the API Endpoints
 // (The server does not have direct access to our database,
@@ -96,10 +108,13 @@ async function fetchForMe(URL, header) {
 
     try {
         let response = await fetch(URL, header);
+
         let rows = await response.json();
 
-        for (let i = 0; i < rows.row.length; i++) {
-            retData.push(rows.row[i]);
+        if (rows) {
+            for (let i = 0; i < rows.row.length; i++) {
+                retData.push(rows.row[i]);
+            }
         }
     }
     catch (err) {
@@ -108,4 +123,3 @@ async function fetchForMe(URL, header) {
 
     return retData;
 }
-
