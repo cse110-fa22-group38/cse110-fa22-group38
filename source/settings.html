@@ -2,15 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title> Settings </title>
-    <meta name = "Description" content = "Settings"> 
-    <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
+
+    <title> Account Settings </title>
+    <meta name = "Description" content = "Account Settings"> 
+
     <link rel="Web Icon" href="./assets/favicon.ico" type="">
     <!--Font Linking-->
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
   </head>
+
 
   <style>
     .header {
@@ -25,63 +27,113 @@
       border-bottom-left-radius: 20px;
       border-bottom-right-radius: 20px;
       font-size: 5vw;
+
+  <style>
+    header {
+      position: relative;
+      background-color: rgba(238,111,168,1);
+      color: white;
+      text-align: center;
+      font-size: 5vw;
+      padding-top: 2%;
+      padding-bottom: 5%;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+
     }
 
     body {
       background-color: black;
     }
 
-    main {
-      z-index: 2;
-      position:relative;
-      margin-left:50px;
-      margin-right:50px;
-      padding-top: 20px;
-      text-align: center;
-      background-color: black;
-      border-radius: 20px;
+    form {
+      color: white;
+      position: relative;
+      display: grid;
+      padding: 1em;
+      background: rgba(238,111,168,1);
+      border: 1px solid white;
+      margin: 2rem auto 0 auto;
+      max-width: 600px;
+      padding: 1em;
     }
-    button{
-      background-color: rgba(238,111,168,1);   
-      color: black;
-      cursor: pointer;  
-      margin-bottom: 20px; 
+
+    form input {
+      background: #fff;
+      border: 1px solid #9c9c9c;
     }
-    button[type="button-settings"] {
-      width: 20%; 
-      height: 50px;
-      top: 50px;
-      left: 42%;
-      border-radius: 7px;
+
+    form button[type="save"] {
+      background: lightgrey;
+      padding: 0.7em;
+      width: 100%;
       border: 0;
-      font-size: 100%;
-      text-align: center;
-      offset: 5px;
     }
-    footer {
-      position: sticky;
-      text-align: center;
-    }
-    button:hover {
-      background: rgb(131, 131, 131);
+
+    button[type="delete"] {
+      margin-top: 20px;
+      background: rgba(238,111,168,1);
+      padding: 0.7em;
+      width: 100%;
+      border-radius: 10px;
+      border: 0;
+      width: 44%;
+      margin-left: 28%;
+      margin-right: 28%;
     }
     
+    form button[type="save"]:hover {
+      background: rgb(237, 185, 209);
+    }
+
+    button[type="back"]:hover {
+      background: rgba(212, 159, 186, 0.773);
+    }
+    
+    label {
+      padding: 0.5em 0.5em 0.5em 0;
+    }
+    
+    input {
+      padding: 0.7em;
+      margin-bottom: 0.5rem;
+    }
+    input:focus {
+      outline: 3px solid black;
+    }
+    
+    @media (min-width: 400px) {
+      form {
+        grid-template-columns: 200px 1fr;
+        grid-gap: 16px;
+      }
+    
+      label {
+        text-align: right;
+        grid-column: 1 / 2;
+      }
+    
+      input,
+      button {
+        grid-column: 2 / 3;
+      }
+    }  
+
   </style>
   <body>
-    <div style="background-color: rgba(238,111,168,1); text-align: right; padding-top: 1%; padding-right: 10px;">
-      <a href="login.html"><img src="/assets/exitbutton.png" alt="exit-button" width="2%"></a>
-    </div>
-        <header>
-          <div class="header">Settings</div>
-        </header>
-  <main>
-    <button type="button-settings" onclick="location.href='/accountsettings'">Account</button> <br>
-    <button type="button-settings">Customize</button> <br>
-    <button type="button-settings">Events</button> <br>
-    <button type="button-settings">About</button>
-  </main>
-  <footer>
-    <img src="/admin/branding/logo-banner.png" alt="logo-banner" width="40%">
-  </footer>
-  </body>
+    <!-- Main Login Page -->
+      <header>
+        <div class="header">Account Settings</div>
+      </header>
+    <main>
+      <form class="form1" action="">
+        <label for="username">Username:</label>
+        <input id="username" type="email">
+  
+      </form>
+      <div>
+        <button type="delete">Delete Account</button>
+      </div>
+    </main>    
+    </body>
 </html>
