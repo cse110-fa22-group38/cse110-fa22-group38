@@ -1,183 +1,90 @@
-// Once the skeleton loaded, run the script to populate the page
-window.addEventListener('DOMContentLoaded', init);
+/**
+ * sample test data
+ */
 
-function init() {
-    let timeline = document.getElementById('timelinecontainer');
+// sample event
+var d1 = {
+    UUID: "John",
+    DEID: 1,
+    type: "event",
+    name: "cse110 lecture",
+    relation: "cse110",
+    location: "center hall 113",
+    details: "this class is difficult",
+    start: "2022-11-21T14:00:00.000",
+    end: "2022-11-21T15:50:00.000",
+    done: false,
+    color: "#FF0000"
+};
 
-    //puts all the hours into the timeline.
-    setInterval(setNow(), 60000);
-    buildTimeline(timeline);
-
-    // Retrieving data entry array from database
-    let deArray = retrieveFromDatabase(0, 0);
-
-    // Populate timeline container
-    let timeContainer = document.querySelector(".event-container");
-    populateTimeContainer(timeContainer, deArray);
-
-    // Populate event list container
-    let eventContainer = document.querySelector("#eventslistcontainer");
-    populateEventContainer(eventContainer, deArray);
-
-    // Populate task list container
-    let taskContainer = document.querySelector("#tasklistcontainer");
-    populateTaskContainer(taskContainer, deArray);
+// sample task
+var t1 = {
+    UUID: "John",
+    DEID: 2,
+    type: "task",
+    name: "lab 1",
+    relation: "cse110",
+    location: "center hall 113",
+    details: "probably some rediculous javascript assignment",
+    start: "2022-11-21T17:00:00.000",
+    end: "2022-11-21T17:00:00.000",
+    done: false,
+    color: "#FF0000"
 }
+
+// sample exam
+var e1 = {
+    UUID: "John",
+    DEID: 3,
+    type: "exam",
+    name: "midterm 1",
+    relation: "math100a",
+    location: "Price Center",
+    details: "chapters 2,3,6\ncan use 1 page of notes",
+    start: "2022-11-21T12:00:00.000",
+    end: "2022-11-21T12:50:00.000",
+    done: false,
+    color: "#0033AA"
+}
+
+var darray = [d1,t1,e1];
 
 /**
-* creates a time-markers from 6AM to 12PM inside a timeline holder
-* parameter: timelinecontainer.
-*/
-function buildTimeline(timeline) {
-  for (var i = 0; i < 19; i++) {
-    let time = i + 5;
-    time = (time % 12) + 1;
-    //flexbox span object holds "hour" and horizontal line.
-    let span = document.createElement("span");
-    let line = document.createElement("div");
-    let hour = document.createElement("div")
-    if (time > 9) {
-      hour.innerHTML = `${time}`;
-    } else {
-      hour.innerHTML = ""+`${time}`;
-      hour.style = "margin-left: 1.1ex;"; //right allign hour times
-    }
-    hour.classList.add("hour");
-    line.classList.add("line");
-    hour.classList.add("time-element");
-    line.classList.add("time-element");
-    span.classList.add("time-container");
-    let percentage = i / 18 * 100;
-    span.appendChild(hour);
-    span.appendChild(line);
-    timeline.appendChild(span);
-  }
-}
+ * These are functions that add html components to an object you pass in
+ * with a particular data-entry object.
+ */
 
-function setNow() {
-  //get time values using Date() Object
-  let time = new Date();
-  let hour = time.getHours();
-  let minute = time.getMinutes();
-  
-  // calendar starts at 6AM not 12AM
-  hour = hour - 6;
-  
-  // only set now-bar if time is after 6AM
-  if (hour >= 6) {
+/************************************************************************* 
+ * IMPORTANT USAGE INFORMATION:
     
-    minute = minute/60; //convert minutes to fractions of an hour
+    // pick the correct container for the element
+    let container = document.querySelector("<where the element will go>");
+
+    // make an empty <div> to pass in
+    let Emptydiv = document.createElement("div");
     
-    let percentage = (hour + minute)/.18; // divide by 18 and multiply by 100 to get percentage of container
-    
-    let now = document.getElementById('now-line');
-    now.style=`top: ${percentage}%;` // set now's location to percentage of page
-    
-    console.log(`now line set position ${hour + minute}`);
-  } else {
-    console.log("now line not set")
-  }
-}
+    // pass in <div> and the dataentry you want used to fill the function.
+    tevent(Emptydiv, darray[0]); // this modifys the <div> to make it an event for the timeline.
 
-/* DATABSE RELATED FUNCTION */
-function retrieveFromDatabase(start, end) {
-    let deArray = [];
+    // add <div> to the container
+    container.appendChild(Div);
+**************************************************************************/
 
-    let d1 = {
-        UUID: "John",
-        DEID: 1,
-        type: "event",
-        name: "cse110 lecture",
-        relation: "cse110",
-        location: "center hall 113",
-        details: "this class is difficult",
-        start: "2022-11-21T14:00:00.000",
-        end: "2022-11-21T15:50:00.000",
-        done: false,
-        color: "#FF0000"
-    };
-    
-    let t1 = {
-        UUID: "John",
-        DEID: 2,
-        type: "task",
-        name: "lab 1",
-        relation: "cse110",
-        location: "center hall 113",
-        details: "probably some rediculous javascript assignment",
-        start: "2022-11-21T17:00:00.000",
-        end: "2022-11-21T17:00:00.000",
-        done: false,
-        color: "#FF0000"
-    }
-    
-    let e1 = {
-        UUID: "John",
-        DEID: 3,
-        type: "exam",
-        name: "midterm 1",
-        relation: "math100a",
-        location: "Price Center",
-        details: "chapters 2,3,6\ncan use 1 page of notes",
-        start: "2022-11-21T12:00:00.000",
-        end: "2022-11-21T12:50:00.000",
-        done: false,
-        color: "#0033AA"
-    }
 
-    deArray = [d1, t1, e1];
-    
-    return deArray;
-}
 
-function populateTimeContainer(element, deArray) {
-    if (!element) return;
-    if (!deArray) return;
+/**************************************************************************************** 
+ * Templates for timelines of objects on the Today/Week views: tevent, ttask */
 
-    for (let i = 0; i < deArray.length; i++) {
-        let newEvent = document.createElement('div');
-        
-        if ((deArray[i].type == "event") || (deArray[i].type == "exam")) {
-            tevent(newEvent, deArray[i]);
-        }
-        else {
-            ttask(newEvent, deArray[i]);
-        }
 
-        element.appendChild(newEvent);
-    }
-}
-
-function populateEventContainer(element, deArray) {
-    if (!element) return;
-    if (!deArray) return;
-
-    for (let i = 0; i < deArray.length; i++) {
-        let newEvent = document.createElement('div');
-        
-        if (deArray[i].type != "task") {
-            levent(newEvent, deArray[i]);
-        }
-        
-        element.appendChild(newEvent);
-    }
-}
-
-function populateTaskContainer(element, deArray) {
-    if (!element) return;
-    if (!deArray) return;
-
-    for (let i = 0; i < deArray.length; i++) {
-        let newEvent = document.createElement('div');
-        
-        if (deArray[i].type == "task") {
-            ltask(newEvent, deArray[i]);
-        }
-        
-        element.appendChild(newEvent);
-    }
-}
-
+/**
+ * Timeline Event
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a timeline
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
 function tevent(element, de) {
     if (!element) return;
     if (!de) return;
@@ -189,6 +96,8 @@ function tevent(element, de) {
 
     let top = ((start.getHours() - 6) + (start.getMinutes() / 60)) / .18;
     let bottom = 100 - ((end.getHours() - 6) + (end.getMinutes() / 60)) / .18;
+
+    
 
     // if time is shorter than 1 hour, use a different display type with less information
     if ((end - start) < 3600000) {
@@ -209,46 +118,21 @@ function tevent(element, de) {
         </div>
         `;
     }
+    element.style=`background-color: ${de.color}; top: ${top}%; bottom: ${bottom}%; overflow: hidden;`;
     element.classList.add("ID" + de.DEID);
     element.classList.add("tevent");
-
-    // Setting styles
-    element.style=`background-color: ${de.color}; top: ${top}%; bottom: ${bottom}%; overflow: hidden;`;
-    let style = document.createElement('style');
-    style.textContent = 
-    `
-    .tevent-box {
-        display: flex;
-        flex-direction: column;
-        margin: 5px;
-        gap: 5px;
-        align-content: flex-start;
-        justify-content: flex-start;
-        width: 100%;
-        height: 100%;
-        flex-wrap: wrap;
-    }
-    
-    /*styles the contents inside of */
-    .tevent-box > * {
-        color: white;
-        font-size: 10pt;
-        padding: 0px;
-        margin: 0;
-        width: fit-content;
-        font-weight: 500;
-    }
-    
-    .tevent {
-        position: absolute;
-        border-radius: 10px;
-        width: 100%;
-    }
-    `;
-
-    element.appendChild(style);
 }
 
+
+/**
+ * Timeline Task
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a timeline.
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
 function ttask(element, de) {
     if (!element) return;
     if (!de) return;
@@ -262,25 +146,21 @@ function ttask(element, de) {
     element.style = `top: ${top}%`;
     element.classList.add("ttask");
     ;
-
-    // Setting styles
-    let style = document.createElement("style");
-    style.textContent = 
-    `
-    .ttask {
-        position: absolute;
-        height: 4px;
-        width: 100%;
-    }
-    `;
-
-    element.appendChild(style);
 }
 
-/**
- * Templates for lists of objects on the Today iewid
- */
 
+/*******************************************************************
+ * Templates for lists of objects on the Today view: ltask, levent */
+
+/**
+ * List Event
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a list.
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
 function levent(element, de) {
     if (!element) return;
     if (!de) return;
@@ -298,38 +178,22 @@ function levent(element, de) {
         <p class="details">${de.details} </p>
     </div>
     `;
+    element.style=`background-color: ${de.color}; height: match-content;`;
     element.classList.add("ID" + de.DEID);
     element.classList.add("levent");
-
-    // Setting styles
-    element.style=`background-color: ${de.color}; height: match-content;`;
-    let style = document.createElement('style');
-    style.textContent = 
-    `
-    .levent-box {
-        color: white;
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        padding: 5px;
-    }
-
-    .levent {
-        width: 100%;
-        border-radius: 10px;
-    }
-
-    .levent-box > * {
-        font-size: 14pt;
-        font-weight: 200;
-        margin: 5px;
-    }
-    `;
-
-    element.appendChild(style);
 }
 
-/*Please take note that the checkbox can be accessed using id=done${DEID} for adding parameters and modifying database*/
+/**
+ * List Task
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a list.
+ * 
+ * Note: checkbox can be accessed using id=done${DEID}
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
 function ltask(element, de) {
     if (!element) return;
     if (!de) return;
@@ -358,35 +222,78 @@ function ltask(element, de) {
         <p class="details">${de.details}</p>
     </div>
     `;
+    element.style=`background-color: ${de.color}; height: match-content;`;
     element.classList.add("ID" + de.DEID);
     element.classList.add("ltask");
+}
 
-    // Setting styles
-    element.style=`background-color: ${de.color}; height: match-content;`;
-    let style = document.createElement('style');
-    style.textContent = 
-    `
-    .ltask-box {
-        color: white;
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        padding: 5px;
-        height: auto;
-    }
-    
-    .ltask {
-        width: 100%;
-        border-radius: 10px;
-        height: auto;
-    }
-    
-    .ltask-box > * {
-        font-size: 14pt;
-        font-weight: 200;
-        margin: 5px;
-    }
+/********************************
+ * Templates for the Quarter View
+ */
+
+/**
+ * Quarter Event
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a quarter view day.
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
+function qevent(element, de) {
+    if (!element) return;
+    if (!de) return;
+    element.classList.add("qevent");
+    element.classList.add("ID" + de.DEID);
+    element.style = `background-color: ${de.color}`;
+}
+
+/**
+ * Quarter Task
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a quarter view day.
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
+function qtask(element, de) {
+    if (!element) return;
+    if (!de) return;
+    element.classList.add("qtask");
+    element.classList.add("ID" + de.DEID);
+    element.style = `background-color: ${de.color}`;
+}
+
+/**
+ * Quarter Exam
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a quarter view day.
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
+function qexam(element, de) {
+    if (!element) return;
+    if (!de) return;
+    element.classList.add("qexam");
+    element.classList.add("ID" + de.DEID);
+    element.innerHTML = `
+    <div class="qexam-dot"></div>
     `;
+    element.style = `background-color: ${de.color}`;
+}
 
-    element.appendChild(style);
+/**
+ * Settings Dataentry
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a table on the settings page.
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
+function sde(element, de) {
+    let i = 0;
 }
