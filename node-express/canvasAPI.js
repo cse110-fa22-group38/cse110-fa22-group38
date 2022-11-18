@@ -20,18 +20,12 @@ const todayDate = new Date();
 const EVENT = "event-calendar-event-";
 const ASSIGNMENT = "event-assignment-"; 
 const coursesURL = "https://canvas.ucsd.edu/api/v1/courses?per_page=100";
-const options = {
-    method: 'GET',
-    headers: {
-        Authorization: 'Bearer ' + apiToken
-    },
-}
- 
+
 let INSERT = 
 `
 INSERT INTO events (
-    event_id,
     uuid,
+    event_id,
     event_type,
     event_name,
     event_relation,
@@ -44,86 +38,10 @@ INSERT INTO events (
     VALUES (?,?,?,?,?,?,?,?,?,?,?)
 `;
 
-async function getAllCourses() {
-    try {
-        let courses = await fetch(coursesURL, options);
-    
-        // courseData is an Array of Objects
-        let courseData = await courses.json(); // Parse into a JSON format for human readability
-        return courseData;
-    }
-    catch (err) {
-        console.log(err.message);
-    }
-} 
-
-async function getCurrentCourses() {
-    try {
-        data = await getAllCourses(); // Grab parsed data of ALL courses
-        let currentCourses = []; // Array to store current sources
-        let coursesDate = []; // Array to store created_at dates of ALL courses
-
-        // Isolating the 'created_at' property, make Date() OBJECTS out of them 
-        // and push them to a coursesDate array
-        // The property is in ISO8601 date format (look it up)
-        for (let i = 0; i < data.length; i++) {
-            coursesDate.push(new Date(data[i]['created_at']));
-        }
-
-        for (let i = 0; i < data.length; i++) {
-            // Get difference between today's Date and course's created at Date
-            // (in millisecond)
-            let diffTime = Math.abs(todayDate - coursesDate[i]); 
-
-            // Get said difference but in days
-            let diffDay = Math.ceil(diffTime / milliInDay); 
-
-            // A quarter at UCSD has on average 100 days, we only want
-            // courses that are still active within the last 100 days     
-            if (diffDay < daysInQuarter) {
-                currentCourses.push(data[i]);
-            }
-        }
-
-        return currentCourses;
-    }
-    catch (err) {
-        console.log(err.message);
-    }
-}
-
-async function getICStexts(dataArray) {
-    try {
-        // Array to store raw texts of all the courses in dataArray
-        let allICStexts = [];
-
-        for (let i = 0; i < dataArray.length; i++) {
-            // 1) Grab the URL of the ics file from each course
-            let icsURL = dataArray[i]['calendar']['ics'];
-
-            // 2) Fetch the raw response from the given URL
-            let icsStringRAW = await fetch(icsURL);
-                
-            // 3) Parse the response as texts
-            let icsString = await icsStringRAW.text();
-
-            //
-            allICStexts.push(icsString);
-        }
-
-        return allICStexts;
-    }
-    catch (err) {
-        console.log(error.message);
-    }
-}
-
 // Main function
 module.exports = async function(queryUUID, queryAPIToken) {
     // Assign the api toke
-    apiToken = queryAPIToken;
-
-    console.log(apiToken);
+    apiToken = await queryAPIToken;
 
      // Grab active courses of users
     let myCourses = await getCurrentCourses();
@@ -228,3 +146,84 @@ module.exports = async function(queryUUID, queryAPIToken) {
 
     console.log("finished");
 };
+
+async function getAllCourses() {
+    let options = {
+        method: 'GET',
+        headers: {
+            Authorization: 'Bearer ' + apiToken
+        },
+    }
+
+    try {
+        let courses = await fetch(coursesURL, options);
+    
+        // courseData is an Array of Objects
+        let courseData = await courses.json(); // Parse into a JSON format for human readability
+        return courseData;
+    }
+    catch (err) {
+        console.log(err.message);
+    }
+} 
+
+async function getCurrentCourses() {
+    try {
+        data = await getAllCourses(); // Grab parsed data of ALL courses
+        let currentCourses = []; // Array to store current sources
+        let coursesDate = []; // Array to store created_at dates of ALL courses
+
+        // Isolating the 'created_at' property, make Date() OBJECTS out of them 
+        // and push them to a coursesDate array
+        // The property is in ISO8601 date format (look it up)
+        for (let i = 0; i < data.length; i++) {
+            coursesDate.push(new Date(data[i]['created_at']));
+        }
+
+        for (let i = 0; i < data.length; i++) {
+            // Get difference between today's Date and course's created at Date
+            // (in millisecond)
+            let diffTime = Math.abs(todayDate - coursesDate[i]); 
+
+            // Get said difference but in days
+            let diffDay = Math.ceil(diffTime / milliInDay); 
+
+            // A quarter at UCSD has on average 100 days, we only want
+            // courses that are still active within the last 100 days     
+            if (diffDay < daysInQuarter) {
+                currentCourses.push(data[i]);
+            }
+        }
+
+        return currentCourses;
+    }
+    catch (err) {
+        console.log(err.message);
+    }
+}
+
+async function getICStexts(dataArray) {
+    try {
+        // Array to store raw texts of all the courses in dataArray
+        let allICStexts = [];
+
+        for (let i = 0; i < dataArray.length; i++) {
+            // 1) Grab the URL of the ics file from each course
+            let icsURL = dataArray[i]['calendar']['ics'];
+
+            // 2) Fetch the raw response from the given URL
+            let icsStringRAW = await fetch(icsURL);
+                
+            // 3) Parse the response as texts
+            let icsString = await icsStringRAW.text();
+
+            //
+            allICStexts.push(icsString);
+        }
+
+        return allICStexts;
+    }
+    catch (err) {
+        console.log(error.message);
+    }
+}

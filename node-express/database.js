@@ -7,7 +7,7 @@ let usersTable =
 `
 CREATE TABLE IF NOT EXISTS users (
   uuid PRIMARY KEY,
-  username,
+  username type UNIQUE,
   password_hash,
   api_token)
 `;
@@ -17,8 +17,8 @@ let uuid = "343";
 let eventTable = 
 `
 CREATE TABLE IF NOT EXISTS events (
-  event_id PRIMARY KEY,
-  uuid,
+  uuid PRIMARY KEY,
+  event_id,
   event_type,
   event_name,
   event_relation,

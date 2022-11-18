@@ -9,6 +9,8 @@ const md5 = require('md5');
 const db = require("./database.js"); 
 const grabFromCanvas = require("./canvasAPI.js");
 
+let logged_user;
+
 // Importing all the modules
 const router = express.Router();
 const bcrypt = require('bcrypt');
@@ -74,7 +76,7 @@ app.post('/login', checkNotAuthenticated, async (req, res) => {
     // Making sure they ain't empty
     if (username && password) {
         let queryDB = 'SELECT * FROM users WHERE username = ?';
-        db.all(queryDB, [username], function (err, results) {
+        db.all(queryDB, [username], (err, results) => {
             if (err) {
                 console.log(err);
                 throw err;
@@ -85,11 +87,11 @@ app.post('/login', checkNotAuthenticated, async (req, res) => {
             // Username found
             if (results.length > 0) {
                 results.forEach((result) => {
-                    let matched = bcrypt.compareSync(result.password_hash, password);
+                    let matched = bcrypt.compareSync(password, result.password_hash);
                     console.log(matched); 
                     if (matched) {
                         // Authenticate the user
-                        res.redirect('/register');
+                        res.redirect('/today');
                         console.log("SUCCESS");
                     }
                     else {
@@ -133,29 +135,28 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
         //insert user in db param : uuid, username, password
         db.run(insertNewUser, [uuid, username, hashedPassword, apiToken], async (err) => {
             if (err){
+                // If err thrown, likely that a user already existed in the database
+                // with the same username
                 console.error('Failed to register new user');
-                throw err;
+
+                // Redirect back to register so that they can register again
+                res.redirect('/register');
             }
             else {
                 console.log('Succesffuly registered new user');
 
                 // Instantly populate our database with info from CANVAS
-                await grabFromCanvas(uuid, apiToken);
+                console.log(grabFromCanvas);
+                await grabFromCanvas(uuid, apiToken);   
+
+                // Aftering registering, redirect to the login page
+                res.redirect('/login')
             }
         })
-        users.push ({
-            // Pushing to the users array at the top
-            id: uuid,
-            name: username,
-            password: hashedPassword
-        })
-
-        // Aftering registering, redirect to the login page
-        res.redirect('/login')
     } catch (err) {
         // If somehow failed, redirect to registering again
         res.redirect('/register') // redirect change
-        console.log(err);
+        console.error(err);
     }
 })
 
