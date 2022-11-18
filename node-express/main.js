@@ -9,7 +9,8 @@ const md5 = require('md5');
 const db = require("./database.js"); 
 const grabFromCanvas = require("./canvasAPI.js");
 
-let logged_user;
+// Logged user's username, which we will use to query the tables:
+let logged_user = null;
 
 // Importing all the modules
 const router = express.Router();
@@ -93,6 +94,7 @@ app.post('/login', checkNotAuthenticated, async (req, res) => {
                         // Authenticate the user
                         res.redirect('/today');
                         console.log("SUCCESS");
+                        logged_user = username;
                     }
                     else {
                         // PLACEBO
@@ -125,15 +127,14 @@ app.get('/register', checkNotAuthenticated, (req, res) => {
 // Handling the output on the register page
 app.post('/register', checkNotAuthenticated, async (req, res) => {
     try {
-        let uuid = Date.now().toString(); // Grabbing the uuid
         let username = await req.body.username; // Grabbing the username
         let hashedPassword = bcrypt.hashSync(req.body.password, 10); // Hasing the password
         let apiToken = await req.body.apiToken;
 
-        let insertNewUser = `INSERT INTO users (uuid, username, password_hash, api_token) VALUES(?, ?, ?, ?)`;
+        let insertNewUser = `INSERT INTO users (username, password_hash, api_token) VALUES(?, ?, ?)`;
 
         //insert user in db param : uuid, username, password
-        db.run(insertNewUser, [uuid, username, hashedPassword, apiToken], async (err) => {
+        db.run(insertNewUser, [username, hashedPassword, apiToken], async (err) => {
             if (err){
                 // If err thrown, likely that a user already existed in the database
                 // with the same username
@@ -144,11 +145,12 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
                 res.redirect('/register');
             }
             else {
-                console.log('Succesffuly registered new user');
+                console.log('Succesfully registered new user');
+                logged_user = username;
 
                 // Instantly populate our database with info from CANVAS
                 console.log(grabFromCanvas);
-                await grabFromCanvas(uuid, apiToken);   
+                await grabFromCanvas(username, apiToken);   
 
                 // Aftering registering, redirect to the login page
                 res.redirect('/login')
@@ -165,6 +167,7 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
 app.delete('/logout', (req, res) => {
     req.logOut() // Log out first
     res.redirect('/login') // Redirect to login
+    logged_user = null;
 })
 
 // Today page
@@ -239,23 +242,17 @@ app.get("/api/users", (req, res, next) => {
     });
 });
 
-// Get ALL by UUID (in users table)
-app.get("/api/users/uuid/:uuid", (req, res, next) => {
-    var sql = "select * from users where uuid = ?"
-    var params = [req.params.uuid]
-    db.all(sql, params, (err, row) => {
-        if (err) {
-          res.status(400).json({"error": err.message});
-          return;
-        }
-        res.json({row});
-    });
-});
-
 // Get ALL by username
-app.get("/api/users/username/:username", (req, res, next) => {
-    var sql = "select * from users where username = ?"
+app.get("/api/events/username/:username", (req, res, next) => {
+    var sql = "select * from events where username = ?"
     var params = [req.params.username]
+    console.log(logged_user);
+    if (!logged_user) {
+        console.log("User not logged in");
+        res.redirect('/login');
+        return;
+    };
+    
     db.all(sql, params, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
@@ -264,24 +261,18 @@ app.get("/api/users/username/:username", (req, res, next) => {
         res.json({row});
     });
 });
-
-// Get ALL by UUID (in events table)
-app.get("/api/events/uuid/:uuid", (req, res, next) => {
-    var sql = "select * from events where uuid = ?"
-    var params = [req.params.uuid]
-    db.all(sql, params, (err, row) => {
-        if (err) {
-          res.status(400).json({"error": err.message});
-          return;
-        }
-        res.json({row});
-    });
-});
   
 // Get all by event_color
 app.get("/api/events/event_color/:event_color", (req, res, next) => {
-    var sql = "select * from events where event_color = ?"
-    var params = [req.params.event_color]
+    var sql = "select * from events where event_color = ? and username = ?"
+    console.log(logged_user);
+    if (!logged_user) {
+        console.log("User not logged in");
+        res.redirect('/login');
+        return;
+    };
+
+    var params = [req.params.event_color, logged_user];
     db.all(sql, params, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
@@ -293,8 +284,16 @@ app.get("/api/events/event_color/:event_color", (req, res, next) => {
   
 // Get all by event_completed
 app.get("/api/events/event_completed/:event_completed", (req, res, next) => {
-    var sql = "select * from events where event_completed = ?"
-    var params = [req.params.event_completed]
+    var sql = "select * from events where event_completed = ? and username = ?"
+    var params = [req.params.event_completed, logged_user]
+    
+    console.log(logged_user);
+    if (!logged_user) {
+        console.log("User not logged in");
+        res.redirect('/login');
+        return;
+    };
+
     db.all(sql, params, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
@@ -306,8 +305,16 @@ app.get("/api/events/event_completed/:event_completed", (req, res, next) => {
   
 // Get all by event_end
 app.get("/api/events/event_end/:event_end", (req, res, next) => {
-    var sql = "select * from events where event_end = ?"
-    var params = [req.params.event_end]
+    var sql = "select * from events where event_end = ? and username = ?"
+    var params = [req.params.event_end, logged_user]
+
+    console.log(logged_user);
+    if (!logged_user) {
+        console.log("User not logged in");
+        res.redirect('/login');
+        return;
+    };
+
     db.all(sql, params, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
@@ -322,8 +329,16 @@ app.get("/api/events/event_end/:event_end", (req, res, next) => {
   
 // Get all by event_start
 app.get("/api/events/event_start/:event_start", (req, res, next) => {
-    var sql = "select * from events where event_start = ?"
-    var params = [req.params.event_start]
+    var sql = "select * from events where event_start = ? and username = ?"
+    var params = [req.params.event_start, username]
+
+    console.log(logged_user);
+    if (!logged_user) {
+        console.log("User not logged in");
+        res.redirect('/login');
+        return;
+    };
+
     db.all(sql, params, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
@@ -336,8 +351,16 @@ app.get("/api/events/event_start/:event_start", (req, res, next) => {
   
 // Get all by event_details
 app.get("/api/events/event_details/:event_details", (req, res, next) => {
-    var sql = "select * from events where event_details = ?"
-    var params = [req.params.event_details]
+    var sql = "select * from events where event_details = ? and username = ?"
+    var params = [req.params.event_details, logged_user]
+
+    console.log(logged_user);
+    if (!logged_user) {
+        console.log("User not logged in");
+        res.redirect('/login');
+        return;
+    };
+
     db.all(sql, params, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
@@ -349,8 +372,16 @@ app.get("/api/events/event_details/:event_details", (req, res, next) => {
 
 // Get all by event_relation
 app.get("/api/events/event_relation/:event_relation", (req, res, next) => {
-    var sql = "select * from events where event_relation = ?"
-    var params = [req.params.event_relation]
+    var sql = "select * from events where event_relation = ? and username = ?"
+    var params = [req.params.event_relation, logged_user]
+
+    console.log(logged_user);
+    if (!logged_user) {
+        console.log("User not logged in");
+        res.redirect('/login');
+        return;
+    };
+
     db.all(sql, params, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
@@ -362,8 +393,16 @@ app.get("/api/events/event_relation/:event_relation", (req, res, next) => {
   
 // Get all by event_location
 app.get("/api/events/event_location/:event_location", (req, res, next) => {
-    var sql = "select * from events where event_location = ?"
-    var params = [req.params.event_location]
+    var sql = "select * from events where event_location = ? and username = ?"
+    var params = [req.params.event_location, logged_user]
+
+    console.log(logged_user);
+    if (!logged_user) {
+        console.log("User not logged in");
+        res.redirect('/login');
+        return;
+    };
+
     db.all(sql, params, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
@@ -375,8 +414,16 @@ app.get("/api/events/event_location/:event_location", (req, res, next) => {
   
 // Get all by event_name
 app.get("/api/events/event_name/:event_name", (req, res, next) => {
-    var sql = "select * from events where event_name = ?"
-    var params = [req.params.event_name]
+    var sql = "select * from events where event_name = ? and username = ?"
+    var params = [req.params.event_name, logged_user]
+
+    console.log(logged_user);
+    if (!logged_user) {
+        console.log("User not logged in");
+        res.redirect('/login');
+        return;
+    };
+
     db.all(sql, params, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
@@ -388,8 +435,16 @@ app.get("/api/events/event_name/:event_name", (req, res, next) => {
   
 // Get all by event_type
 app.get("/api/events/event_type/:event_type", (req, res, next) => {
-    var sql = "select * from events where event_type = ?"
-    var params = [req.params.event_type]
+    var sql = "select * from events where event_type = ? and username = ?"
+    var params = [req.params.event_type, logged_user]
+
+    console.log(logged_user);
+    if (!logged_user) {
+        console.log("User not logged in");
+        res.redirect('/login');
+        return;
+    };
+
     db.all(sql, params, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
@@ -401,8 +456,16 @@ app.get("/api/events/event_type/:event_type", (req, res, next) => {
   
 // Get all by event_id
 app.get("/api/events/event_id/:event_id", (req, res, next) => {
-    var sql = "select * from events where event_id = ?"
-    var params = [req.params.event_id]
+    var sql = "select * from events where event_id = ? and username = ?"
+    var params = [req.params.event_id, logged_user]
+
+    console.log(logged_user);
+    if (!logged_user) {
+        console.log("User not logged in");
+        res.redirect('/login');
+        return;
+    };
+
     db.all(sql, params, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
@@ -417,6 +480,7 @@ app.delete("/api/users/delete/:username", (req, res, next) => {
     var deletesql = "delete from users where username = ?"
     var username = req.params.username;
     var params = [req.params.username];
+
     db.run(deletesql, params, (err, row) => {
             if (err){
                 res.status(400).json({"error": res.message})

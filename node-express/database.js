@@ -6,7 +6,6 @@ const md5 = require('md5');
 let usersTable = 
 `
 CREATE TABLE IF NOT EXISTS users (
-  uuid PRIMARY KEY,
   username type UNIQUE,
   password_hash,
   api_token)
@@ -15,7 +14,7 @@ CREATE TABLE IF NOT EXISTS users (
 let eventTable = 
 `
 CREATE TABLE IF NOT EXISTS events (
-  uuid PRIMARY KEY,
+  username PRIMARY KEY,
   event_id,
   event_type,
   event_name,

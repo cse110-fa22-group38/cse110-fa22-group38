@@ -24,7 +24,7 @@ const coursesURL = "https://canvas.ucsd.edu/api/v1/courses?per_page=100";
 let INSERT = 
 `
 INSERT INTO events (
-    uuid,
+    username,
     event_id,
     event_type,
     event_name,
@@ -39,7 +39,11 @@ INSERT INTO events (
 `;
 
 // Main function
-module.exports = async function(queryUUID, queryAPIToken) {
+module.exports = async function (queryUsername, queryAPIToken) {
+    if (!(queryUsername && queryAPIToken)) {
+        return;
+    }
+    
     // Assign the api toke
     apiToken = await queryAPIToken;
 
@@ -123,7 +127,7 @@ module.exports = async function(queryUUID, queryAPIToken) {
             */
     
             // dataentry read to be inserted into database
-            db.run(INSERT, [DEID, queryUUID, type, name, relation, location, details, start, end, done, color], (err) => {
+            db.run(INSERT, [queryUsername, DEID, type, name, relation, location, details, start, end, done, color], (err) => {
                 // Do nothing
             });
         })

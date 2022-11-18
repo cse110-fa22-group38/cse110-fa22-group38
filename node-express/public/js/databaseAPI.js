@@ -2,11 +2,9 @@ let PORT = 6900;
 let baseURL = "http://localhost:" + PORT + "/";
 
 // All URLS for the end points
-let usersUUID = "api/users/uuid/";
 let usersUSERNAME = "api/users/username/";
-let eventsUUID = "api/events/uuid/";
 let eventsDEID = "api/events/event_id/";
-let eventsTYPE = "api/events/event_type";
+let eventsTYPE = "api/events/event_type/";
 let eventsNAME = "api/events/event_name/";
 let eventsLOCATION = "api/events/event_location/";
 let eventsRELATION = "api/events/event_relation/";

@@ -11,7 +11,7 @@ async function init() {
     // For calling other functions
     // No crazy scripting
     // We wana keep this function neat and tidy
-    let username = "tonyshark116";
+    let username = "Tung";
     modifyPLACEHOLDER(username);
 
     // Delete username
