@@ -16,49 +16,15 @@
 
   <!--Script Source-->
   <script src="/assets/template.js" type="module"></script> <!-- Added -->
+
+  <!--Template Object Linking-->
+	<script src="./scripts/templates.js"></script>
+	<link rel="stylesheet" href="./scripts/templatestyle.css">
+  <link rel="stylesheet" href="./assets/navbar.css">
 </head>
 <style>
   * {
     font-family: IBM Plex Mono;
-  }
-
-  header {
-    display: flex;
-    flex-direction: row;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 10px;
-    align-items: center;
-    position: relative;
-  }
-
-  .title {
-    font-family: IBM Plex Sans;
-    font-weight: 600;
-    font-size: 30px;
-    color: white;
-    margin-top: 0;
-    margin-left: 1vh;
-    color: #ee6fa8;
-    flex-grow: 1;
-  }
-
-  .menu {
-    align-self: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    height: 30px;
-    width: 30px;
-    margin-right: 2vh;
-    cursor: pointer;
-  }
-
-  .hamburger-line {
-    height: 3px;
-    width: 100%;
-    background-color: white;
-    border-radius: 2.5px;
   }
 
   .content {
@@ -175,11 +141,16 @@
   }
 </style>
 <header>
-  <div class="title">Today</div>
-  <div class="menu">
-    <div class="hamburger-line"></div>
-    <div class="hamburger-line"></div>
-    <div class="hamburger-line"></div>
+  <div class="navcontainer">
+      <nav>
+          <ul>
+              <button>Add Event</button>
+              <li><a href="/today">Today</a></li>
+              <li><a href="/week">Week</a></li>
+              <li><a href="/quarter">Quarter</a></li>
+              <li><a href="/settings">Settings</a></li>
+          </ul>
+      </nav>
   </div>
 </header>
 <main>

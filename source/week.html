@@ -10,6 +10,7 @@
         <!--Template Object Linking-->
         <script src="./scripts/templates.js"></script>
 	      <link rel="stylesheet" href="./scripts/templatestyle.css">
+        <link rel="stylesheet" href="./assets/navbar.css">
         <!--Font Linking-->
         <link rel="preconnect" href="https://fonts.googleapis.com"> 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
@@ -178,13 +179,18 @@ Body {
 }
     </style>
     <header>
-        <div class="title">Today</div>
-        <div class="menu">
-          <div class="hamburger-line"></div>
-          <div class="hamburger-line"></div>
-          <div class="hamburger-line"></div>
-        </div>
-      </header>
+      <div class="navcontainer">
+          <nav>
+              <ul>
+                  <button>Add Event</button>
+                  <li><a href="/today">Today</a></li>
+                  <li><a href="/week">Week</a></li>
+                  <li><a href="/quarter">Quarter</a></li>
+                  <li><a href="/settings">Settings</a></li>
+              </ul>
+          </nav>
+      </div>
+    </header>
     <main>
       <!--make horizontal flex box with span-->
       <div class="content">
