@@ -1,4 +1,4 @@
-<!DOCTYPE html> <!-- Added -->
+
 <html lang="en">
     <head>
         <title>Powell Puff Planner</title>
@@ -7,153 +7,146 @@
         <meta name="keywords" content="Powell Puff Planner, Powell Puff, Planner">
         <meta http-equiv="refresh" content="60">
         <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
-        <link rel="Web Icon" href="source/assets/favicon.ico" type="">
+
+        <link rel="Web Icon" href="./assets/favicon.ico">
+        <!--Template Object Linking-->
+        <script src="./scripts/templates.js"></script>
+	      <link rel="stylesheet" href="./scripts/templatestyle.css">
 
         <!--Font Linking-->
         <link rel="preconnect" href="https://fonts.googleapis.com"> 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-        
-        <!--Script Source-->
-        <script src="/today.js" type="module"></script> <!-- Added -->
+
     </head>
     <style>
         * {
-  font-family: IBM Plex Mono;
-}
-header {
-  display: flex;
-  flex-direction: row;
-  margin-left: 10px;
-  margin-right: 10px;
-  margin-top: 10px;
-  align-items: center;
-  position: relative;
-}
-.title {
-  font-family: IBM Plex Sans;
-  font-weight: 600;
-  font-size: 30px;
-  color: white;
-  margin-top: 0;
-  margin-left: 1vh;
-  color: #ee6fa8;
-  flex-grow: 1;
-}
-.menu {
-  align-self: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  height: 30px;
-  width: 30px;
-  margin-right: 2vh;
-  cursor: pointer;
-}
-.hamburger-line {
-  height: 3px;
-  width: 100%;
-  background-color: white;
-  border-radius: 2.5px;
-}
-.content {
-  display: flex;
-  gap: 10px;
-  margin: 10px 0px 0px 0px;
-  background: rgb(40,40,40);/**/
-  position: relative;
-  flex-wrap: wrap;
-  overflow: hidden;
-  border-radius: 10px;
-  align-content: space-between;
-}
-.container {
-  flex-grow: 1;
-  flex-basis: 300px;
-  border-radius: 10px;
-  overflow: scroll;
-  position: relative;
-  margin: 10px 10px 10px 10px
-}
+            font-family: IBM Plex;
+          }
+          header {
+            display: flex;
+            flex-direction: row;
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-top: 10px;
+            align-items: center;
+            position: relative;
+          }
+          .title {
+            font-family: IBM Plex Sans;
+            font-weight: 600;
+            font-size: 30px;
+            color: white;
+            margin-top: 0;
+            margin-left: 1vh;
+            color: #ee6fa8;
+            flex-grow: 1;
+          }
+          .menu {
+            align-self: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            height: 30px;
+            width: 30px;
+            margin-right: 2vh;
+            cursor: pointer;
+          }
+          .hamburger-line {
+            height: 3px;
+            width: 100%;
+            background-color: white;
+            border-radius: 2.5px;
+          }
+          .content {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0px 0px 0px;
+            background: rgb(40,40,40);/**/
+            position: relative;
+            flex-wrap: wrap;
+            overflow: hidden;
+            border-radius: 10px;
+            align-content: space-between;
+          }
+          .container {
+            flex-grow: 1;
+            flex-basis: 300px;
+            border-radius: 10px;
+            overflow: scroll;
+            position: relative;
+            margin: 10px 10px 10px 10px
+          }
 
-#timelinecontainer {
-  height: 800px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background-color: #191919;
-}
-.event-border {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 100%;
-  height: 100%;
-  /*background-color: blue;
-  opacity: .9;*/
-}
-.event-container {
-  position: relative;
-  flex-grow: 1;
-  margin-top: 7pt;
-  margin-bottom: 7pt;
-  margin-left: 24pt;
-}
-.time-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-.line {
-  display: inline-block;
-  height: 2px;
-  background: grey;
-  flex-grow: 1;
-  border-radius: 1.5px;
-}
-.hour {
-  display: inline-block;
-  padding-left: 1ex;
-  margin-top: 0ex;
-  margin-bottom: 0ex;
-  color: grey;
-  font-size: 10pt;
-  font-weight: 800;
-}
-.now {
-  position: absolute;
-  top: 0%;
-  height: 5px;
-  width: 100%;
-}
-.now-line {
-  position: relative;
-  background-color: #ee6fa8;
-  opacity: .75;
-  width: 100%;
-  height: 3px;
-  top: -1.5px;
-  border-radius: 1.5px;
-}
-/*These are basic properties that all events should have*/
-.timeline-event {
-  font-size: 10pt;
-}
-.eventlist-event {
-  font-size: 12pt;
-}
-.task {
-  font-size: 12pt;
-}
-Body {
-  background: black;
-}
-::-webkit-scrollbar {
-  display: none;
-}
+          #timelinecontainer {
+            height: 800px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: #191919;
+          }
+          .event-border {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 100%;
+            height: 100%;
+            /*background-color: blue;
+            opacity: .9;*/
+          }
+          .event-container {
+            position: relative;
+            flex-grow: 1;
+            margin-top: 7pt;
+            margin-bottom: 7pt;
+            margin-left: 24pt;
+          }
+          .time-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+          }
+          .line {
+            display: inline-block;
+            height: 2px;
+            background: grey;
+            flex-grow: 1;
+            border-radius: 1.5px;
+          }
+          .hour {
+            display: inline-block;
+            padding-left: 1ex;
+            margin-top: 0ex;
+            margin-bottom: 0ex;
+            color: grey;
+            font-size: 10pt;
+            font-weight: 800;
+          }
+          .now {
+            position: absolute;
+            top: 0%;
+            height: 5px;
+            width: 100%;
+          }
+          .now-line {
+            position: relative;
+            background-color: #ee6fa8;
+            opacity: .75;
+            width: 100%;
+            height: 3px;
+            top: -1.5px;
+            border-radius: 1.5px;
+          }
+          Body {
+            background: black;
+          }
+          ::-webkit-scrollbar {
+            display: none;
+          }
+
     </style>
     <header>
         <div class="title">Today</div>
@@ -166,16 +159,17 @@ Body {
     <main>
       <!--make horizontal flex box with span-->
       <div class="content">
-    
-        <!--Calendar w/ absolute spacing using faction of /22 as percent%-->
+
+        <!--Calendar w/ absolute spacing using faction of /18 as percent%-->
         <div id="timelinecontainer" class="container">
           <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
           <div class="event-border">
-            <div class="event-container">
+            <div class="event-container" id="timeline-elements">
               <div dominant-baseline="middle" class="now" id="now-line">
                 <div class="now-line"></div>
               </div>
-              <!--Events go here, inside event-container and underneatth the now-line-->
+              <!--Events go here, inside id="timeline-elements" and underneatth the now-line-->
+
             </div></div>
     
     
@@ -196,4 +190,68 @@ Body {
       </div>
     </main>
     </body>
+
+    <script>
+        var timeline = document.getElementById('timelinecontainer');
+//puts all the hours into the timeline.
+setInterval(setNow(), 60000);
+buildTimeline(timeline);
+
+/**
+* creates a time-markers from 6AM to 12PM inside a timeline holder
+* parameter: timelinecontainer.
+*/
+function buildTimeline(timeline) {
+  for (var i = 0; i < 19; i++) {
+    var time = i + 5;
+    time = (time % 12) + 1;
+    //flexbox span object holds "hour" and horizontal line.
+    var span = document.createElement("span");
+    var line = document.createElement("div");
+    var hour = document.createElement("div")
+    if (time > 9) {
+      hour.innerHTML = `${time}`;
+    } else {
+      hour.innerHTML = ""+`${time}`;
+      hour.style = "margin-left: 1.1ex;"; //right allign hour times
+    }
+    hour.classList.add("hour");
+    line.classList.add("line");
+    hour.classList.add("time-element");
+    line.classList.add("time-element");
+    span.classList.add("time-container");
+    var percentage = i / 18 * 100;
+    span.appendChild(hour);
+    span.appendChild(line);
+    timeline.appendChild(span);
+  }
+}
+
+function setNow() {
+  //get time values using Date() Object
+  let time = new Date();
+  let hour = time.getHours();
+  let minute = time.getMinutes();
+  
+  // calendar starts at 6AM not 12AM
+  hour = hour - 6;
+  
+  // only set now-bar if time is after 6AM
+  if (hour >= 6) {
+    
+    minute = minute/60; //convert minutes to fractions of an hour
+    
+    
+    let percentage = (hour + minute)/.18; // divide by 18 and multiply by 100 to get percentage of container
+    
+    let now = document.getElementById('now-line');
+    now.style=`top: ${percentage}%;` // set now's location to percentage of page
+    
+    console.log(`now line set position ${hour + minute}`);
+  } else {
+    console.log("now line not set")
+  }
+}
+    </script>
+
 </html>
