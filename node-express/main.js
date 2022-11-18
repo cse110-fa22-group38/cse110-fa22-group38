@@ -138,6 +138,7 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
                 // If err thrown, likely that a user already existed in the database
                 // with the same username
                 console.error('Failed to register new user');
+                console.error(err);
 
                 // Redirect back to register so that they can register again
                 res.redirect('/register');

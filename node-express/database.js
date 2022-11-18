@@ -12,8 +12,6 @@ CREATE TABLE IF NOT EXISTS users (
   api_token)
 `;
 
-let uuid = "343";
-
 let eventTable = 
 `
 CREATE TABLE IF NOT EXISTS events (
