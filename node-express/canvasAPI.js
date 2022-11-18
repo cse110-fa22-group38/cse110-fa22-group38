@@ -12,7 +12,7 @@ let data; // To store parsed data of all courses
 
 // TODO: FILL YOYR CANVAS API KEY HERE IF YOU WANT TO TRY THIS OUT
 // THERE ARE TUTORIALS ON HOW TO GET THE CANVAS API KEY, LOOK IT UP!
-let apiToken = "13171~IAu8yjQC3jNUnooJkPPoBEgugKNoaYcEjCEgs69H2FBKuzqVYx8Qb9wro8vAoYrV";
+let apiToken;
 
 const milliInDay = 1000 * 60 * 60 * 24;
 const daysInQuarter = 100;
@@ -29,8 +29,9 @@ const options = {
  
 let INSERT = 
 `
-INSERT INTO user343 (
+INSERT INTO events (
     event_id,
+    uuid,
     event_type,
     event_name,
     event_relation,
@@ -39,7 +40,8 @@ INSERT INTO user343 (
     event_start,
     event_end,
     event_completed,
-    event_color) VALUES (?,?,?,?,?,?,?,?,?,?)
+    event_color) 
+    VALUES (?,?,?,?,?,?,?,?,?,?,?)
 `;
 
 async function getAllCourses() {
@@ -117,7 +119,12 @@ async function getICStexts(dataArray) {
 }
 
 // Main function
-(async() => {
+module.exports = async function(queryUUID, queryAPIToken) {
+    // Assign the api toke
+    apiToken = queryAPIToken;
+
+    console.log(apiToken);
+
      // Grab active courses of users
     let myCourses = await getCurrentCourses();
 
@@ -198,7 +205,7 @@ async function getICStexts(dataArray) {
             */
     
             // dataentry read to be inserted into database
-            db.run(INSERT, [DEID, type, name, relation, location, details, start, end, done, color], (err) => {
+            db.run(INSERT, [DEID, queryUUID, type, name, relation, location, details, start, end, done, color], (err) => {
                 // Do nothing
             });
         })
@@ -218,5 +225,6 @@ async function getICStexts(dataArray) {
         console.log(icsStringArray[i]);
     }
     */
-})();
 
+    console.log("finished");
+};

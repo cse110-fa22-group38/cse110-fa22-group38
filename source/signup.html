@@ -26,6 +26,8 @@
                     <input type="passwordSU" placeholder="Enter Password" name="password" required>
 
                     <input type="passwordSU" placeholder="Repeat Password" name="password-repeat" required>
+
+                    <input type="apitokenSU" placeholder="Insert your Canvas's API token here" name="apiToken" required>
                     <div class="wipe">
                         <button type="cancel" onclick="window.location.href= `./login`" class="cancel">Cancel</button>
                         <button type="confirm" class="confirm">Confirm</button>
@@ -36,7 +38,7 @@
     </body>
     <style>
         /* Username and Password Input box within popup */
-        input[type="usernameSU"], input[type="passwordSU"] {
+        input[type="usernameSU"], input[type="passwordSU"], input[type="apitokenSU"] {
             width: 100%;
             padding: 14px;
             margin: 5px 0 20px 0;

@@ -1,9 +1,10 @@
 const LocalStratery = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
 const sqlite3 = require('sqlite3').verbose();
+const DBSOURCE = "./database/user.sqlite";
 
 // DB instance started
-let db = new sqlite3.Database("./database/user.sqlite", sqlite3.OPEN_READWRITE, (err) => {
+let db = new sqlite3.Database(DBSOURCE, sqlite3.OPEN_READWRITE, (err) => {
     if (err){
         console.log("passport-config: ERR DB connection");
     }

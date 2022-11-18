@@ -80,6 +80,7 @@ function setNow() {
 }
 
 /* DATABSE RELATED FUNCTION */
+// TODO ON THIS
 function retrieveFromDatabase(start, end) {
     let deArray = [];
 

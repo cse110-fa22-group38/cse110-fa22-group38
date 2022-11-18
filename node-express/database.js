@@ -8,15 +8,17 @@ let usersTable =
 CREATE TABLE IF NOT EXISTS users (
   uuid PRIMARY KEY,
   username,
-  password_hash)
+  password_hash,
+  api_token)
 `;
 
 let uuid = "343";
 
 let eventTable = 
 `
-CREATE TABLE IF NOT EXISTS user343 (
+CREATE TABLE IF NOT EXISTS events (
   event_id PRIMARY KEY,
+  uuid,
   event_type,
   event_name,
   event_relation,
@@ -33,7 +35,8 @@ let insertNewUser =
 INSERT INTO users (
   uuid,
   username,
-  password_hash) VALUES (?,?,?)
+  password_hash,
+  api_token) VALUES (?,?,?,?)
 `;
 
 const DBSOURCE = "./database/user.sqlite";
@@ -62,18 +65,8 @@ let db = new sqlite3.Database(DBSOURCE,
     }
 })
 
-// Exporting our db, ready for use 
+// Exporting our db via module, ready for use 
 module.exports = db;
-
-// insertion function
-// db.run(`INSERT INTO user_information values()`,[uuid, username, password], function(err) {
-//     if (err){
-//         console.error('unable to insert into db')
-//     }
-//     console.log('inserted into db')
-// } )
-
-const dataentryarray = [];
 
 // Example of a dataentry object
 var dataentry = {
@@ -89,5 +82,3 @@ var dataentry = {
     done: Boolean(false),
     color: "#ffffff"
 }
-
-// GET API
