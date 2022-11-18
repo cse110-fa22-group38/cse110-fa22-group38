@@ -9,6 +9,7 @@
 	<!--Template Object Linking-->
 	<script src="./scripts/templates.js"></script>
 	<link rel="stylesheet" href="./scripts/templatestyle.css">
+
 	
 	<!--Font Linking-->
 	<link rel="preconnect" href="https://fonts.googleapis.com"> 
@@ -55,8 +56,10 @@
 </table>
 </body>
 <script>
+
 window.addEventListener('DOMContentLoaded', init);
 function init() {
+
 	let quarter = {
 		start: "2022-09-22T00:00:00",
 		end: "2022-12-10T00:00:00"
@@ -121,6 +124,11 @@ function init() {
 		let eventcontainer = document.createElement("div");
 		eventcontainer.classList.add("event-container");
 		
+
+		let taskcontainer = document.createElement("div");
+		taskcontainer.classList.add("task-container");
+		
+
 		
 		let taskcontainer = document.createElement("div");
 		taskcontainer.classList.add("task-container");
@@ -136,7 +144,9 @@ function init() {
 		currdate.setDate(currdate.getDate() + 1);
 		i++;
 	}
+
 }
+
 </script>
 
 <style>
@@ -147,12 +157,12 @@ function init() {
 	.task-container {
 		display: flex;
 		flex-direction: row;
-		justify-content: center;
+
 	}
 	.event-container {
 		display: flex;
 		flex-direction: row;
-		justify-content: center;
+
 	}
 	.day-container {
 		background-color:#1F1F1F;

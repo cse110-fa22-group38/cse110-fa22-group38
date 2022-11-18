@@ -1,3 +1,4 @@
+
 <html lang="en">
     <head>
         <title>Powell Puff Planner</title>
@@ -6,14 +7,17 @@
         <meta name="keywords" content="Powell Puff Planner, Powell Puff, Planner">
         <meta http-equiv="refresh" content="60">
         <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
+
         <link rel="Web Icon" href="./assets/favicon.ico">
         <!--Template Object Linking-->
         <script src="./scripts/templates.js"></script>
 	      <link rel="stylesheet" href="./scripts/templatestyle.css">
+
         <!--Font Linking-->
         <link rel="preconnect" href="https://fonts.googleapis.com"> 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
     </head>
     <style>
         * {
@@ -142,6 +146,7 @@
           ::-webkit-scrollbar {
             display: none;
           }
+
     </style>
     <header>
         <div class="title">Today</div>
@@ -154,7 +159,7 @@
     <main>
       <!--make horizontal flex box with span-->
       <div class="content">
-    
+
         <!--Calendar w/ absolute spacing using faction of /18 as percent%-->
         <div id="timelinecontainer" class="container">
           <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
@@ -164,6 +169,7 @@
                 <div class="now-line"></div>
               </div>
               <!--Events go here, inside id="timeline-elements" and underneatth the now-line-->
+
             </div></div>
     
     
@@ -184,6 +190,7 @@
       </div>
     </main>
     </body>
+
     <script>
         var timeline = document.getElementById('timelinecontainer');
 //puts all the hours into the timeline.
@@ -246,4 +253,5 @@ function setNow() {
   }
 }
     </script>
+
 </html>

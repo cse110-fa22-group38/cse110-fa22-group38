@@ -2,32 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-
     <title> Account Settings </title>
     <meta name = "Description" content = "Account Settings"> 
-
     <link rel="Web Icon" href="./assets/favicon.ico" type="">
+
     <!--Font Linking-->
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+    <!-- Scipt Source-->
+    <script src = "/accountsettings.js" type="module"></script>
   </head>
-
-
-  <style>
-    .header {
-      position: relative;
-      z-index: 1;
-      background-color: rgba(238,111,168,1);
-      color: white;
-      text-align: center;
-      margin-top:0;
-      padding-top: 0px;
-      padding-bottom: 10%;
-      border-bottom-left-radius: 20px;
-      border-bottom-right-radius: 20px;
-      font-size: 5vw;
-
   <style>
     header {
       position: relative;
@@ -39,7 +25,6 @@
       padding-bottom: 5%;
       border-bottom-left-radius: 20px;
       border-bottom-right-radius: 20px;
-
     }
 
     body {
@@ -70,7 +55,7 @@
       border: 0;
     }
 
-    button[type="delete"] {
+    button[type="back"] {
       margin-top: 20px;
       background: rgba(238,111,168,1);
       padding: 0.7em;
@@ -127,12 +112,32 @@
       </header>
     <main>
       <form class="form1" action="">
-        <label for="username">Username:</label>
-        <input id="username" type="email">
+        <label for="firstName" class="first-name">First Name:</label>
+        <input id="firstName" type="text">
   
+        <label for="lastName" class="last-name">Last Name:</label>
+        <input id="lastName" type="text">
+
+        <div id="username"> 
+          <p> Username: PLACEHOLDER </p>
+        </div>
+  
+        <label for="email">Email:</label>
+        <input id="email" type="email">
+
+        <label for="password">Password:</label>
+        <input id="password" type="password">
+  
+        <label for="timezone">Timezone:</label>
+        <input id="timezone" type="datetime-local">
+  
+        <button type="save">Save Changes</button>
+
+        <!-- Added -->
+        <button type="delete" class="delete">Delete User</button>
       </form>
       <div>
-        <button type="delete">Delete Account</button>
+        <button type="back" onclick="location.href='settings.html'">Back</button>
       </div>
     </main>    
     </body>

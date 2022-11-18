@@ -1,3 +1,4 @@
+
 <html lang="en">
     <head>
         <title>Powell Puff Planner</title>
@@ -6,14 +7,19 @@
         <meta name="keywords" content="Powell Puff Planner, Powell Puff, Planner">
         <meta http-equiv="refresh" content="60">
         <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
+
         <link rel="Web Icon" href="./assets/favicon.ico" type="">
         <!--Template Object Linking-->
         <script src="./scripts/templates.js"></script>
 	      <link rel="stylesheet" href="./scripts/templatestyle.css">
+
         <!--Font Linking-->
         <link rel="preconnect" href="https://fonts.googleapis.com"> 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+        <!--Script source(s)-->
+        <script src="week.js" type="module"></script>
     </head>
     <style>
         * {
@@ -195,8 +201,10 @@ Body {
             <div id="D1" class="timelinecontainer">
                 <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
                 <div class="event-border">
+
                   <div id="W1" class="event-container">
                     <!--Events go here, inside event-container id="W1" for Monday"-->
+
                   </div>
                 </div>
               </div>
@@ -207,10 +215,12 @@ Body {
             <div id="D2" class="timelinecontainer">
                 <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
                 <div class="event-border">
+
                   <div id="W2" class="event-container">
                     <!--Events go here, inside event-container id="W2" for Tuesday"-->
                   </div>
               </div>
+
             </div>
         </div>
 
@@ -224,6 +234,7 @@ Body {
                   <div id="W3" class="event-container">
                     <!--Events go here, inside event-container id="W3" for Wednesday"-->
                   </div>
+
                 </div>
             </div>
         </div>
@@ -236,6 +247,7 @@ Body {
                 <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
                 
                 <div class="event-border">
+
                   <div id="W4" class="event-container">
                     <!--Events go here, inside event-container id="W4"for Thursday"-->
                   </div>
@@ -250,6 +262,7 @@ Body {
                     <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
                     
                     <div class="event-border">
+
                       <div id="W5" class="event-container">
                         <!--Events go here, inside event-container id="W5" for Friday"-->
                       </div>
@@ -264,6 +277,7 @@ Body {
                     <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
                     
                     <div class="event-border">
+
                       <div id="W6" class="event-container">
                         <!--Events go here, inside event-container id="W6" for Saturday"-->
                       </div>
@@ -275,10 +289,12 @@ Body {
             <div id="D0" class="timelinecontainer">
                 <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
                 <div class="event-border">
+
                   <div id="W0" class="event-container">
                     <!--Events go here, inside event-container id="W0" for Sunday"-->
                   </div>
               </div>
+
         </div>
         </div>
         <div class="spacer"></div>
@@ -293,6 +309,7 @@ Body {
       </div>
     </main>
     </body>
+
     <script>
         var timeline = document.getElementsByClassName('timelinecontainer');
         //puts all the hours into the timeline.
@@ -358,4 +375,5 @@ function setNow() {
   }
 }
     </script>
+
 </html>

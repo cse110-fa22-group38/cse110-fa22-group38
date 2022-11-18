@@ -11,10 +11,15 @@
         <link rel="preconnect" href="https://fonts.googleapis.com"> 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+
+        <!-- Dedicated script for signup page-->
+        <!--<script src ="/register.js" type="module"></script>-->
     </head>
     <body>
         <div id="popup" class="popup">
-            <form class="popup-content">
+            <form class="popup-content" action="/register" method="POST" enctype="application/x-www-form-urlencoded">
+
                 <div class="container">
                     <h1 style="text-align: center; color: white">Sign Up</h1>
                     <hr>
@@ -23,8 +28,12 @@
                     <input type="passwordSU" placeholder="Enter Password" name="password" required>
 
                     <input type="passwordSU" placeholder="Repeat Password" name="password-repeat" required>
+
+
+                    <input type="apitokenSU" placeholder="Insert your Canvas's API token here" name="apiToken" required>
                     <div class="wipe">
-                        <button type="cancel" onclick="window.location.href= `./login.html`" class="cancel">Cancel</button>
+                        <button type="cancel" onclick="window.location.href= `./login`" class="cancel">Cancel</button>
+
                         <button type="confirm" class="confirm">Confirm</button>
                     </div>
                 </div>
@@ -33,7 +42,9 @@
     </body>
     <style>
         /* Username and Password Input box within popup */
-        input[type="usernameSU"], input[type="passwordSU"] {
+
+        input[type="usernameSU"], input[type="passwordSU"], input[type="apitokenSU"] {
+
             width: 100%;
             padding: 14px;
             margin: 5px 0 20px 0;
