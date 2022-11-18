@@ -225,90 +225,28 @@ function checkNotAuthenticated(req, res, next) {
 // Starting up the local server at PORT
 app.listen(PORT);
 
-/* DATABASE API ENDPOINTS */
-// Get all users' info
+/* DATABASE API SESSION */
+//Get all users
 app.get("/api/users", (req, res, next) => {
     var sql = "select * from users"
     var params = []
-    db.all(sql, params, (err, row) => {
+    db.all(sql, params, (err, rows) => {
         if (err) {
           res.status(400).json({"error":err.message});
           return;
         }
-        res.json({row});
+        res.json({
+            "message":"success",
+            "data":rows
+        })
     });
 });
-
-// Get ALL by UUID (in users table)
-app.get("/api/users/uuid/:uuid", (req, res, next) => {
+  
+//Get all by UUID
+app.get("/api/users/UUID/:uuid", (req, res, next) => {
     var sql = "select * from users where uuid = ?"
     var params = [req.params.uuid]
-    db.all(sql, params, (err, row) => {
-        if (err) {
-          res.status(400).json({"error": err.message});
-          return;
-        }
-        res.json({row});
-    });
-});
-
-// Get ALL by username
-app.get("/api/users/username/:username", (req, res, next) => {
-    var sql = "select * from users where username = ?"
-    var params = [req.params.username]
-    db.all(sql, params, (err, row) => {
-        if (err) {
-          res.status(400).json({"error":err.message});
-          return;
-        }
-        res.json({row});
-    });
-});
-
-// Get ALL by UUID (in events table)
-app.get("/api/events/uuid/:uuid", (req, res, next) => {
-    var sql = "select * from events where uuid = ?"
-    var params = [req.params.uuid]
-    db.all(sql, params, (err, row) => {
-        if (err) {
-          res.status(400).json({"error": err.message});
-          return;
-        }
-        res.json({row});
-    });
-});
-  
-// Get all by event_color
-app.get("/api/events/event_color/:event_color", (req, res, next) => {
-    var sql = "select * from events where event_color = ?"
-    var params = [req.params.event_color]
-    db.all(sql, params, (err, row) => {
-        if (err) {
-          res.status(400).json({"error":err.message});
-          return;
-        }
-        res.json({row});
-    });
-});
-  
-// Get all by event_completed
-app.get("/api/events/event_completed/:event_completed", (req, res, next) => {
-    var sql = "select * from events where event_completed = ?"
-    var params = [req.params.event_completed]
-    db.all(sql, params, (err, row) => {
-        if (err) {
-          res.status(400).json({"error":err.message});
-          return;
-        }
-        res.json({row});
-    });
-});
-  
-// Get all by event_end
-app.get("/api/events/event_end/:event_end", (req, res, next) => {
-    var sql = "select * from events where event_end = ?"
-    var params = [req.params.event_end]
-    db.all(sql, params, (err, row) => {
+    db.get(sql, params, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
           return;
@@ -320,115 +258,250 @@ app.get("/api/events/event_end/:event_end", (req, res, next) => {
     });
 });
   
-// Get all by event_start
+//Get all by username
+app.get("/api/users/username/:username", (req, res, next) => {
+    var sql = "select * from users where username = ?"
+    var params = [req.params.username]
+    db.get(sql, params, (err, row) => {
+        if (err) {
+          res.status(400).json({"error":err.message});
+          return;
+        }
+        res.json({
+            "message":"success",
+            "data":row
+        })
+    });
+});
+
+//Get all by UUID
+app.get("/api/events/UUID/:uuid", (req, res, next) => {
+    var sql = "select * from events where uuid = ?"
+    var params = [req.params.uuid]
+    db.get(sql, params, (err, row) => {
+        if (err) {
+          res.status(400).json({"error":err.message});
+          return;
+        }
+        res.json({
+            "message":"success",
+            "data":row
+        })
+    });
+});
+  
+//Get all by username
+app.get("/api/events/username/:username", (req, res, next) => {
+    var sql = "select * from events where username = ?"
+    var params = [req.params.username]
+    db.get(sql, params, (err, row) => {
+        if (err) {
+          res.status(400).json({"error":err.message});
+          return;
+        }
+        res.json({
+            "message":"success",
+            "data":row
+        })
+    });
+});
+  
+//Get all by event_color
+app.get("/api/events/event_color/:event_color", (req, res, next) => {
+    var sql = "select * from events where event_color = ?"
+    var params = [req.params.event_color]
+    db.get(sql, params, (err, row) => {
+        if (err) {
+          res.status(400).json({"error":err.message});
+          return;
+        }
+        res.json({
+            "message":"success",
+            "data":row
+        })
+    });
+});
+  
+//Get all by event_completed
+app.get("/api/events/event_completed/:event_completed", (req, res, next) => {
+    var sql = "select * from events where event_completed = ?"
+    var params = [req.params.event_completed]
+    db.get(sql, params, (err, row) => {
+        if (err) {
+          res.status(400).json({"error":err.message});
+          return;
+        }
+        res.json({
+            "message":"success",
+            "data":row
+        })
+    });
+});
+  
+//Get all by event_end
+app.get("/api/events/event_end/:event_end", (req, res, next) => {
+    var sql = "select * from events where event_end = ?"
+    var params = [req.params.event_end]
+    db.get(sql, params, (err, row) => {
+        if (err) {
+          res.status(400).json({"error":err.message});
+          return;
+        }
+        res.json({
+            "message":"success",
+            "data":row
+        })
+    });
+});
+  
+//Get all by event_start
 app.get("/api/events/event_start/:event_start", (req, res, next) => {
     var sql = "select * from events where event_start = ?"
     var params = [req.params.event_start]
-    db.all(sql, params, (err, row) => {
+    db.get(sql, params, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
           return;
         }
         console.log(row);
-        res.json({row});
+        res.json({
+            "message":"success",
+            "data":row
+        })
     });
 });
   
-// Get all by event_details
+//Get all by event_details
 app.get("/api/events/event_details/:event_details", (req, res, next) => {
     var sql = "select * from events where event_details = ?"
     var params = [req.params.event_details]
-    db.all(sql, params, (err, row) => {
+    db.get(sql, params, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
           return;
         }
-        res.json({row});
-    });
-});
-
-// Get all by event_relation
-app.get("/api/events/event_relation/:event_relation", (req, res, next) => {
-    var sql = "select * from events where event_relation = ?"
-    var params = [req.params.event_relation]
-    db.all(sql, params, (err, row) => {
-        if (err) {
-          res.status(400).json({"error":err.message});
-          return;
-        }
-        res.json({row});
+        res.json({
+            "message":"success",
+            "data":row
+        })
     });
 });
   
-// Get all by event_location
+//Get all by event_location
 app.get("/api/events/event_location/:event_location", (req, res, next) => {
     var sql = "select * from events where event_location = ?"
     var params = [req.params.event_location]
-    db.all(sql, params, (err, row) => {
+    db.get(sql, params, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
           return;
         }
-        res.json({row});
+        res.json({
+            "message":"success",
+            "data":row
+        })
     });
 });
   
-// Get all by event_name
+//Get all by event_name
 app.get("/api/events/event_name/:event_name", (req, res, next) => {
     var sql = "select * from events where event_name = ?"
     var params = [req.params.event_name]
-    db.all(sql, params, (err, row) => {
+    db.get(sql, params, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
           return;
         }
-        res.json({row});
+        res.json({
+            "message":"success",
+            "data":row
+        })
     });
 });
   
-// Get all by event_type
+//Get all by event_type
 app.get("/api/events/event_type/:event_type", (req, res, next) => {
     var sql = "select * from events where event_type = ?"
     var params = [req.params.event_type]
-    db.all(sql, params, (err, row) => {
+    db.get(sql, params, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
           return;
         }
-        res.json({row});
+        res.json({
+            "message":"success",
+            "data":row
+        })
     });
 });
   
-// Get all by event_id
+//Get all by event_id
 app.get("/api/events/event_id/:event_id", (req, res, next) => {
     var sql = "select * from events where event_id = ?"
     var params = [req.params.event_id]
-    db.all(sql, params, (err, row) => {
+    db.get(sql, params, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
           return;
         }
-        res.json({row});
+        res.json({
+            "message":"success",
+            "data":row
+        })
     });
 });
 
-// Delete a user in the users table by their username
-app.delete("/api/users/delete/:username", (req, res, next) => {
-    var deletesql = "delete from users where username = ?"
-    var username = req.params.username;
-    var params = [req.params.username];
-    db.run(deletesql, params, (err, row) => {
+// update function
+// see UUID
+app.patch("/api/users/:uuid", (req, res, next) => {
+    var data = {
+        name: req.body.name,
+        password : req.body.password ? md5(req.body.password) : null
+    }
+    db.run(
+        `UPDATE users set 
+           username = COALESCE(?,username), 
+           password = COALESCE(?,password) 
+           WHERE uuid = ?`,
+        [data.username, data.password, req.params.uuid],
+        function (err, result) {
             if (err){
                 res.status(400).json({"error": res.message})
                 return;
             }
-            else {
-                if (this.changes != 0) {
-                    console.log(username + " wasn't found");
-                }
-                else {
-                    console.log(username + " was succesffuly deleted");
-                }
-            }
+            res.json({
+                message: "success",
+                data: data,
+                changes: this.changes
+            })
     });
-});
+})
+
+// Delete user
+app.delete("/api/users/:uuid", (req, res, next) => {
+    db.run(
+        'DELETE FROM users WHERE uuid = ?',
+        req.params.uuid,
+        function (err, result) {
+            if (err){
+                res.status(400).json({"error": res.message})
+                return;
+            }
+            res.json({"message":"deleted", changes: this.changes})
+    });
+})
+
+// Delete event
+app.delete("/api/events/:uuid", (req, res, next) => {
+    db.run(
+        'DELETE FROM events WHERE uuid = ?',
+        req.params.uuid,
+        function (err, result) {
+            if (err){
+                res.status(400).json({"error": res.message})
+                return;
+            }
+            res.json({"message":"deleted", changes: this.changes})
+    });
+})
+
