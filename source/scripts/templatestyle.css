@@ -1,0 +1,112 @@
+.tevent-box {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    gap: 5px;
+    align-content: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    flex-wrap: wrap;
+}
+/*styles the contents inside of */
+.tevent-box > * {
+    color: white;
+    font-size: 10pt;
+    padding: 0px;
+    margin: 0;
+    width: fit-content;
+    font-weight: 500;
+}
+
+.tevent {
+    position: absolute;
+    border-radius: 10px;
+    width: 100%;
+}
+
+/*style for ttask*/
+
+.ttask {
+    position: absolute;
+    height: 4px;
+    width: 100%;
+}
+
+/*style for levent*/
+.levent-box {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 5px;
+}
+
+.levent {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.levent-box > * {
+    font-size: 14pt;
+    font-weight: 200;
+    margin: 5px;
+}
+
+/*style for ltask*/
+.ltask-box {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 5px;
+    height: auto;
+}
+
+.ltask {
+    width: 100%;
+    border-radius: 10px;
+    height: auto;
+}
+
+.ltask-box > * {
+    font-size: 14pt;
+    font-weight: 200;
+    margin: 5px;
+}
+/*style for quarter page*/
+
+.qevent {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    flex-shrink: 2;
+    margin: 1px;
+}
+
+.qtask {
+    width: 14px;
+    height: 14px;
+    border-radius: 7px;
+    flex-shrink: 2;
+    margin: 1px;
+}
+
+.qexam {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    flex-shrink: 0;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1px;
+}
+
+.qexam-dot {
+    height: 10px;
+    width: 10px;
+    background-color: white;
+    border-radius: 5px;
+}

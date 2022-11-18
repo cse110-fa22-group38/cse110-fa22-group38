@@ -1,0 +1,40 @@
+<html lang="en">
+    <head>
+        <script src="./templates.js"></script>
+        <link rel="stylesheet" href="./templatestyle.css">
+    </head>
+    <style>
+        body {
+            position: relative;
+        }
+    </style>
+    <body>
+        <!--elements are going into this empty <body>-->
+    </body>
+    <script>
+        window.addEventListener('DOMContentLoaded', init);
+
+        function init() {
+            // this is where we are putting the elements
+            let body = document.querySelector("body");
+
+            // here is the empty div we are making
+            let Div = document.createElement("div");
+
+            // we call this function to attach darray[2] to the object
+            tevent(Div, darray[0]);
+
+            // put the now NOT EMPTY <div> into the page
+            body.appendChild(Div);
+
+            // here's another thing
+
+            let task = document.createElement("div");
+
+            // modify "ltask" to see how other elements behave.
+            //⬇️
+            ltask(task, d1);
+            body.appendChild(task);
+        }
+    </script>
+</html>
