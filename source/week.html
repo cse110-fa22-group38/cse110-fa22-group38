@@ -1,76 +1,77 @@
 <html lang="en">
-<head>
-  <title>Powell Puff Planner</title>
-  <meta name="description" content="Powell Puff Planner">
-  <meta name="author" content="Powell Puff Group 38">
-  <meta name="keywords" content="Powell Puff Planner, Powell Puff, Planner">
-  <meta http-equiv="refresh" content="60">
-  <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
-  <link rel="Web Icon" href="./assets/favicon.ico" type="">
-  <!--Template Object Linking-->
-  <script src="./scripts/templates.js"></script>
-  <link rel="stylesheet" href="./scripts/templatestyle.css">
-  <!--Font Linking-->
-  <link rel="preconnect" href="https://fonts.googleapis.com"> 
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-</head>
-<style>
-  * {
-    font-family: IBM Plex Mono;
-  }
-  header {
-    display: flex;
-    flex-direction: row;
-    width: 98%;
-    left: 1%;
-    align-items: center;
-    top: 1.5vh;
-    position: absolute;
-  }
-  .title {
-    font-family: IBM Plex Sans;
-    font-weight: 600;
-    font-size: 4vh;
-    color: white;
-    margin-top: 0;
-    margin-left: 1vh;
-    color: #ee6fa8;
-    flex-grow: 1;
-  }
-  .menu {
-    align-self: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    height: 4vh;
-    width: 4vh;
-    margin-right: 2vh;
-    cursor: pointer;
-  }
-  
-  .hamburger-line {
-    height: .5vh;
-    width: 100%;
-    background-color: white;
-    border-radius: 2.5px;
-  }
-  .content {
-    display: flex;
-    gap: 20px;
-    width: 98%;
-    left: 1%;
-    /*background: rgb(40,40,40);*/
-    position: absolute;
-    top: 8vh;
-    flex-wrap: wrap;
-    overflow: hidden;
-    border-radius: 20px;
-    justify-content: space-between;
-    align-content: space-between;
-  }
-  
-  .titlewrapper {
+    <head>
+        <title>Powell Puff Planner</title>
+        <meta name="description" content="Powell Puff Planner">
+        <meta name="author" content="Powell Puff Group 38">
+        <meta name="keywords" content="Powell Puff Planner, Powell Puff, Planner">
+        <meta http-equiv="refresh" content="60">
+        <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
+        <link rel="Web Icon" href="./assets/favicon.ico" type="">
+        <!--Template Object Linking-->
+        <script src="./scripts/templates.js"></script>
+	      <link rel="stylesheet" href="./scripts/templatestyle.css">
+        <link rel="stylesheet" href="./assets/navbar.css">
+        <!--Font Linking-->
+        <link rel="preconnect" href="https://fonts.googleapis.com"> 
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    </head>
+    <style>
+        * {
+  font-family: IBM Plex Mono;
+}
+header {
+  display: flex;
+  flex-direction: row;
+  width: 98%;
+  left: 1%;
+  align-items: center;
+  top: 1.5vh;
+  position: absolute;
+}
+.title {
+  font-family: IBM Plex Sans;
+  font-weight: 600;
+  font-size: 4vh;
+  color: white;
+  margin-top: 0;
+  margin-left: 1vh;
+  color: #ee6fa8;
+  flex-grow: 1;
+}
+.menu {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 4vh;
+  width: 4vh;
+  margin-right: 2vh;
+  cursor: pointer;
+}
+
+.hamburger-line {
+  height: .5vh;
+  width: 100%;
+  background-color: white;
+  border-radius: 2.5px;
+}
+.content {
+  display: flex;
+  gap: 20px;
+  width: 98%;
+  left: 1%;
+  /*background: rgb(40,40,40);*/
+  position: absolute;
+  top: 8vh;
+  flex-wrap: wrap;
+  overflow: hidden;
+  border-radius: 20px;
+  justify-content: space-between;
+  align-content: space-between;
+}
+
+.titlewrapper {
     display: flex;
     flex-grow: 1;
     flex-basis: 250px;
@@ -175,19 +176,19 @@
     color: white;
     text-align: center;
     font-size: 18pt;
-  }
-</style>
-<header>
-  <div class="title">Today</div>
-  <div class="menu">
-    <div class="hamburger-line"></div>
-    <div class="hamburger-line"></div>
-    <div class="hamburger-line"></div>
-  </div>
-</header>
-<main>
-  <!--make horizontal flex box with span-->
-  <div class="content">
+}
+    </style>
+    <header>
+        <div class="title">Today</div>
+        <div class="menu">
+          <div class="hamburger-line"></div>
+          <div class="hamburger-line"></div>
+          <div class="hamburger-line"></div>
+        </div>
+      </header>
+    <main>
+      <!--make horizontal flex box with span-->
+      <div class="content">
     
     <!--Calendar w/ absolute spacing using faction of /22 as percent%-->
     <div class="titlewrapper">
