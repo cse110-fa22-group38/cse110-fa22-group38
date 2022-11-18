@@ -225,7 +225,7 @@
     // Retrieving data entry array from database
     let deArray = retrieveFromDatabase(0, 0);
     // Populate timeline container
-    let timeContainer = document.querySelector(".event-container");
+    let timeContainer = timeline;
     populateTimeContainer(timeContainer, deArray);
     // Populate event list container
     let eventContainer = document.querySelector("#eventslistcontainer");
