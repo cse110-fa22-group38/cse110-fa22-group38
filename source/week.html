@@ -365,10 +365,6 @@ header {
   ////my code
   
   const curDate = new Date(Date.now());
-  //console.log(curDate);    //to get what day of the week is today
-  //const num = curDate.getDay();
-  //console.log(num);         
-
 
   // if sunday, do stuff differently
   if (curDate.getDay() == 0) {
@@ -381,19 +377,30 @@ header {
 
   let i = 0;
 
+  let eventcontainer;
   while (i < 7) {
-    const eventcontainer = document.querySelector(`#W${curDate.getDay()}`);
-    //console.log(eventcontainer);
+    eventcontainer = document.querySelector(`#W${curDate.getDay()}`);
     curDate.setDate(curDate.getDate() + 1);
     i++;
   }
 
+  
+ 
+  for (let i = 0; i < darray.length; i++) {
+      let newEvent = document.createElement('div');
+      if ((darray[i].type == "event") || (darray[i].type == "exam")) {
+        tevent(newEvent, darray[i]);
+      } else {
+        ttask(newEvent, darray[i]);
+      }
+      eventcontainer.appendChild(newEvent);
+      console.log(newEvent);
+  }
 
-  //monday.appendChild();
+  
 
+  
 
-  //tevent(el,de);
-  //ttask(el,de);
 
 </script>
 </html>
