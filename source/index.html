@@ -9,28 +9,248 @@
             }
 
             body {
+                background-color: black;
+            }
+
+            .buttons {
                 display: flex;
-                flex-direction: column;
+                flex-direction: row;
                 align-items: center;
                 justify-content: center;
+                gap: 20px;
+
             }
             button {
                 background-color: #ee6fa8;
                 border-radius: 20px;
                 font-size: 40pt;
             }
-            a {
+
+            button > * {
                 color: white;
                 text-decoration: none;
+            }
+
+            .personal-space {
+                background-color: #111;
+                min-height: 160px;
+                border-radius: 20px;
+                display: flex;
+                flex-direction: row;
+                margin: 0 100px 0 100px;
+            }
+
+            .personal-space > a {
+                align-self: center;
+                margin-left: 30px;
+                margin-right: 30px;
+            }
+
+            .personal-space > a > img {
+                width: 100px;
+                height: 100px;
+                border-radius: 50px;
+                flex-grow: 0;
+                flex-shrink: 0;
+                align-self: center;
+                border-width: 2px;
+                border-style: solid;
+                border-color: white;
+                transition: 0.2s, color 0.2s ease-in-out;
+                transform-origin: center center;
+            }
+
+            .personal-space > a > img:hover {
+                transform: scale(1.1);
+                border-color: #ee6fa8;
+            }
+
+            #about {
+                grid-area: about;
+            }
+
+            #menu {
+                grid-area: menu;
+                display: flex;
+                flex-direction: column;
+                align-content: left;
+                gap: 15pt;
+                padding: 50px;
+            }
+
+            #menu > a {
+                transform-origin: left;
+                text-decoration: none;
+                color: #ee6fa8;
+                font-size: 20pt;
+                transition: 0.2s ease-in-out, color 0.2s ease-in-out;
+            }
+
+            #menu > a:hover {
+                color: white;
+                transform: scale(1.1);
+            }
+
+            #team {
+                grid-area: team;
+                min-height: 0;
+                max-width: 100%;
+                justify-self: center;
+                border-radius: 10px;
+            }
+
+            #divyam {
+                grid-area: divy;
+            }
+
+            #jason {
+                grid-area: jaso;
+            }
+
+            #tung {
+                grid-area: tung;
+            }
+
+            #vedant {
+                grid-area: veda;
+            }
+
+            #rachel {
+                grid-area: rach;
+            }
+
+            #john {
+                grid-area: john;
+            }
+
+            #hugo {
+                grid-area: hugo;
+            }
+
+            #thu {
+                grid-area: thu;
+            }
+
+            #nina {
+                grid-area: nina;
+            }
+
+            #yousuf {
+                grid-area: yous;
+            }
+            
+            #tools {
+                grid-area: tools;
+
+            }
+
+            main {
+                margin-top: 30px;
+                display: grid;
+                grid-template-columns: 20px 1fr 1fr 1fr 1fr 20px;
+                grid-template-rows: auto;
+                gap: 20px;
+                grid-template-areas: 
+                ". menu about about about ."
+                ". menu about about about ."
+                ". team team team team ."
+                ". divy divy divy divy ."
+                ". jaso jaso jaso tools ."
+                ". tung tung tung tools ."
+                ". veda veda veda tools ."
+                ". rach rach rach tools ."
+                ". john john john tools ."
+                ". hugo hugo hugo tools ."
+                ". thu thu thu tools ."
+                ". nina nina nina tools ."
+                ". yous yous yous tools ."
+                ;
+                color: white;
             }
         </style>
     </head>
     <body>
-        <button id="login-button"><a href="./login">Login</a></button>
-        <button id="today-button"><a href="./today">Today</a></button>
-        <button id="week-button"><a href="./week">Week</a></button>
-        <button id="quarter-button"><a href="./quarter">Quarter</a></button>
-        <button id="settings-button"><a href="./settings">Settings</a></button>
+        <header>
+
+        </header>
+        <div class="buttons">
+            <button id="login-button"><a href="./login">Login</a></button>
+            <button id="today-button"><a href="./today">Today</a></button>
+            <button id="week-button"><a href="./week">Week</a></button>
+            <button id="quarter-button"><a href="./quarter">Quarter</a></button>
+            <button id="settings-button"><a href="./settings">Settings</a></button>
+        </div>
+        <main>
+            <div id="about">
+                <p> Above you can see a very bad navigation bar, I promise it won't look that bad forever lol.</p>
+                <p style="font-size: 20pt;">This page is the result of team project made for CSE110 - Software Engineering at the University of California, San Diego during Fall 2022.</p>
+                <p> Y'all gonna have to help me come up with stuff to write in here...</p>
+            </div>
+            <div id="menu">
+                <a href="">About This Project</a>
+                <a href="">Our Team</a>
+                <a href="">Divyam</a>
+                <a href="">Jason</a>
+                <a href="">Tung</a>
+                <a href="">Vedant</a>
+                <a href="">Rachel</a>
+                <a href="">John</a>
+                <a href="">Hugo</a>
+                <a href="">Thu</a>
+                <a href="">Nina</a>
+                <a href="">Yousuf</a>
+            </div>
+            <div id="tools">
+                <p>Some tools we used as part of this project:</p>
+                <p>Visual Studio Code</p>
+                <p>GitHub</p>
+                <p>Slack (aka, bad discord)</p>
+                <p>Codepen.io</p>
+                <p>Honestly I don't know what to put here ye</p>
+            </div>
+            <img id="team" src="/team.jpg">
+            <!--Divyam-->
+            <div class="personal-space" id="divyam">
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="/headshots/logo-square.png"></a> <p>This block of space is about Divyam. Once he sees this block he can let John know what he thinks about it and will decide what's going to be written in it. For now its just some filler text so that I can see what the text overflow looks like and other things related to the looks of the page. Not gonna lie looks pretty good so far if I do say so myself.</p>
+            </div>
+            <!---->
+            <span class="personal-space" id="jason">
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="/headshots/logo-square.png"></a> <p>Here's a block for Jason.</p>
+            </span>
+            <!---->
+            <span class="personal-space" id="tung">
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="/headshots/logo-square.png"></a> <p>Here's a block for Tung.</p>
+            </span>
+            <!---->
+            <span class="personal-space" id="vedant">
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="/headshots/logo-square.png"></a> <p>Here's a block for Vedant.</p>
+            </span>
+            <!---->
+            <span class="personal-space" id="rachel">
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="/headshots/logo-square.png"></a> <p>Here's a block for Rachel.</p>
+            </span>
+            <!--John-->
+            <span class="personal-space" id="john">
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="/headshots/logo-square.png"></a> <p>Here's a block for John.</p>
+            </span>
+            <!--Hugo-->
+            <span class="personal-space" id="hugo">
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="/headshots/logo-square.png"></a> <p>Here's a block for Hugo.</p>
+            </span>
+            <!--Thu-->
+            <span class="personal-space" id="thu">
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="/headshots/logo-square.png"></a> <p>Here's a block for Thu.</p>
+            </span>
+            <!--Nina-->
+            <span class="personal-space" id="nina">
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="/headshots/logo-square.png"></a> <p>Here's a block for Nina.</p>
+            </span>
+            <!--Yousuf-->
+            <span class="personal-space" id="yousuf">
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="/headshots/logo-square.png"></a> <p>Here's a block for Yousuf.</p>
+            </span>
+        </main>
     </body>
+    
     
 </html>
