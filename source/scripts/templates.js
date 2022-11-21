@@ -91,8 +91,8 @@ function tevent(element, de) {
 
     //setup absolute positioning for timing events
 
-    let start = new Date(de.start);
-    let end = new Date(de.end);
+    let start = new Date(de["event_start"]);
+    let end = new Date(de["event_end"]);
 
     let top = ((start.getHours() - 6) + (start.getMinutes() / 60)) / .18;
     let bottom = 100 - ((end.getHours() - 6) + (end.getMinutes() / 60)) / .18;
@@ -105,21 +105,21 @@ function tevent(element, de) {
 
         element.innerHTML = `
         <div class="tevent-box">
-            <p class="name">${de.name}</p>
-            <p class="location">${elapsedTime} min | ${de.location}</p>
+            <p class="name">${de["event_name"]}</p>
+            <p class="location">${elapsedTime} min | ${de["event_location"]}</p>
         </div>
         `;
     } else {
         element.innerHTML = `
         <div class="tevent-box">
-            <p class="name">${de.name}</p>
-            <p class="location">${de.location}</p>
+            <p class="name">${de["event_name"]}</p>
+            <p class="location">${de["event_location"]}</p>
             <p class="time">${start.toLocaleTimeString()} — ${end.toLocaleTimeString()}</p>
         </div>
         `;
     }
-    element.style=`background-color: ${de.color}; top: ${top}%; bottom: ${bottom}%; overflow: hidden;`;
-    element.classList.add("ID" + de.DEID);
+    element.style=`background-color: ${de["event_color"]}; top: ${top}%; bottom: ${bottom}%; overflow: hidden;`;
+    element.classList.add("ID" + de["event_id"]);
     element.classList.add("tevent");
 }
 
@@ -136,12 +136,12 @@ function tevent(element, de) {
 function ttask(element, de) {
     if (!element) return;
     if (!de) return;
-    let end = new Date(de.end);
+    let end = new Date(de["event_end"]);
 
     let top = ((end.getHours() - 6) + (end.getMinutes() / 60)) / .18;
 
     element.innerHTML = `
-        <div style="opacity: 0.75;position: relative; top: -2px; border-radius: 2px; width: 100%; height: 4px; background-color: ${de.color};"></div>
+        <div style="opacity: 0.75;position: relative; top: -2px; border-radius: 2px; width: 100%; height: 4px; background-color: ${de["event_color"]};"></div>
         `;
     element.style = `top: ${top}%`;
     element.classList.add("ttask");
@@ -166,20 +166,20 @@ function levent(element, de) {
     if (!de) return;
 
     //create start and end Date objects for time manipulation
-    let start = new Date(de.start);
-    let end = new Date(de.end);
+    let start = new Date(de["event_start"]);
+    let end = new Date(de["event_end"]);
 
     //define contents and fill in using information from de object
     element.innerHTML = `
     <div class="levent-box">
-        <p class="name">${de.name}</p>
-        <p class="location">${de.location}</p>
+        <p class="name">${de["event_name"]}</p>
+        <p class="location">${de["event_location"]}</p>
         <p class="time">${start.toDateString()} | ${start.toLocaleTimeString()} — ${end.toLocaleTimeString()}</p>
-        <p class="details">${de.details} </p>
+        <p class="details">${de["event_details"]} </p>
     </div>
     `;
-    element.style=`background-color: ${de.color}; height: match-content;`;
-    element.classList.add("ID" + de.DEID);
+    element.style=`background-color: ${de["event_color"]}; height: match-content;`;
+    element.classList.add("ID" + de["event_id"]);
     element.classList.add("levent");
 }
 
@@ -199,14 +199,14 @@ function ltask(element, de) {
     if (!de) return;
 
     //create start and end Date objects for time manipulation
-    let start = new Date(de.start);
-    let end = new Date(de.end);
+    let start = new Date(de["event_start"]);
+    let end = new Date(de["event_end"]);
 
     //set checked or not checked
 
     let checked = '';
 
-    if (de.done) {
+    if (de["event_completed"]) {
         checked = "checked";
     }
 
@@ -214,16 +214,16 @@ function ltask(element, de) {
     element.innerHTML = `
     <div class="ltask-box">
         <span style="display: flex; gap: 10px; height: match-content; align-items: center;">
-            <input id="done${de.DEID}" style="height: 12pt; width: 12pt; margin: 0px;" type="checkbox" ${checked}></input>
-            <div style="margin: 0px;" class="name">${de.name} | ${de.relation}</div>
+            <input id="done${de["event_id"]}" style="height: 12pt; width: 12pt; margin: 0px;" type="checkbox" ${checked}></input>
+            <div style="margin: 0px;" class="name">${de["event_name"]} | ${de["event_relation"]}</div>
         </span>
-        <p class="location">${de.location}</p>
+        <p class="location">${de["event_location"]}</p>
         <p class="time">Due ${start.toDateString()} @ ${end.toLocaleTimeString()}</p>
-        <p class="details">${de.details}</p>
+        <p class="details">${de["event_details"]}</p>
     </div>
     `;
-    element.style=`background-color: ${de.color}; height: match-content;`;
-    element.classList.add("ID" + de.DEID);
+    element.style=`background-color: ${de["event_color"]}; height: match-content;`;
+    element.classList.add("ID" + de["event_id"]);
     element.classList.add("ltask");
 }
 
@@ -244,8 +244,8 @@ function qevent(element, de) {
     if (!element) return;
     if (!de) return;
     element.classList.add("qevent");
-    element.classList.add("ID" + de.DEID);
-    element.style = `background-color: ${de.color}`;
+    element.classList.add("ID" + de["event_id"]);
+    element.style = `background-color: ${de["event_color"]}`;
 }
 
 /**
@@ -261,8 +261,8 @@ function qtask(element, de) {
     if (!element) return;
     if (!de) return;
     element.classList.add("qtask");
-    element.classList.add("ID" + de.DEID);
-    element.style = `background-color: ${de.color}`;
+    element.classList.add("ID" + de["event_id"]);
+    element.style = `background-color: ${de["event_color"]}`;
 }
 
 /**
@@ -278,11 +278,11 @@ function qexam(element, de) {
     if (!element) return;
     if (!de) return;
     element.classList.add("qexam");
-    element.classList.add("ID" + de.DEID);
+    element.classList.add("ID" + de["event_id"]);
     element.innerHTML = `
     <div class="qexam-dot"></div>
     `;
-    element.style = `background-color: ${de.color}`;
+    element.style = `background-color: ${de["event_color"]}`;
 }
 
 /**

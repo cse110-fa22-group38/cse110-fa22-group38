@@ -10,9 +10,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-
-    <!-- Scipt Source-->
-    <script src = "/accountsettings.js" type="module"></script>
   </head>
   <style>
     header {
@@ -111,30 +108,17 @@
         <div class="header">Account Settings</div>
       </header>
     <main>
-      <form class="form1" action="">
-        <label for="firstName" class="first-name">First Name:</label>
-        <input id="firstName" type="text">
-  
-        <label for="lastName" class="last-name">Last Name:</label>
-        <input id="lastName" type="text">
+      <form class="form1" action="/accountsettings" method="POST" enctype="application/x-www-form-urlencoded">
 
-        <div id="username"> 
-          <p> Username: PLACEHOLDER </p>
-        </div>
-  
-        <label for="email">Email:</label>
-        <input id="email" type="email">
+        <label for="password1">Password:</label>
+        <input type="passwordSU" id="password1" type="password" name="password" required>
 
-        <label for="password">Password:</label>
-        <input id="password" type="password">
+        <label for="password1">Confirm Password:</label>
+        <input type="passwordSU" id="password2" type="password" name="password-repeat" required>
   
-        <label for="timezone">Timezone:</label>
-        <input id="timezone" type="datetime-local">
-  
-        <button type="save">Save Changes</button>
+        <button type="save" formaction="/accountsettings?button=save">Save New Password</button>
 
-        <!-- Added -->
-        <button type="delete" class="delete">Delete User</button>
+        <button type="delete" formaction="/accountsettings?button=delete">Delete Your Account</button>
       </form>
       <div>
         <button type="back" onclick="location.href='settings.html'">Back</button>

@@ -146,10 +146,8 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
             }
             else {
                 console.log('Succesfully registered new user');
-                logged_user = username;
 
                 // Instantly populate our database with info from CANVAS
-                console.log(grabFromCanvas);
                 await grabFromCanvas(username, apiToken);   
 
                 // Aftering registering, redirect to the login page
@@ -163,7 +161,7 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
     }
 })
 
-//to log out
+//to log out (FIX IT)
 app.delete('/logout', (req, res) => {
     req.logOut() // Log out first
     res.redirect('/login') // Redirect to login
@@ -172,27 +170,134 @@ app.delete('/logout', (req, res) => {
 
 // Today page
 app.get('/today', checkNotAuthenticated, (req, res) => {
+    if (logged_user == null) {
+        res.redirect("/login");
+    }
+
     res.sendFile(path.join(__dirname + '/../source/today.html'));
 })
 
 // Weekly page
 app.get('/week', checkNotAuthenticated, (req, res) => {
+    if (logged_user == null) {
+        res.redirect("/login");
+    }
+
     res.sendFile(path.join(__dirname + '/../source/week.html'));
 })
 
 // Quarterly page
 app.get('/quarter', checkNotAuthenticated, (req, res) => {
+    if (logged_user == null) {
+        res.redirect("/login");
+    }
+
     res.sendFile(path.join(__dirname + '/../source/quarter.html'));
 })
 
 // Settings page
 app.get('/settings', checkNotAuthenticated, (req, res) => {
+    if (logged_user == null) {
+        res.redirect("/login");
+    }
+
     res.sendFile(path.join(__dirname + '/../source/settings.html'));
 })
 
 // Account settings page
 app.get('/accountsettings', checkNotAuthenticated, (req, res) => {
+    if (logged_user == null) {
+        res.redirect("/login");
+    }
+
     res.sendFile(path.join(__dirname + '/../source/accountsettings.html'));
+})
+
+// Handling output from the accountsettings page
+app.post('/accountsettings', checkNotAuthenticated, async (req, res) => {
+    try {
+        // Handling the save button
+        if (req.query.button == "save") {
+            let hashedPassword = bcrypt.hashSync(req.body.password, 10);
+
+            let sql = `UPDATE users set password_hash = COALESCE (?,password_hash) WHERE username = ?`;
+            db.run(sql, [hashedPassword, logged_user], async (err) => {
+                if (err) {
+                    console.err(err);
+                    return;
+                }
+                else {
+                    console.log("PASSWORD SUCCESSFULLY CHANGED FOR USER " + logged_user);
+                    res.redirect('/login');
+                }
+            });
+        }
+
+        // Handling the delete button
+        if (req.query.button == "delete") {
+            // Do nothing
+            let sqlUsers = `DELETE from users WHERE username = ?`;
+            let sqlEvents = 'DELETE from events WHERE username = ?';
+            let password = await req.body.password;
+
+            let queryOldPass = 'SELECT * from users WHERE username = ?';
+            db.all(queryOldPass, [logged_user], (err, results) => {
+                if (err) {
+                    console.log(err);
+                    throw err;
+                }
+                else {
+                    // Username found
+                    if (results.length > 0) {
+                        results.forEach((result) => {
+                            let matched = bcrypt.compareSync(password, result.password_hash);
+                            console.log(matched); 
+                            if (matched) {
+                                // Delete the user
+                                db.run(sqlUsers, [logged_user], async (err) => {
+                                    if (err) {
+                                        console.err(err);
+                                        return;
+                                    }
+                                    else {
+                                        console.log("SUCCESSFULLY DELETED USER " + logged_user + " FROM TABLE USERS");
+                                    }
+                                })
+                    
+                                db.run(sqlEvents, [logged_user], async (err) => {
+                                    if (err) {
+                                        console.err(err);
+                                        return;
+                                    }
+                                    else {
+                                        console.log("SUCCESSFULLY DELETED USER " + logged_user + " FROM TABLE EVENTS");
+                                    }
+                                })
+                                
+                                // Log out the user
+                                logged_user = null;
+
+                                // Once finished deleting, redirect to login page
+                                res.redirect("/login");
+                            }
+                            else {
+                                // PLACEBO
+                                // WE WILL FIGURE OUT LATER
+                                res.send("Incorrect Username and/or Password!");
+                            }
+                        })
+                    }   
+                    else {
+                        // PLACEBO
+                        res.send("Incorrect Username and/or Password!");
+                    }
+                }
+            })
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
 })
 
 /*
@@ -218,7 +323,7 @@ function checkNotAuthenticated(req, res, next) {
     //check if the user is authenticated
     if (req.isAuthenticated()) {
         //if returns true
-        return res.redirect('/')    //change redirect
+        return res.redirect('/') //change redirect
     } else {
         //if returns false
         next()
@@ -242,11 +347,25 @@ app.get("/api/users", (req, res, next) => {
     });
 });
 
-// Get ALL by username
-app.get("/api/events/username/:username", (req, res, next) => {
+// Get ALL events no matter what
+app.get("/api/allEvents/", (req, res, next) => {
+    var sql = "select * from events"
+    var params = []
+    db.all(sql, params, (err, row) => {
+        if (err) {
+          res.status(400).json({"error":err.message});
+          return;
+        }
+        res.json({row});
+    });
+});
+
+// Get ALL events belonging to the logged in user
+app.get("/api/events/", (req, res, next) => {
     var sql = "select * from events where username = ?"
-    var params = [req.params.username]
+    var params = [logged_user]
     console.log(logged_user);
+
     if (!logged_user) {
         console.log("User not logged in");
         res.redirect('/login');
@@ -494,5 +613,82 @@ app.delete("/api/users/delete/:username", (req, res, next) => {
                     console.log(username + " was succesffuly deleted");
                 }
             }
+    });
+});
+
+// Getting today's events
+app.get("/api/events/today", (req, res, next) => {
+    var sql = `
+    SELECT * from events where 
+    strftime('%Y-%m-%d', event_start, 'localtime') = strftime('%Y-%m-%d', 'now', 'localtime')
+    
+    and username = ?`;
+
+    var params = [logged_user]
+
+    console.log(logged_user);
+    if (!logged_user) {
+        console.log("User not logged in");
+        res.redirect('/login');
+        return;
+    };
+
+    db.all(sql, params, (err, row) => {
+        if (err) {
+          res.status(400).json({"error":err.message});
+          return;
+        }
+        res.json({row});
+    });
+});
+
+// Getting this week's events (TODO)
+app.get("/api/events/this_week", (req, res, next) => {
+    var sql = `
+    select * from events where 
+    strftime('%W', event_start) = strftime('%W', 'now')
+    and username = ?`;
+
+    var params = [logged_user]
+
+    console.log(logged_user);
+    if (!logged_user) {
+        console.log("User not logged in");
+        res.redirect('/login');
+        return;
+    };
+
+    db.all(sql, params, (err, row) => {
+        if (err) {
+          res.status(400).json({"error":err.message});
+          return;
+        }
+        res.json({row});
+    });
+});
+
+// Getting this month's events
+app.get("/api/events/this_month", (req, res, next) => {
+    var sql = `
+    select * from events where 
+    event_start > date('now', 'localtime', 'start of month') 
+    and event_start < date('now', 'localtime', 'start of month', '+1 month', '-1 day') 
+    and username = ?`;
+
+    var params = [logged_user]
+
+    console.log(logged_user);
+    if (!logged_user) {
+        console.log("User not logged in");
+        res.redirect('/login');
+        return;
+    };
+
+    db.all(sql, params, (err, row) => {
+        if (err) {
+          res.status(400).json({"error":err.message});
+          return;
+        }
+        res.json({row});
     });
 });

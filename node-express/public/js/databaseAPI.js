@@ -14,6 +14,7 @@ let eventsEND = "api/events/event_end/";
 let eventsCOMPLETED = "api/events/event_completed/";
 let eventsCOLOR = "api/events/event_color/";
 let deleteByUSERNAME = "api/users/delete/";
+let eventsTODAY = "api/events/today";
 
 const options =  {
     method: 'GET',
@@ -87,6 +88,11 @@ export async function queryDoneFromEvents(done) {
 
 export async function queryColorFromEvents(color) {
     let URL = baseURL + eventsCOLOR + color;
+    return await fetchForMe(URL, options);
+}
+
+export async function queryTodayEvents() {
+    let URL = baseURL + eventsTODAY;
     return await fetchForMe(URL, options);
 }
 

@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS users (
 let eventTable = 
 `
 CREATE TABLE IF NOT EXISTS events (
-  username PRIMARY KEY,
+  username,
   event_id,
   event_type,
   event_name,

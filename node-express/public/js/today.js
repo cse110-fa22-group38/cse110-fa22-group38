@@ -1,7 +1,9 @@
+import * as dbAPI from "./databaseAPI.js";
+
 // Once the skeleton loaded, run the script to populate the page
 window.addEventListener('DOMContentLoaded', init);
 
-function init() {
+async function init() {
     let timeline = document.getElementById('timelinecontainer');
 
     //puts all the hours into the timeline.
@@ -9,7 +11,7 @@ function init() {
     buildTimeline(timeline);
 
     // Retrieving data entry array from database
-    let deArray = retrieveFromDatabase(0, 0);
+    let deArray = await getTodayEvents();
 
     // Populate timeline container
     let timeContainer = document.querySelector(".event-container");
@@ -81,54 +83,9 @@ function setNow() {
 
 /* DATABSE RELATED FUNCTION */
 // TODO ON THIS
-function retrieveFromDatabase(start, end) {
-    let deArray = [];
-
-    let d1 = {
-        UUID: "John",
-        DEID: 1,
-        type: "event",
-        name: "cse110 lecture",
-        relation: "cse110",
-        location: "center hall 113",
-        details: "this class is difficult",
-        start: "2022-11-21T14:00:00.000",
-        end: "2022-11-21T15:50:00.000",
-        done: false,
-        color: "#FF0000"
-    };
-    
-    let t1 = {
-        UUID: "John",
-        DEID: 2,
-        type: "task",
-        name: "lab 1",
-        relation: "cse110",
-        location: "center hall 113",
-        details: "probably some rediculous javascript assignment",
-        start: "2022-11-21T17:00:00.000",
-        end: "2022-11-21T17:00:00.000",
-        done: false,
-        color: "#FF0000"
-    }
-    
-    let e1 = {
-        UUID: "John",
-        DEID: 3,
-        type: "exam",
-        name: "midterm 1",
-        relation: "math100a",
-        location: "Price Center",
-        details: "chapters 2,3,6\ncan use 1 page of notes",
-        start: "2022-11-21T12:00:00.000",
-        end: "2022-11-21T12:50:00.000",
-        done: false,
-        color: "#0033AA"
-    }
-
-    deArray = [d1, t1, e1];
-    
-    return deArray;
+async function getTodayEvents() {
+    console.log(await dbAPI.queryTodayEvents());
+    return await dbAPI.queryTodayEvents();
 }
 
 function populateTimeContainer(element, deArray) {
@@ -138,10 +95,10 @@ function populateTimeContainer(element, deArray) {
     for (let i = 0; i < deArray.length; i++) {
         let newEvent = document.createElement('div');
         
-        if (deArray[i].type == "exam") {
+        if (deArray[i]["event_type"] == "event") {
             tevent(newEvent, deArray[i]);
         }
-        else {
+        else if (deArray[i]["event_type"] == "assignment") {
             ttask(newEvent, deArray[i]);
         }
 
@@ -156,7 +113,7 @@ function populateEventContainer(element, deArray) {
     for (let i = 0; i < deArray.length; i++) {
         let newEvent = document.createElement('div');
         
-        if (deArray[i].type != "task") {
+        if (deArray[i]["event_type"] == "event") {
             levent(newEvent, deArray[i]);
         }
         
@@ -171,7 +128,7 @@ function populateTaskContainer(element, deArray) {
     for (let i = 0; i < deArray.length; i++) {
         let newEvent = document.createElement('div');
         
-        if (deArray[i].type == "task") {
+        if (deArray[i]["event_type"] == "assignment") {
             ltask(newEvent, deArray[i]);
         }
         
@@ -185,8 +142,8 @@ function tevent(element, de) {
 
     //setup absolute positioning for timing events
 
-    let start = new Date(de.start);
-    let end = new Date(de.end);
+    let start = new Date(de["event_start"]);
+    let end = new Date(de["event_end"]);
 
     let top = ((start.getHours() - 6) + (start.getMinutes() / 60)) / .18;
     let bottom = 100 - ((end.getHours() - 6) + (end.getMinutes() / 60)) / .18;
@@ -197,24 +154,24 @@ function tevent(element, de) {
 
         element.innerHTML = `
         <div class="tevent-box">
-            <p class="name">${de.name}</p>
-            <p class="location">${elapsedTime} min | ${de.location}</p>
+            <p class="name">${de["event_name"]}</p>
+            <p class="location">${elapsedTime} min | ${de["event_location"]}</p>
         </div>
         `;
     } else {
         element.innerHTML = `
         <div class="tevent-box">
-            <p class="name">${de.name}</p>
-            <p class="location">${de.location}</p>
+            <p class="name">${de["event_name"]}</p>
+            <p class="location">${de["event_location"]}</p>
             <p class="time">${start.toLocaleTimeString()} — ${end.toLocaleTimeString()}</p>
         </div>
         `;
     }
-    element.classList.add("ID" + de.DEID);
+    element.classList.add("ID" + de["event_id"]);
     element.classList.add("tevent");
 
     // Setting styles
-    element.style=`background-color: ${de.color}; top: ${top}%; bottom: ${bottom}%; overflow: hidden;`;
+    element.style=`background-color: ${de["event_color"]}; top: ${top}%; bottom: ${bottom}%; overflow: hidden;`;
     let style = document.createElement('style');
     style.textContent = 
     `
@@ -253,12 +210,12 @@ function tevent(element, de) {
 function ttask(element, de) {
     if (!element) return;
     if (!de) return;
-    let end = new Date(de.end);
+    let end = new Date(de["event_end"]);
 
     let top = ((end.getHours() - 6) + (end.getMinutes() / 60)) / .18;
 
     element.innerHTML = `
-        <div style="opacity: 0.75;position: relative; top: -2px; border-radius: 2px; width: 100%; height: 4px; background-color: ${de.color};"></div>
+        <div style="opacity: 0.75;position: relative; top: -2px; border-radius: 2px; width: 100%; height: 4px; background-color: ${de["event_color"]};"></div>
         `;
     element.style = `top: ${top}%`;
     element.classList.add("ttask");
@@ -287,23 +244,23 @@ function levent(element, de) {
     if (!de) return;
 
     //create start and end Date objects for time manipulation
-    let start = new Date(de.start);
-    let end = new Date(de.end);
+    let start = new Date(de["event_start"]);
+    let end = new Date(de["event_end"]);
 
     //define contents and fill in using information from de object
     element.innerHTML = `
     <div class="levent-box">
-        <p class="name">${de.name}</p>
-        <p class="location">${de.location}</p>
+        <p class="name">${de["event_name"]}</p>
+        <p class="location">${de["event_location"]}</p>
         <p class="time">${start.toDateString()} | ${start.toLocaleTimeString()} — ${end.toLocaleTimeString()}</p>
-        <p class="details">${de.details} </p>
+        <p class="details">${de["event_details"]} </p>
     </div>
     `;
-    element.classList.add("ID" + de.DEID);
+    element.classList.add("ID" + de["event_id"]);
     element.classList.add("levent");
 
     // Setting styles
-    element.style=`background-color: ${de.color}; height: match-content;`;
+    element.style=`background-color: ${de["event_color"]}; height: match-content;`;
     let style = document.createElement('style');
     style.textContent = 
     `
@@ -336,14 +293,14 @@ function ltask(element, de) {
     if (!de) return;
 
     //create start and end Date objects for time manipulation
-    let start = new Date(de.start);
-    let end = new Date(de.end);
+    let start = new Date(de["event_start"]);
+    let end = new Date(de["event_end"]);
 
     //set checked or not checked
 
     let checked = '';
 
-    if (de.done) {
+    if (de["event_completed"]) {
         checked = "checked";
     }
 
@@ -351,19 +308,19 @@ function ltask(element, de) {
     element.innerHTML = `
     <div class="ltask-box">
         <span style="display: flex; gap: 10px; height: match-content; align-items: center;">
-            <input id="done${de.DEID}" style="height: 12pt; width: 12pt; margin: 0px;" type="checkbox" ${checked}></input>
-            <div style="margin: 0px;" class="name">${de.name} | ${de.relation}</div>
+            <input id="done${de["event_id"]}" style="height: 12pt; width: 12pt; margin: 0px;" type="checkbox" ${checked}></input>
+            <div style="margin: 0px;" class="name">${de["event_name"]} | ${de["event_relation"]}</div>
         </span>
-        <p class="location">${de.location}</p>
+        <p class="location">${de["event_location"]}</p>
         <p class="time">Due ${start.toDateString()} @ ${end.toLocaleTimeString()}</p>
-        <p class="details">${de.details}</p>
+        <p class="details">${de["event_details"]}</p>
     </div>
     `;
-    element.classList.add("ID" + de.DEID);
+    element.classList.add("ID" + de["event_id"]);
     element.classList.add("ltask");
 
     // Setting styles
-    element.style=`background-color: ${de.color}; height: match-content;`;
+    element.style=`background-color: ${de["event_color"]}; height: match-content;`;
     let style = document.createElement('style');
     style.textContent = 
     `

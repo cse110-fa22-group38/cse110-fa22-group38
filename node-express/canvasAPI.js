@@ -15,7 +15,7 @@ let data; // To store parsed data of all courses
 let apiToken;
 
 const milliInDay = 1000 * 60 * 60 * 24;
-const daysInQuarter = 100;
+const daysInQuarter = 150;
 const todayDate = new Date();
 const EVENT = "event-calendar-event-";
 const ASSIGNMENT = "event-assignment-"; 
@@ -40,21 +40,14 @@ INSERT INTO events (
 
 // Main function
 module.exports = async function (queryUsername, queryAPIToken) {
-    if (!(queryUsername && queryAPIToken)) {
-        return;
-    }
-    
-    // Assign the api toke
+    // Assign the api token
     apiToken = await queryAPIToken;
 
      // Grab active courses of users
     let myCourses = await getCurrentCourses();
 
     // Grab calendar events info from these active courses from CANVAS
-    let icsStringsArray = await getICStexts(myCourses); 
-
-    // Grab the UUID first, store somewhere
-    // Then moveon to this portion
+    let icsStringsArray = await getICStexts(myCourses);
 
     /* ICAL SESSION */
     for (let COURSE_NUM = 0; COURSE_NUM < myCourses.length; COURSE_NUM++) {
@@ -73,7 +66,7 @@ module.exports = async function (queryUsername, queryAPIToken) {
             let start = "N/A";
             let end = "N/A";
             let done = Boolean(false);
-            let color = "#ffffff";
+            let color = "#000000";
 
             if (event.hasProperty('summary')) {
                 name = event.getFirstPropertyValue('summary').replace(/ *\[[^)]*\] */g, "");
@@ -101,14 +94,14 @@ module.exports = async function (queryUsername, queryAPIToken) {
             }
         
             if (event.hasProperty('dtstart')) {
-                start = event.getFirstPropertyValue('dtstart').toJSDate();
+                start = new Date(event.getFirstPropertyValue('dtstart')).toISOString();
             }
         
             if (event.hasProperty('dtend')) {
-                end = event.getFirstPropertyValue('dtend').toJSDate();
+                end = new Date(event.getFirstPropertyValue('dtend')).toISOString();
             }
-            else if (event.hasProperty('dtstart')) {
-                end = event.getFirstPropertyValue('dtstart').toJSDate();
+            else {
+                end = new Date(event.getFirstPropertyValue('dtstart')).toISOString();
             }
             
             // Debugging
@@ -193,7 +186,8 @@ async function getCurrentCourses() {
             let diffDay = Math.ceil(diffTime / milliInDay); 
 
             // A quarter at UCSD has on average 100 days, we only want
-            // courses that are still active within the last 100 days     
+            // courses that are still active within the last 100 days
+            
             if (diffDay < daysInQuarter) {
                 currentCourses.push(data[i]);
             }
@@ -228,6 +222,6 @@ async function getICStexts(dataArray) {
         return allICStexts;
     }
     catch (err) {
-        console.log(error.message);
+        console.log(err.message);
     }
 }
