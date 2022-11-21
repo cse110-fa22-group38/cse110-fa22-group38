@@ -170,7 +170,25 @@
             <!--Events go here, inside event-container and underneatth the now-line-->
           </div>
         </div>
-
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">6</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">7</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">8</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">9</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element">10</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element">11</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element">12</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">1</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">2</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">3</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">4</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">5</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">6</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">7</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">8</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">9</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element">10</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element">11</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element">12</div><div class="line time-element"></div></span>
       </div>
 
       <!--Event List vertical flex box-->
@@ -191,10 +209,9 @@
   window.addEventListener('DOMContentLoaded', init);
 
   function init() {
-    let timeline = document.getElementById('timelinecontainer');
+    let timeline = document.querySelector('.event-container');
     //puts all the hours into the timeline.
     setInterval(setNow(), 60000);
-    buildTimeline(timeline);
     // Retrieving data entry array from database
     let deArray = retrieveFromDatabase(0, 0);
     // Populate timeline container
@@ -211,31 +228,6 @@
    * creates a time-markers from 6AM to 12PM inside a timeline holder
    * parameter: timelinecontainer.
    */
-  function buildTimeline(timeline) {
-    for (var i = 0; i < 19; i++) {
-      let time = i + 5;
-      time = (time % 12) + 1;
-      //flexbox span object holds "hour" and horizontal line.
-      let span = document.createElement("span");
-      let line = document.createElement("div");
-      let hour = document.createElement("div")
-      if (time > 9) {
-        hour.innerHTML = `${time}`;
-      } else {
-        hour.innerHTML = "" + `${time}`;
-        hour.style = "margin-left: 1.1ex;"; //right allign hour times
-      }
-      hour.classList.add("hour");
-      line.classList.add("line");
-      hour.classList.add("time-element");
-      line.classList.add("time-element");
-      span.classList.add("time-container");
-      let percentage = i / 18 * 100;
-      span.appendChild(hour);
-      span.appendChild(line);
-      timeline.appendChild(span);
-    }
-  }
 
   function setNow() {
     //get time values using Date() Object

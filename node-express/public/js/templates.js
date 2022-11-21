@@ -141,7 +141,7 @@ function ttask(element, de) {
     let top = ((end.getHours() - 6) + (end.getMinutes() / 60)) / .18;
 
     element.innerHTML = `
-        <div style="opacity: 0.75;position: relative; top: -2px; border-radius: 2px; width: 100%; height: 4px; background-color: ${de.color};"></div>
+        <div style="background-color: ${de.color};"></div>
         `;
     element.style = `top: ${top}%`;
     element.classList.add("ttask");
