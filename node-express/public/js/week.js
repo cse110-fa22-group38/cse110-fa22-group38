@@ -6,39 +6,6 @@ function init() {
 
     //puts all the hours into the timeline.
     //setInterval(setNow(), 60000);
-    for (let i = 0; i < 7; i++) {
-        buildTimeline(timeline[i]);
-    }
-}
-
-/**
-* creates a time-markers from 6AM to 12PM inside a timeline holder
-* parameter: timelinecontainer.
-*/
-function buildTimeline(timeline) {
-  for (var i = 0; i < 19; i++) {
-    let time = i + 5;
-    time = (time % 12) + 1;
-    //flexbox span object holds "hour" and horizontal line.
-    let span = document.createElement("span");
-    let line = document.createElement("div");
-    let hour = document.createElement("div")
-    if (time > 9) {
-      hour.innerHTML = `${time}`;
-    } else {
-      hour.innerHTML = ""+`${time}`;
-      hour.style = "margin-left: 1.1ex;"; //right allign hour times
-    }
-    hour.classList.add("hour");
-    line.classList.add("line");
-    hour.classList.add("time-element");
-    line.classList.add("time-element");
-    span.classList.add("time-container");
-    var percentage = i / 18 * 100;
-    span.appendChild(hour);
-    span.appendChild(line);
-    timeline.appendChild(span);
-  }
 }
 
 function setNow() {
