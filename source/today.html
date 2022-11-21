@@ -19,9 +19,9 @@
   <script src="/assets/template.js" type="module"></script> <!-- Added -->
 
   <!--Template Object Linking-->
-	<script src="./scripts/templates.js"></script>
-	<link rel="stylesheet" href="./scripts/templatestyle.css">
-  <link rel="stylesheet" href="./assets/navbar.css">
+	<script src="/templates.js"></script>
+	<link rel="stylesheet" href="/templatestyle.css">
+  <link rel="stylesheet" href="/navbar.css">
 </head>
 <style>
   * {
@@ -31,10 +31,8 @@
   .content {
     display: flex;
     gap: 10px;
-    margin: 10px 0px 0px 0px;
+    margin: 80px 0px 0px 0px;
     background: rgb(40, 40, 40);
-    /**/
-    position: relative;
     flex-wrap: wrap;
     overflow: hidden;
     border-radius: 10px;
@@ -133,7 +131,8 @@
     font-size: 12pt;
   }
 
-  Body {
+  body {
+    position: relative;
     background: black;
   }
 
@@ -141,49 +140,51 @@
     display: none;
   }
 </style>
-<header>
-  <div class="navcontainer">
-      <nav>
-          <ul>
-              <button>Add Event</button>
-              <li><a href="/today">Today</a></li>
-              <li><a href="/week">Week</a></li>
-              <li><a href="/quarter">Quarter</a></li>
-              <li><a href="/settings">Settings</a></li>
-          </ul>
-      </nav>
-  </div>
-</header>
-<main>
-  <!--make horizontal flex box with span-->
-  <div class="content">
+<body>
+  <header>
+      <div class="navcontainer">
+          <img src="./favicon.ico" alt="logo" class="logo">
+          <nav>
+              <ul>
+                  <li><a href="/quarter">Quarter</a></li>
+                  <li><a href="/week">Weekly</a></li>
+                  <li><a href="/today">Daily</a></li>
+                  <li><a href="/settings">Settings</a></li>
+                  <li><a href="/add">Add</a></li>
+              </ul>
+          </nav>
+      </div>
+    </header>
+  <main>
+    <!--make horizontal flex box with span-->
+    <div class="content">
 
-    <!--Calendar w/ absolute spacing using faction of /22 as percent%-->
-    <div id="timelinecontainer" class="container">
-      <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
-      <div class="event-border">
-        <div class="event-container">
-          <div dominant-baseline="middle" class="now" id="now-line">
-            <div class="now-line"></div>
+      <!--Calendar w/ absolute spacing using faction of /22 as percent%-->
+      <div id="timelinecontainer" class="container">
+        <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
+        <div class="event-border">
+          <div class="event-container">
+            <div dominant-baseline="middle" class="now" id="now-line">
+              <div class="now-line"></div>
+            </div>
+            <!--Events go here, inside event-container and underneatth the now-line-->
           </div>
-          <!--Events go here, inside event-container and underneatth the now-line-->
         </div>
+
       </div>
 
-    </div>
+      <!--Event List vertical flex box-->
+      <div id="eventslistcontainer" class="container">
+        <!--Events go in here, they should expand horizontally to fill up all available space, and will contract vertically to match the size of their content-->
+      </div>
 
-    <!--Event List vertical flex box-->
-    <div id="eventslistcontainer" class="container">
-      <!--Events go in here, they should expand horizontally to fill up all available space, and will contract vertically to match the size of their content-->
+      <!--Task List vertical flex box-->
+      <div id="tasklistcontainer" class="container">
+        <!--Tasks go in here, they should expand horizontally to fill up all available space, and will contract vertically to math the size of their contents-->
+      </div>
+      <div class="container"></div>
     </div>
-
-    <!--Task List vertical flex box-->
-    <div id="tasklistcontainer" class="container">
-      <!--Tasks go in here, they should expand horizontally to fill up all available space, and will contract vertically to math the size of their contents-->
-    </div>
-    <div class="container"></div>
-  </div>
-</main>
+  </main>
 </body>
 <script>
   // Once the skeleton loaded, run the script to populate the page

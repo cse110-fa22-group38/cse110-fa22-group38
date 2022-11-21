@@ -7,9 +7,9 @@
 	<title>Quarter View</title>
 
 	<!--Template Object Linking-->
-	<script src="./scripts/templates.js"></script>
-	<link rel="stylesheet" href="./scripts/templatestyle.css">
-	<link rel="stylesheet" href="./assets/navbar.css">
+	<script src="/templates.js"></script>
+	<link rel="stylesheet" href="/templatestyle.css">
+	<link rel="stylesheet" href="/navbar.css">
 	
 	<!--Font Linking-->
 	<link rel="preconnect" href="https://fonts.googleapis.com"> 
@@ -20,17 +20,18 @@
 
 <header>
 	<div class="navcontainer">
+		<img src="/favicon.ico" alt="logo" class="logo">
 		<nav>
 			<ul>
-				<button>Add Event</button>
-				<li><a href="/today">Today</a></li>
-				<li><a href="/week">Week</a></li>
 				<li><a href="/quarter">Quarter</a></li>
+				<li><a href="/week">Weekly</a></li>
+				<li><a href="/today">Daily</a></li>
 				<li><a href="/settings">Settings</a></li>
+				<li><a href="/add">Add</a></li>
 			</ul>
 		</nav>
 	</div>
-  </header>
+</header>
 
 <body style = "background-color:black;">
 	
@@ -164,6 +165,11 @@ function init() {
 		font-family: IBM Plex Sans;
 		font-weight: 400;
 	}
+
+	body {
+		margin-top: 80px;
+	}
+
 	.task-container {
 		display: flex;
 		flex-direction: row;
