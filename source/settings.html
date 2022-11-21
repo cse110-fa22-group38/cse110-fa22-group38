@@ -7,6 +7,9 @@
     <meta name = "Description" content = "Account Settings"> 
 
     <link rel="Web Icon" href="./assets/favicon.ico" type="">
+
+    <link rel="stylesheet" href="./assets/navbar.css">
+
     <!--Font Linking-->
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
@@ -62,13 +65,13 @@
       background: #fff;
       border: 1px solid #9c9c9c;
     }
-
+ 
     form button[type="save"] {
       background: lightgrey;
       padding: 0.7em;
       width: 100%;
       border: 0;
-    }
+    } 
 
     button[type="delete"] {
       margin-top: 20px;
@@ -81,12 +84,12 @@
       margin-left: 28%;
       margin-right: 28%;
     }
-    
+  
     form button[type="save"]:hover {
       background: rgb(237, 185, 209);
-    }
+    } 
 
-    button[type="back"]:hover {
+    button[type="delete"]:hover {
       background: rgba(212, 159, 186, 0.773);
     }
     
@@ -115,7 +118,7 @@
     
       input,
       button {
-        grid-column: 2 / 3;
+        grid-column: 2 / 3; 
       }
     }  
 
@@ -129,7 +132,14 @@
       <form class="form1" action="">
         <label for="username">Username:</label>
         <input id="username" type="email">
-  
+
+        <label for="password">Create New Password:</label>
+        <input id="password" type="password">
+
+        <label for="confirmpassword">Confirm New Password:</label>
+        <input id="confirmpassword" type="password">
+
+        <button type="save">Update</button>
       </form>
       <div>
         <button type="delete">Delete Account</button>
