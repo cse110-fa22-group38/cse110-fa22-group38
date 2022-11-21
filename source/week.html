@@ -12,7 +12,7 @@
         <!--Template Object Linking-->
         <script src="./scripts/templates.js"></script>
 	      <link rel="stylesheet" href="./scripts/templatestyle.css">
-
+        <link rel="stylesheet" href="./assets/navbar.css">
         <!--Font Linking-->
         <link rel="preconnect" href="https://fonts.googleapis.com"> 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
@@ -85,99 +85,99 @@ header {
     /*background-color: #191919;*/
     position: relative;
     border-radius: 20px;
-}
-
-.timelinecontainer {
-  display: flex;
-  height: 100%;
-  /*flex-basis: 250px;
-  min-height: 800px;*/
-  flex-direction: column;
-  justify-content: space-between;
-  background-color: #191919;
-  position: relative;
-  margin-bottom: 5px;
-  border-radius: 10px;
-}
-
-.spacer {
+  }
+  
+  .timelinecontainer {
+    display: flex;
+    height: 100%;
+    /*flex-basis: 250px;
+    min-height: 800px;*/
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #191919;
+    position: relative;
+    margin-bottom: 5px;
+    border-radius: 10px;
+  }
+  
+  .spacer {
     display: flex;
     flex-grow: 1;
     flex-basis: 250px;
     flex-direction: column;
-}
-
-.event-border {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 100%;
-  height: 100%;
-  flex-grow: 1;
-}
-
-.event-container {
-  position: relative;
-  flex-grow: 1;
-  margin-top: 6.2pt;
-  margin-bottom: 6.2pt;
-  margin-left: 24pt;
-  /*background-color: blue;*/
-}
-
-.time-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-.line {
-  display: inline-block;
-  height: 2px;
-  background: grey;
-  flex-grow: 1;
-  border-radius: 1.5px;
-}
-.hour {
-  display: inline-block;
-  padding-left: 1ex;
-  margin-top: 0ex;
-  margin-bottom: 0ex;
-  color: grey;
-  font-size: 10pt;
-  font-weight: 800;
-}
-.now {
-  position: absolute;
-  top: 0%;
-  height: 5px;
-  width: 100%;
-}
-.now-line {
-  position: relative;
-  background-color: #ee6fa8;
-  opacity: .75;
-  width: 100%;
-  height: 3px;
-  top: -1.5px;
-  border-radius: 1.5px;
-}
-/*These are basic properties that all events should have*/
-.timeline-event {
-  font-size: 10pt;
-}
-.eventlist-event {
-  font-size: 12pt;
-}
-.task {
-  font-size: 12pt;
-}
-Body {
-  background: black;
-}
-.weekday {
+  }
+  
+  .event-border {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+  }
+  
+  .event-container {
+    position: relative;
+    flex-grow: 1;
+    margin-top: 6.2pt;
+    margin-bottom: 6.2pt;
+    margin-left: 24pt;
+    /*background-color: blue;*/
+  }
+  
+  .time-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .line {
+    display: inline-block;
+    height: 2px;
+    background: grey;
+    flex-grow: 1;
+    border-radius: 1.5px;
+  }
+  .hour {
+    display: inline-block;
+    padding-left: 1ex;
+    margin-top: 0ex;
+    margin-bottom: 0ex;
+    color: grey;
+    font-size: 10pt;
+    font-weight: 800;
+  }
+  .now {
+    position: absolute;
+    top: 0%;
+    height: 5px;
+    width: 100%;
+  }
+  .now-line {
+    position: relative;
+    background-color: #ee6fa8;
+    opacity: .75;
+    width: 100%;
+    height: 3px;
+    top: -1.5px;
+    border-radius: 1.5px;
+  }
+  /*These are basic properties that all events should have*/
+  .timeline-event {
+    font-size: 10pt;
+  }
+  .eventlist-event {
+    font-size: 12pt;
+  }
+  .task {
+    font-size: 12pt;
+  }
+  Body {
+    background: black;
+  }
+  .weekday {
     color: white;
     text-align: center;
     font-size: 18pt;
@@ -195,185 +195,217 @@ Body {
       <!--make horizontal flex box with span-->
       <div class="content">
     
-        <!--Calendar w/ absolute spacing using faction of /22 as percent%-->
-        <div class="titlewrapper">
-            <div class="weekday">Monday</div>
-            <div id="D1" class="timelinecontainer">
-                <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
-                <div class="event-border">
-
-                  <div id="W1" class="event-container">
-                    <!--Events go here, inside event-container id="W1" for Monday"-->
-
-                  </div>
-                </div>
-              </div>
+    <!--Calendar w/ absolute spacing using faction of /22 as percent%-->
+    <div class="titlewrapper">
+      <div class="weekday">Monday</div>
+      <div id="D1" class="timelinecontainer">
+        <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
+        <div class="event-border">
+          <div id="W1" class="event-container">
+            <!--Events go here, inside event-container id="W1" for Monday"-->
+          </div>
         </div>
-        
-        <div class="titlewrapper">
-            <div class="weekday">Tuesday</div>
-            <div id="D2" class="timelinecontainer">
-                <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
-                <div class="event-border">
-
-                  <div id="W2" class="event-container">
-                    <!--Events go here, inside event-container id="W2" for Tuesday"-->
-                  </div>
-              </div>
-
-            </div>
-        </div>
-
-        
-        <div class="titlewrapper">
-            <div class="weekday">Wednesday</div>
-            <div id="D3" class="timelinecontainer">
-                <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
-                
-                <div class="event-border">
-                  <div id="W3" class="event-container">
-                    <!--Events go here, inside event-container id="W3" for Wednesday"-->
-                  </div>
-
-                </div>
-            </div>
-        </div>
-        
-        
-
-        <div class="titlewrapper">
-            <div class="weekday">Thursday</div>
-            <div id="D4" class="timelinecontainer">
-                <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
-                
-                <div class="event-border">
-
-                  <div id="W4" class="event-container">
-                    <!--Events go here, inside event-container id="W4"for Thursday"-->
-                  </div>
-                </div>
-            </div>
-        </div>
-        
-
-            <div class="titlewrapper">
-                <div class="weekday">Friday</div>
-                <div id="D5" class="timelinecontainer">
-                    <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
-                    
-                    <div class="event-border">
-
-                      <div id="W5" class="event-container">
-                        <!--Events go here, inside event-container id="W5" for Friday"-->
-                      </div>
-                    </div>
-                </div>
-            </div>
-        
-
-        <div class="titlewrapper">
-            <div class="weekday">Saturday</div>
-                <div id="D6" class="timelinecontainer">
-                    <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
-                    
-                    <div class="event-border">
-
-                      <div id="W6" class="event-container">
-                        <!--Events go here, inside event-container id="W6" for Saturday"-->
-                      </div>
-                </div>
-            </div>
-        </div>
-        <div class="titlewrapper">
-            <div class="weekday">Sunday</div>
-            <div id="D0" class="timelinecontainer">
-                <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
-                <div class="event-border">
-
-                  <div id="W0" class="event-container">
-                    <!--Events go here, inside event-container id="W0" for Sunday"-->
-                  </div>
-              </div>
-
-        </div>
-        </div>
-        <div class="spacer"></div>
-        <div class="spacer"></div>
-        <div class="spacer"></div>
-        <div class="spacer"></div>
-        <div class="spacer"></div>
-        <div class="spacer"></div>
-    
-        <!--Event List vertical flex box-->
-        
       </div>
-    </main>
-    </body>
-
-    <script>
-        var timeline = document.getElementsByClassName('timelinecontainer');
-        //puts all the hours into the timeline.
-        //setInterval(setNow(), 60000);
-        for (let i = 0; i < 7; i++) {
-            buildTimeline(timeline[i]);
-        }
+    </div>
+    
+    <div class="titlewrapper">
+      <div class="weekday">Tuesday</div>
+      <div id="D2" class="timelinecontainer">
+        <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
+        <div class="event-border">
+          <div id="W2" class="event-container">
+            <!--Events go here, inside event-container id="W2" for Tuesday"-->
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="titlewrapper">
+      <div class="weekday">Wednesday</div>
+      <div id="D3" class="timelinecontainer">
+        <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
         
-
-/**
-* creates a time-markers from 6AM to 12PM inside a timeline holder
-* parameter: timelinecontainer.
-*/
-function buildTimeline(timeline) {
-  for (var i = 0; i < 19; i++) {
-    var time = i + 5;
-    time = (time % 12) + 1;
-    //flexbox span object holds "hour" and horizontal line.
-    var span = document.createElement("span");
-    var line = document.createElement("div");
-    var hour = document.createElement("div")
-    if (time > 9) {
-      hour.innerHTML = `${time}`;
-    } else {
-      hour.innerHTML = ""+`${time}`;
-      hour.style = "margin-left: 1.1ex;"; //right allign hour times
+        <div class="event-border">
+          <div id="W3" class="event-container">
+            <!--Events go here, inside event-container id="W3" for Wednesday"-->
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    <div class="titlewrapper">
+      <div class="weekday">Thursday</div>
+      <div id="D4" class="timelinecontainer">
+        <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
+        
+        <div class="event-border">
+          <div id="W4" class="event-container">
+            <!--Events go here, inside event-container id="W4"for Thursday"-->
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="titlewrapper">
+      <div class="weekday">Friday</div>
+      <div id="D5" class="timelinecontainer">
+        <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
+        
+        <div class="event-border">
+          <div id="W5" class="event-container">
+            <!--Events go here, inside event-container id="W5" for Friday"-->
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="titlewrapper">
+      <div class="weekday">Saturday</div>
+      <div id="D6" class="timelinecontainer">
+        <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
+        
+        <div class="event-border">
+          <div id="W6" class="event-container">
+            <!--Events go here, inside event-container id="W6" for Saturday"-->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="titlewrapper">
+      <div class="weekday">Sunday</div>
+      <div id="D0" class="timelinecontainer">
+        <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
+        <div class="event-border">
+          <div id="W0" class="event-container">
+            <!--Events go here, inside event-container id="W0" for Sunday"-->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="spacer"></div>
+    <div class="spacer"></div>
+    <div class="spacer"></div>
+    <div class="spacer"></div>
+    <div class="spacer"></div>
+    <div class="spacer"></div>
+    
+    <!--Event List vertical flex box-->
+    
+  </div>
+</main>
+</body>
+<script>
+  var timeline = document.getElementsByClassName('timelinecontainer');
+  //puts all the hours into the timeline.
+  //setInterval(setNow(), 60000);
+  for (let i = 0; i < 7; i++) {
+    buildTimeline(timeline[i]);
+  }
+  
+  
+  /**
+  * creates a time-markers from 6AM to 12PM inside a timeline holder
+  * parameter: timelinecontainer.
+  */
+  function buildTimeline(timeline) {
+    for (var i = 0; i < 19; i++) {
+      var time = i + 5;
+      time = (time % 12) + 1;
+      //flexbox span object holds "hour" and horizontal line.
+      var span = document.createElement("span");
+      var line = document.createElement("div");
+      var hour = document.createElement("div")
+      if (time > 9) {
+        hour.innerHTML = `${time}`;
+      } else {
+        hour.innerHTML = ""+`${time}`;
+        hour.style = "margin-left: 1.1ex;"; //right allign hour times
+      }
+      hour.classList.add("hour");
+      line.classList.add("line");
+      hour.classList.add("time-element");
+      line.classList.add("time-element");
+      span.classList.add("time-container");
+      var percentage = i / 18 * 100;
+      span.appendChild(hour);
+      span.appendChild(line);
+      timeline.appendChild(span);
     }
-    hour.classList.add("hour");
-    line.classList.add("line");
-    hour.classList.add("time-element");
-    line.classList.add("time-element");
-    span.classList.add("time-container");
-    var percentage = i / 18 * 100;
-    span.appendChild(hour);
-    span.appendChild(line);
-    timeline.appendChild(span);
   }
-}
+  
+  function setNow() {
+    //get time values using Date() Object
+    let time = new Date();
+    let hour = time.getHours();
+    let minute = time.getMinutes();
+    
+    // calendar starts at 6AM not 12AM
+    hour = hour - 6;
+    
+    // only set now-bar if time is after 6AM
+    if (hour >= 6) {
+      
+      minute = minute/60; //convert minutes to fractions of an hour
+      
+      
+      let percentage = (hour + minute)/.18; // divide by 18 and multiply by 100 to get percentage of container
+      
+      let now = document.getElementById('now-line');
+      now.style=`top: ${percentage}%;` // set now's location to percentage of page
+      
+      console.log(`now line set position ${hour + minute}`);
+    } else {
+      console.log("now line not set")
+    }
+  }
+</script>
 
-function setNow() {
-  //get time values using Date() Object
-  let time = new Date();
-  let hour = time.getHours();
-  let minute = time.getMinutes();
+<script>
+
+  ////my code
   
-  // calendar starts at 6AM not 12AM
-  hour = hour - 6;
-  
-  // only set now-bar if time is after 6AM
-  if (hour >= 6) {
-    
-    minute = minute/60; //convert minutes to fractions of an hour
-    
-    
-    let percentage = (hour + minute)/.18; // divide by 18 and multiply by 100 to get percentage of container
-    
-    let now = document.getElementById('now-line');
-    now.style=`top: ${percentage}%;` // set now's location to percentage of page
-    
-    console.log(`now line set position ${hour + minute}`);
+  const curDate = new Date(Date.now());
+
+  // if sunday, do stuff differently
+  if (curDate.getDay() == 0) {
+    curDate.setDate(curDate.getDate() - 6);
   } else {
-    console.log("now line not set")
+    curDate.setDate(curDate.getDate() - curDate.getDay() + 1);
   }
-}
-    </script>
+  
+  console.log(curDate);   //goes to event container of monday of this week.
 
+  let i = 0;
+
+  let eventcontainer;
+  while (i < 7) {
+    eventcontainer = document.querySelector(`#W${curDate.getDay()}`);
+    curDate.setDate(curDate.getDate() + 1);
+    i++;
+  }
+
+  
+ 
+  for (let i = 0; i < darray.length; i++) {
+      let newEvent = document.createElement('div');
+      if ((darray[i].type == "event") || (darray[i].type == "exam")) {
+        tevent(newEvent, darray[i]);
+      } else {
+        ttask(newEvent, darray[i]);
+      }
+      eventcontainer.appendChild(newEvent);
+      console.log(newEvent);
+  }
+
+  
+
+  
+
+
+</script>
 </html>
