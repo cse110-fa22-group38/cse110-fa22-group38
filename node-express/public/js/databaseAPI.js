@@ -15,92 +15,143 @@ let eventsCOMPLETED = "api/events/event_completed/";
 let eventsCOLOR = "api/events/event_color/";
 let deleteByUSERNAME = "api/users/delete/";
 let eventsTODAY = "api/events/today";
+let eventsTHISWEEK = "api/events/this_week";
+let eventsTHISMONTH = "api/events/this_month";
 
-const options =  {
+const getHeader =  {
     method: 'GET',
 }
 
-const options2 = {
+const deleteHeader = {
     method: 'DELETE',
 }
 
+/* PRIVATE INTERNAL ENDPOINTS */
 // From table users
 export async function queryUsernameFromUsers(username) {
     let URL = baseURL + usersUSERNAME + username;
-    return await fetchForMe(URL, options);
+    return await fetchForMe(URL, getHeader);
 }
 
 export async function queryUUIDFromUsers(uuid) {
     let URL = baseURL + usersUUID + uuid;
-    return await fetchForMe(URL, options);
+    return await fetchForMe(URL, getHeader);
 }
 
 // From table events
-export async function queryUUIDFromEvents(uuid) {
-    let URL = baseURL + eventsUUID + uuid;
-    return await fetchForMe(URL, options);
-}
-
 export async function queryDEIDFromEvents(deid) {
     let URL = baseURL + eventsDEID + deid;
-    return await fetchForMe(URL, options);
+    return await fetchForMe(URL, getHeader);
 }
 
 export async function queryTypeFromEvents(type) {
     let URL = baseURL + eventsTYPE + type;
-    return await fetchForMe(URL, options);
+    return await fetchForMe(URL, getHeader);
 }
 
 export async function queryNameFromEvents(name) {
     let URL = baseURL + eventsNAME + name;
-    return await fetchForMe(URL, options);
+    return await fetchForMe(URL, getHeader);
 }
 
 export async function queryLocationFromEvents(location) {
     let URL = baseURL + eventsLOCATION + location;
-    return await fetchForMe(URL, options);
+    return await fetchForMe(URL, getHeader);
 }
 
 export async function queryRelationFromEvents(relation) {
     let URL = baseURL + eventsRELATION + relation;
-    return await fetchForMe(URL, options);
+    return await fetchForMe(URL, getHeader);
 }
 
 export async function queryDetailsFromEvents(details) {
     let URL = baseURL + eventsDETAILS + details;
-    return await fetchForMe(URL, options);
+    return await fetchForMe(URL, getHeader);
 }
 
 export async function queryStartFromEvents(start) {
     let URL = baseURL + eventsSTART + start;
-    return await fetchForMe(URL, options);
+    return await fetchForMe(URL, getHeader);
 }
 
 export async function queryEndFromEvents(end) {
     let URL = baseURL + eventsEND + end;
-    return await fetchForMe(URL, options);
+    return await fetchForMe(URL, getHeader);
 }
 
 export async function queryDoneFromEvents(done) {
     let URL = baseURL + eventsCOMPLETED + done;
-    return await fetchForMe(URL, options);
+    return await fetchForMe(URL, getHeader);
 }
 
 export async function queryColorFromEvents(color) {
     let URL = baseURL + eventsCOLOR + color;
-    return await fetchForMe(URL, options);
+    return await fetchForMe(URL, getHeader);
 }
 
+/* QUERYING EVENTS FROM TABLE */
+/* This function contacts the database to grab today's events 
+ * for the logged in user (full 24 hours) in their LOCAL TIME.
+ * 
+ * @params NO param needed
+ * @return An ARRAY of dataentry objects if any events
+ *         An empty ARRAY otherwise
+ */
 export async function queryTodayEvents() {
     let URL = baseURL + eventsTODAY;
-    return await fetchForMe(URL, options);
+    return await fetchForMe(URL, getHeader);
 }
 
-// Deleting a user based on their username from the users table
-// This function always returns an empty array
+/* This function contacts the database to grab this week's events 
+ * for the logged in user (full 24 hours) in their LOCAL TIME.
+ * 
+ * @params NO param needed
+ * @return An ARRAY of dataentry objects if any events
+ *         An empty ARRAY otherwise
+ */
+export async function queryThisWeekEvents() {
+    let URL = baseURL + eventsTHISWEEK;
+    return await fetchForMe(URL, getHeader);
+}
+
+/* This function contacts the database to grab this month's events 
+ * for the logged in user (full 24 hours) in their LOCAL TIME.
+ * 
+ * @params NO param needed
+ * @return An ARRAY of dataentry objects if any events
+ *         An empty ARRAY otherwise
+ */
+export async function queryThisMonthEvents() {
+    let URL = baseURL + eventsTHISMONTH;
+    return await fetchForMe(URL, getHeader);
+}
+
+// Example of a dataentry object
+var dataentry = {
+    "username": "Tung",
+    "event_id": "dataentryID",
+    "event_type": "event",
+    "event_name": "class 100a",
+    "event_relation": "class 100a",
+    "event_location": "9500 Gilman Drive",
+    "event_details": "description",
+    "event_start": "yyyy-mm-ddThh:mm:00Z",
+    "event_end": "yyyy-mm-ddThh:mm:00Z",
+    "event_completed": Boolean(false),
+    "event_color": "#ffffff"
+}
+
+/* MODIFYING EVENTS FROM TABLE */
+/* Deleting everything related to the provided username.
+ * THIS FUNCTION ALWAYS RETURNS AN EMPTY ARRAY.
+ * DOES NOTHING IF LOGGED IN USER"S INFO IS NOT IN THE DATABASE.
+ * 
+ * @params username The username of the user you want to delete
+ * @return A;ways an empty array
+ */
 export async function deleteUserByUsername(username) {
     let URL = baseURL + deleteByUSERNAME + username;
-    await fetchForMe(URL, options2);
+    await fetchForMe(URL, deleteHeader);
 }
 
 // Helper function to fetch data from our local server/database
