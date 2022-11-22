@@ -616,12 +616,13 @@ app.delete("/api/users/delete/:username", (req, res, next) => {
     });
 });
 
-// Getting today's events
+// Getting today's events (DONE)
 app.get("/api/events/today", (req, res, next) => {
+    // or date of event_end = date of today (in local time)
+    // May need adjustment (TODO)
     var sql = `
     SELECT * from events where 
-    strftime('%Y-%m-%d', event_start, 'localtime') = strftime('%Y-%m-%d', 'now', 'localtime')
-    
+    strftime('%Y-%m-%d', event_end, 'localtime') = strftime('%Y-%m-%d', 'now', 'localtime')
     and username = ?`;
 
     var params = [logged_user]
@@ -645,10 +646,21 @@ app.get("/api/events/today", (req, res, next) => {
 // Getting this week's events (TODO)
 app.get("/api/events/this_week", (req, res, next) => {
     var sql = `
-    select * from events where 
-    strftime('%W', event_start) = strftime('%W', 'now')
+    SELECT * from events where 
+    strftime('%W', event_end, 'localtime') = strftime('%W', 'now', 'localtime')
     and username = ?`;
 
+    // 'now' returns today in UTC time "YYYY-MM-DD"
+    // select all where event_end is in "this" week
+    // Today: we compare nov 21st end to curr time: nov 21st
+    // Week: We will have to check whether (end_date = nov 21st) ||
+    //(nov 22nd) || (nov 23rd)...(nov 28th)
+
+    // strftime('%W') returns the WEEK number of the month
+    // November has 4 weeks: strftime('%W', 'now') = 4
+    // wednesday, second half of week 3 and first half of week 4. If its end of the month
+    // Week 4 half and week 1 of next month half
+    
     var params = [logged_user]
 
     console.log(logged_user);
@@ -667,12 +679,13 @@ app.get("/api/events/this_week", (req, res, next) => {
     });
 });
 
-// Getting this month's events
+// Getting this month's events (TODO)
 app.get("/api/events/this_month", (req, res, next) => {
+    // There may be edge cases where the database also includes entry whose end date
+    // is at 11:59 of the day before the start day/time of this month.
     var sql = `
     select * from events where 
-    event_start > date('now', 'localtime', 'start of month') 
-    and event_start < date('now', 'localtime', 'start of month', '+1 month', '-1 day') 
+    strftime('%m', event_end, 'localtime') = strftime('%m', 'now', 'localtime')
     and username = ?`;
 
     var params = [logged_user]

@@ -92,35 +92,43 @@ module.exports = async function (queryUsername, queryAPIToken) {
                     + "/assignments/" + DEID;
                 }
             }
-        
-            if (event.hasProperty('dtstart')) {
-                start = new Date(event.getFirstPropertyValue('dtstart')).toISOString();
-            }
-        
-            if (event.hasProperty('dtend')) {
-                end = new Date(event.getFirstPropertyValue('dtend')).toISOString();
-            }
-            else {
-                end = new Date(event.getFirstPropertyValue('dtstart')).toISOString();
-            }
             
-            // Debugging
-            /*
-            console.log("Name: " + dataentry.name);
-            console.log("Type of event: " + dataentry.type);
-            console.log("DEID: " + dataentry.DEID);
-            console.log("Relation: " + dataentry.relation);
-            console.log("Location: " + dataentry.location);
-            console.log("Details: " + dataentry.details);
-            console.log("Start time: " + dataentry.start);
-            console.log("End date: " + dataentry.end);
-            console.log("Done?: " + dataentry.done);
-            console.log("Color?: " + dataentry.color);
-            console.log("");
-            */
-    
+            // Handling the formatting of the start and end date
+            if (event.hasProperty('dtstart')) {
+                icalStart = event.getFirstPropertyValue('dtstart');
+
+                // Handling ALL DAY events
+                // Agenda 1
+                // isDate means true if "YYYY-MM-DD" but no hours, minutes nor settings
+                //              false otherwise
+                if (icalStart.isDate) {
+                    // myTimeZoneOffset is in millisecond
+                    const myTimeZoneOffset = new Date().getTimezoneOffset() * 60 * 1000; // In california, it's 8 hours 
+                    const millisecondInDay = 86400000 - 60000;
+
+                    // Date.parse converts date string into equivalent milliseconds
+                    // since when?
+                    console.log("EVENT NAME: " + name);
+                    start = new Date(Date.parse(icalStart) + myTimeZoneOffset).toISOString();
+                    console.log("FROM ALL DAY: " + start);
+                    end = new Date(Date.parse(icalStart) + myTimeZoneOffset + millisecondInDay).toISOString();
+                    console.log("FROM ALL DAY: " + end);
+                }
+                // Handling NONE ALL DAY events
+                // isDate is false if both DTSTART AND DTEND EXIST
+                else {
+                    start = new Date(icalStart).toISOString();
+
+                    if (event.hasProperty('dtend')) {
+                        end = new Date(event.getFirstPropertyValue('dtend')).toISOString();
+                    }
+                }
+            }
+
+            let newEvent = [queryUsername, DEID, type, name, relation, location, details, start, end, done, color];
+
             // dataentry read to be inserted into database
-            db.run(INSERT, [queryUsername, DEID, type, name, relation, location, details, start, end, done, color], (err) => {
+            db.run(INSERT, newEvent, (err) => {
                 // Do nothing
             });
         })

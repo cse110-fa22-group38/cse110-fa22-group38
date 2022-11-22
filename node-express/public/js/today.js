@@ -312,7 +312,7 @@ function ltask(element, de) {
             <div style="margin: 0px;" class="name">${de["event_name"]} | ${de["event_relation"]}</div>
         </span>
         <p class="location">${de["event_location"]}</p>
-        <p class="time">Due ${start.toDateString()} @ ${end.toLocaleTimeString()}</p>
+        <p class="time">Due ${end.toDateString()} @ ${end.toLocaleTimeString()}</p>
         <p class="details">${de["event_details"]}</p>
     </div>
     `;
