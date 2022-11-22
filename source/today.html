@@ -1,192 +1,208 @@
 
 <html lang="en">
-    <head>
-        <title>Powell Puff Planner</title>
-        <meta name="description" content="Powell Puff Planner">
-        <meta name="author" content="Powell Puff Group 38">
-        <meta name="keywords" content="Powell Puff Planner, Powell Puff, Planner">
-        <meta http-equiv="refresh" content="60">
-        <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
 
-        <link rel="Web Icon" href="./assets/favicon.ico">
-        <!--Template Object Linking-->
-        <script src="/today.js" type="module"></script>
+<head>
+  <title>Powell Puff Planner</title>
+  <meta name="description" content="Powell Puff Planner">
+  <meta name="author" content="Powell Puff Group 38">
+  <meta name="keywords" content="Powell Puff Planner, Powell Puff, Planner">
+  <meta http-equiv="refresh" content="60">
+  <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
+  <link rel="Web Icon" href="source/assets/favicon.ico" type="">
 
-        <!--Font Linking-->
-        <link rel="preconnect" href="https://fonts.googleapis.com"> 
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  <!--Font Linking-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
 
-    </head>
-    <style>
-        * {
-            font-family: IBM Plex;
-          }
-          header {
-            display: flex;
-            flex-direction: row;
-            margin-left: 10px;
-            margin-right: 10px;
-            margin-top: 10px;
-            align-items: center;
-            position: relative;
-          }
-          .title {
-            font-family: IBM Plex Sans;
-            font-weight: 600;
-            font-size: 30px;
-            color: white;
-            margin-top: 0;
-            margin-left: 1vh;
-            color: #ee6fa8;
-            flex-grow: 1;
-          }
-          .menu {
-            align-self: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            height: 30px;
-            width: 30px;
-            margin-right: 2vh;
-            cursor: pointer;
-          }
-          .hamburger-line {
-            height: 3px;
-            width: 100%;
-            background-color: white;
-            border-radius: 2.5px;
-          }
-          .content {
-            display: flex;
-            gap: 10px;
-            margin: 10px 0px 0px 0px;
-            background: rgb(40,40,40);/**/
-            position: relative;
-            flex-wrap: wrap;
-            overflow: hidden;
-            border-radius: 10px;
-            align-content: space-between;
-          }
-          .container {
-            flex-grow: 1;
-            flex-basis: 300px;
-            border-radius: 10px;
-            overflow: scroll;
-            position: relative;
-            margin: 10px 10px 10px 10px
-          }
+  <!--Script Source-->
+  <script src="/assets/template.js" type="module"></script> <!-- Added -->
+  <script src="/today.js" type="module"></script>
 
-          #timelinecontainer {
-            height: 800px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            background-color: #191919;
-          }
-          .event-border {
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            width: 100%;
-            height: 100%;
-            /*background-color: blue;
-            opacity: .9;*/
-          }
-          .event-container {
-            position: relative;
-            flex-grow: 1;
-            margin-top: 7pt;
-            margin-bottom: 7pt;
-            margin-left: 24pt;
-          }
-          .time-container {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-          }
-          .line {
-            display: inline-block;
-            height: 2px;
-            background: grey;
-            flex-grow: 1;
-            border-radius: 1.5px;
-          }
-          .hour {
-            display: inline-block;
-            padding-left: 1ex;
-            margin-top: 0ex;
-            margin-bottom: 0ex;
-            color: grey;
-            font-size: 10pt;
-            font-weight: 800;
-          }
-          .now {
-            position: absolute;
-            top: 0%;
-            height: 5px;
-            width: 100%;
-          }
-          .now-line {
-            position: relative;
-            background-color: #ee6fa8;
-            opacity: .75;
-            width: 100%;
-            height: 3px;
-            top: -1.5px;
-            border-radius: 1.5px;
-          }
-          Body {
-            background: black;
-          }
-          ::-webkit-scrollbar {
-            display: none;
-          }
+  <!--Template Object Linking-->
+	<script src="/templates.js"></script>
+	<link rel="stylesheet" href="/templatestyle.css">
+  <link rel="stylesheet" href="/navbar.css">
+</head>
+<style>
+  * {
+    font-family: IBM Plex Mono;
+  }
 
-    </style>
-    <header>
-        <div class="title">Today</div>
-        <div class="menu">
-          <div class="hamburger-line"></div>
-          <div class="hamburger-line"></div>
-          <div class="hamburger-line"></div>
+  .content {
+    display: flex;
+    gap: 10px;
+    margin: 80px 0px 0px 0px;
+    background: rgb(40, 40, 40);
+    flex-wrap: wrap;
+    overflow: hidden;
+    border-radius: 10px;
+    align-content: space-between;
+  }
+
+  .container {
+    flex-grow: 1;
+    flex-basis: 300px;
+    border-radius: 10px;
+    overflow: scroll;
+    position: relative;
+    margin: 10px 10px 10px 10px
+  }
+
+  #timelinecontainer {
+    height: 800px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #191919;
+  }
+
+  .event-border {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+    /*background-color: blue;
+  opacity: .9;*/
+  }
+
+  .event-container {
+    position: relative;
+    flex-grow: 1;
+    margin-top: 7pt;
+    margin-bottom: 7pt;
+    margin-left: 24pt;
+  }
+
+  .time-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .line {
+    display: inline-block;
+    height: 2px;
+    background: grey;
+    flex-grow: 1;
+    border-radius: 1.5px;
+  }
+
+  .hour {
+    display: inline-block;
+    padding-left: 1ex;
+    margin-top: 0ex;
+    margin-bottom: 0ex;
+    color: grey;
+    font-size: 10pt;
+    font-weight: 800;
+  }
+
+  .now {
+    position: absolute;
+    top: 0%;
+    height: 5px;
+    width: 100%;
+  }
+
+  .now-line {
+    position: relative;
+    background-color: #ee6fa8;
+    opacity: .75;
+    width: 100%;
+    height: 3px;
+    top: -1.5px;
+    border-radius: 1.5px;
+  }
+
+  /*These are basic properties that all events should have*/
+  .timeline-event {
+    font-size: 10pt;
+  }
+
+  .eventlist-event {
+    font-size: 12pt;
+  }
+
+  .task {
+    font-size: 12pt;
+  }
+
+  body {
+    position: relative;
+    background: black;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+</style>
+<body>
+  <main>
+    <!--make horizontal flex box with span-->
+    <div class="content">
+
+      <!--Calendar w/ absolute spacing using faction of /22 as percent%-->
+      <div id="timelinecontainer" class="container">
+        <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
+        <div class="event-border">
+          <div class="event-container">
+            <div dominant-baseline="middle" class="now" id="now-line">
+              <div class="now-line"></div>
+            </div>
+            <!--Events go here, inside event-container and underneatth the now-line-->
+          </div>
         </div>
-      </header>
-    <main>
-      <!--make horizontal flex box with span-->
-      <div class="content">
-
-        <!--Calendar w/ absolute spacing using faction of /18 as percent%-->
-        <div id="timelinecontainer" class="container">
-          <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
-          <div class="event-border">
-            <div class="event-container" id="timeline-elements">
-              <div dominant-baseline="middle" class="now" id="now-line">
-                <div class="now-line"></div>
-              </div>
-              <!--Events go here, inside id="timeline-elements" and underneatth the now-line-->
-
-            </div></div>
-    
-    
-    
-    
-        </div>
-    
-        <!--Event List vertical flex box-->
-        <div id="eventslistcontainer" class="container">
-          <!--Events go in here, they should expand horizontally to fill up all available space, and will contract vertically to match the size of their content-->
-        </div>
-    
-        <!--Task List vertical flex box-->
-        <div id="tasklistcontainer" class="container">
-          <!--Tasks go in here, they should expand horizontally to fill up all available space, and will contract vertically to math the size of their contents-->
-        </div>
-        <div class="container"></div>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">6</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">7</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">8</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">9</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element">10</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element">11</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element">12</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">1</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">2</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">3</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">4</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">5</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">6</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">7</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">8</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">9</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element">10</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element">11</div><div class="line time-element"></div></span>
+        <span class="time-container"><div class="hour time-element">12</div><div class="line time-element"></div></span>
       </div>
-    </main>
-    </body>
+
+      <!--Event List vertical flex box-->
+      <div id="eventslistcontainer" class="container">
+        <!--Events go in here, they should expand horizontally to fill up all available space, and will contract vertically to match the size of their content-->
+      </div>
+
+      <!--Task List vertical flex box-->
+      <div id="tasklistcontainer" class="container">
+        <!--Tasks go in here, they should expand horizontally to fill up all available space, and will contract vertically to math the size of their contents-->
+      </div>
+      <div class="container"></div>
+    </div>
+  </main>
+  <header>
+    <div class="navcontainer">
+        <img src="/logo-square.png" alt="logo" class="logo">
+        <nav>
+            <ul>
+                <li><a href="/quarter">Quarter</a></li>
+                <li><a href="/week">Weekly</a></li>
+                <li><a href="/today">Daily</a></li>
+                <li><a href="/settings">Settings</a></li>
+                <li><a href="/add">Add</a></li>
+            </ul>
+        </nav>
+    </div>
+  </header>
+</body>
 </html>
