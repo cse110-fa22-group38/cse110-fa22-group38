@@ -7,9 +7,9 @@
 	<title>Quarter View</title>
 
 	<!--Template Object Linking-->
-	<script src="./scripts/templates.js"></script>
-	<link rel="stylesheet" href="./scripts/templatestyle.css">
-
+	<script src="/templates.js"></script>
+	<link rel="stylesheet" href="/templatestyle.css">
+	<link rel="stylesheet" href="/navbar.css">
 	
 	<!--Font Linking-->
 	<link rel="preconnect" href="https://fonts.googleapis.com"> 
@@ -18,23 +18,27 @@
 	
 </head>
 
+<header>
+    <div class="navcontainer">
+        <img src="/logo-square.png" alt="logo" class="logo">
+        <nav>
+            <ul>
+                <li><a href="/quarter">Quarter</a></li>
+                <li><a href="/week">Weekly</a></li>
+                <li><a href="/today">Daily</a></li>
+                <li><a href="/settings">Settings</a></li>
+                <li><a href="/add">Add</a></li>
+            </ul>
+        </nav>
+    </div>
+  </header>
+
 <body style = "background-color:black;">
 	
-	<nav>
-        Quarter View
-    </nav>
-
+	<br/>
 	
-	<!-- <h2 style="color: #ee6fa8;">
-		Fall 2022
-	</h2> -->
-	
-	<br />
-	
-	<table class="table" align="center"
-	cellspacing="21" cellpadding="21">
+	<table class="table" align="center" cellspacing="21" cellpadding="21">
 	<caption align="top">
-		
 	</caption>
 	
 	<thead>
@@ -115,7 +119,7 @@ function init() {
 		//let events = Databaseething.getByDate(currday.toISOString);
 		
 		day.innerHTML = `
-		${currdate.getDate()}
+		<div class="date-value">${currdate.getDate()}</div>
 		
 		`;
 		day.classList.add("day-container");
@@ -128,10 +132,6 @@ function init() {
 		let taskcontainer = document.createElement("div");
 		taskcontainer.classList.add("task-container");
 		
-
-		
-		let taskcontainer = document.createElement("div");
-		taskcontainer.classList.add("task-container");
 
 		//for each event in eventsfromdatabase {add the event to the box in some clever way}
 		//for each task in eventsfromdatabase {add the event to the box in some clever way}
@@ -154,6 +154,11 @@ function init() {
 		font-family: IBM Plex Sans;
 		font-weight: 400;
 	}
+
+	body {
+		margin-top: 80px;
+	}
+
 	.task-container {
 		display: flex;
 		flex-direction: row;
@@ -167,28 +172,32 @@ function init() {
 	.day-container {
 		background-color:#1F1F1F;
 		border-radius: 20px;
-		color: #ee6fa8;
+		color: white;
 		font-weight: 800;
 		height: 50px;
 		width: 50px;
 		text-align: left;
-		
+		position: relative;
 	}
+
+	.date-value {
+		position: absolute;
+		top: 10px;
+		left: 10px;
+	}
+
 	.table {
 		background-color: #000000;
 	}
 	
 	.weekday {
-		color: #ee6fa8;
+		color: white;
 		text-align: center;
 	}
 	
 	.week-number {
-		color: #ee6fa8;
+		color: white;
 		text-align: center;
-	}
-	.nav {
-		color: #ee6fa8;
 	}
 
 </style>
