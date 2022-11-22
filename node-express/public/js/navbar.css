@@ -5,8 +5,13 @@
     font-weight: 800;
 }
 
+.navcontainer > img {
+    width: 42px;
+    height: 42px;
+}
+
 header {
-    background-color: #ee6fa8;
+    background-color: black;
     position: fixed;
     top: 0%;
     width: 98%;
@@ -44,21 +49,21 @@ nav li:hover {
 }
 
 nav a {
-    color: black;
+    color: white;
     text-decoration: none;
     text-transform: uppercase;
     font-size: 14px;
 }
 
 nav a:hover {
-    color: white;
+    color: #ee6fa8;
 }
 
 nav a::before {
     content: '';
     display: block;
     height: 5px;
-    background-color: white;
+    background-color: #ee6fa8;
     position: absolute;
     top: 0;
     width: 0%;
