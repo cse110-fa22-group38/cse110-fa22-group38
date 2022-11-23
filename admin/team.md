@@ -40,6 +40,6 @@ I'm a 4th year majoring in Math-CS. I have an eyelashing business, so that is wh
 
 I'm a senior studying Computer Engineering. I like hiking and playing poker.
 
-#### [Yousuf Gharib]() (Developer)
+#### [Yousuf Gharib](https://gonomo.github.io/CSE110/) (Developer)
 
 I'm the newest member to this group, but I'm excited to get working on a real project!
