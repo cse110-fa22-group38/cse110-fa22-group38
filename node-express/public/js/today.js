@@ -67,7 +67,6 @@ function setNow() {
   
   // only set now-bar if time is after 6AM
   if (hour >= 6) {
-    
     minute = minute/60; //convert minutes to fractions of an hour
     
     let percentage = (hour + minute)/.18; // divide by 18 and multiply by 100 to get percentage of container
@@ -82,7 +81,6 @@ function setNow() {
 }
 
 /* DATABSE RELATED FUNCTION */
-// TODO ON THIS
 async function retrieveFromDatabase() {
     //array of events in JSON format(key value)
     let deArray = [];
@@ -103,7 +101,7 @@ function populateTimeContainer(element, deArray) {
         let newEvent = document.createElement('div');
         
         // CHANGED
-        if (deArray[i]["event_type"] == "exam") {
+        if (deArray[i]["event_type"] == "event") {
             tevent(newEvent, deArray[i]);
         }
         else {
@@ -121,7 +119,7 @@ function populateEventContainer(element, deArray) {
     for (let i = 0; i < deArray.length; i++) {
         let newEvent = document.createElement('div');
         
-        if (deArray[i]["event_type"] != "task") {
+        if (deArray[i]["event_type"] == "event") {
             levent(newEvent, deArray[i]);
         }
         
@@ -136,7 +134,7 @@ function populateTaskContainer(element, deArray) {
     for (let i = 0; i < deArray.length; i++) {
         let newEvent = document.createElement('div');
         
-        if (deArray[i].type == "task") {
+        if (deArray[i]["event_type"] == "assignment") {
             ltask(newEvent, deArray[i]);
         }
         
@@ -148,8 +146,7 @@ function tevent(element, de) {
     if (!element) return;
     if (!de) return;
 
-    //setup absolute positioning for timing events
-    // CHANGED
+    // setup absolute positioning for timing events
     let start = new Date(de["event_start"]);
     let end = new Date(de["event_end"]);
 
@@ -247,17 +244,15 @@ function ttask(element, de) {
 /**
  * Templates for lists of objects on the Today iewid
  */
-
 function levent(element, de) {
     if (!element) return;
     if (!de) return;
 
-    //create start and end Date objects for time manipulation
+    // create start and end Date objects for time manipulation
     let start = new Date(de["event_start"]);
     let end = new Date(de["event_end"]);
 
-    //define contents and fill in using information from de object
-    // CHANGED
+    // define contents and fill in using information from de object
     element.innerHTML = `
     <div class="levent-box">
         <p class="name">${de["event_name"]}</p>
@@ -307,7 +302,6 @@ function ltask(element, de) {
     let end = new Date(de["event_end"]);
 
     //set checked or not checked
-
     let checked = '';
 
     if (de['event_completed']) {
