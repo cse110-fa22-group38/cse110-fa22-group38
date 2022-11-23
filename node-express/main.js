@@ -9,8 +9,10 @@ const md5 = require('md5');
 const db = require("./database.js"); 
 const grabFromCanvas = require("./canvasAPI.js");
 
+
 // Logged user's username, which we will use to query the tables:
 let logged_user = null;
+
 
 // Importing all the modules
 const router = express.Router();
@@ -94,7 +96,9 @@ app.post('/login', checkNotAuthenticated, async (req, res) => {
                         // Authenticate the user
                         res.redirect('/today');
                         console.log("SUCCESS");
+
                         logged_user = username;
+
                     }
                     else {
                         // PLACEBO
@@ -127,14 +131,17 @@ app.get('/register', checkNotAuthenticated, (req, res) => {
 // Handling the output on the register page
 app.post('/register', checkNotAuthenticated, async (req, res) => {
     try {
+
         let username = await req.body.username; // Grabbing the username
         let hashedPassword = bcrypt.hashSync(req.body.password, 10); // Hasing the password
         let apiToken = await req.body.apiToken;
+
 
         let insertNewUser = `INSERT INTO users (username, password_hash, api_token) VALUES(?, ?, ?)`;
 
         //insert user in db param : uuid, username, password
         db.run(insertNewUser, [username, hashedPassword, apiToken], async (err) => {
+
             if (err){
                 // If err thrown, likely that a user already existed in the database
                 // with the same username
@@ -145,10 +152,12 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
                 res.redirect('/register');
             }
             else {
+
                 console.log('Succesfully registered new user');
 
                 // Instantly populate our database with info from CANVAS
                 await grabFromCanvas(username, apiToken);   
+
 
                 // Aftering registering, redirect to the login page
                 res.redirect('/login')
@@ -161,15 +170,18 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
     }
 })
 
+
 //to log out (FIX IT)
 app.delete('/logout', (req, res) => {
     req.logOut() // Log out first
     res.redirect('/login') // Redirect to login
     logged_user = null;
+
 })
 
 // Today page
 app.get('/today', checkNotAuthenticated, (req, res) => {
+
     if (logged_user == null) {
         res.redirect("/login");
     }
@@ -179,33 +191,40 @@ app.get('/today', checkNotAuthenticated, (req, res) => {
 
 // Weekly page
 app.get('/week', checkNotAuthenticated, (req, res) => {
+
     if (logged_user == null) {
         res.redirect("/login");
     }
+
 
     res.sendFile(path.join(__dirname + '/../source/week.html'));
 })
 
 // Quarterly page
 app.get('/quarter', checkNotAuthenticated, (req, res) => {
+
     if (logged_user == null) {
         res.redirect("/login");
     }
+
 
     res.sendFile(path.join(__dirname + '/../source/quarter.html'));
 })
 
 // Settings page
 app.get('/settings', checkNotAuthenticated, (req, res) => {
+
     if (logged_user == null) {
         res.redirect("/login");
     }
+
 
     res.sendFile(path.join(__dirname + '/../source/settings.html'));
 })
 
 // Account settings page
 app.get('/accountsettings', checkNotAuthenticated, (req, res) => {
+
     if (logged_user == null) {
         res.redirect("/login");
     }
@@ -300,6 +319,7 @@ app.post('/accountsettings', checkNotAuthenticated, async (req, res) => {
     }
 })
 
+
 /*
  * This function checks authentication from the array 
  * and checks the output of the query
@@ -323,7 +343,9 @@ function checkNotAuthenticated(req, res, next) {
     //check if the user is authenticated
     if (req.isAuthenticated()) {
         //if returns true
+
         return res.redirect('/') //change redirect
+
     } else {
         //if returns false
         next()
@@ -333,16 +355,19 @@ function checkNotAuthenticated(req, res, next) {
 // Starting up the local server at PORT
 app.listen(PORT);
 
+
 /* DATABASE API ENDPOINTS */
 // Get all users' info
 app.get("/api/users", (req, res, next) => {
     var sql = "select * from users"
     var params = []
     db.all(sql, params, (err, row) => {
+
         if (err) {
           res.status(400).json({"error":err.message});
           return;
         }
+
         res.json({row});
     });
 });
@@ -352,10 +377,12 @@ app.get("/api/allEvents/", (req, res, next) => {
     var sql = "select * from events"
     var params = []
     db.all(sql, params, (err, row) => {
+
         if (err) {
           res.status(400).json({"error":err.message});
           return;
         }
+
         res.json({row});
     });
 });
@@ -373,10 +400,12 @@ app.get("/api/events/", (req, res, next) => {
     };
     
     db.all(sql, params, (err, row) => {
+
         if (err) {
           res.status(400).json({"error":err.message});
           return;
         }
+
         res.json({row});
     });
 });
@@ -393,10 +422,12 @@ app.get("/api/events/event_color/:event_color", (req, res, next) => {
 
     var params = [req.params.event_color, logged_user];
     db.all(sql, params, (err, row) => {
+
         if (err) {
           res.status(400).json({"error":err.message});
           return;
         }
+
         res.json({row});
     });
 });
@@ -414,10 +445,12 @@ app.get("/api/events/event_completed/:event_completed", (req, res, next) => {
     };
 
     db.all(sql, params, (err, row) => {
+
         if (err) {
           res.status(400).json({"error":err.message});
           return;
         }
+
         res.json({row});
     });
 });
@@ -435,6 +468,7 @@ app.get("/api/events/event_end/:event_end", (req, res, next) => {
     };
 
     db.all(sql, params, (err, row) => {
+
         if (err) {
           res.status(400).json({"error":err.message});
           return;
@@ -446,6 +480,7 @@ app.get("/api/events/event_end/:event_end", (req, res, next) => {
     });
 });
   
+
 // Get all by event_start
 app.get("/api/events/event_start/:event_start", (req, res, next) => {
     var sql = "select * from events where event_start = ? and username = ?"
@@ -459,11 +494,13 @@ app.get("/api/events/event_start/:event_start", (req, res, next) => {
     };
 
     db.all(sql, params, (err, row) => {
+
         if (err) {
           res.status(400).json({"error":err.message});
           return;
         }
         console.log(row);
+
         res.json({row});
     });
 });
@@ -481,10 +518,12 @@ app.get("/api/events/event_details/:event_details", (req, res, next) => {
     };
 
     db.all(sql, params, (err, row) => {
+
         if (err) {
           res.status(400).json({"error":err.message});
           return;
         }
+
         res.json({row});
     });
 });
@@ -523,10 +562,12 @@ app.get("/api/events/event_location/:event_location", (req, res, next) => {
     };
 
     db.all(sql, params, (err, row) => {
+
         if (err) {
           res.status(400).json({"error":err.message});
           return;
         }
+
         res.json({row});
     });
 });
@@ -544,10 +585,12 @@ app.get("/api/events/event_name/:event_name", (req, res, next) => {
     };
 
     db.all(sql, params, (err, row) => {
+
         if (err) {
           res.status(400).json({"error":err.message});
           return;
         }
+
         res.json({row});
     });
 });
@@ -565,10 +608,15 @@ app.get("/api/events/event_type/:event_type", (req, res, next) => {
     };
 
     db.all(sql, params, (err, row) => {
+ms, (err, row) => {
+
+  
+
         if (err) {
           res.status(400).json({"error":err.message});
           return;
         }
+
         res.json({row});
     });
 });
@@ -586,10 +634,12 @@ app.get("/api/events/event_id/:event_id", (req, res, next) => {
     };
 
     db.all(sql, params, (err, row) => {
+
         if (err) {
           res.status(400).json({"error":err.message});
           return;
         }
+
         res.json({row});
     });
 });
@@ -601,10 +651,12 @@ app.delete("/api/users/delete/:username", (req, res, next) => {
     var params = [req.params.username];
 
     db.run(deletesql, params, (err, row) => {
+
             if (err){
                 res.status(400).json({"error": res.message})
                 return;
             }
+
             else {
                 if (this.changes != 0) {
                     console.log(username + " wasn't found");

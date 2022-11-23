@@ -3,6 +3,10 @@ Team 38
 
 [Team Page](/admin/team.md)
 
-This project will be a *CRUD* app built on *core web technoogies* (HTML/CSS/JS) which organizes *personal data* and provides some kind of useful functions around that data.
+### Assignment:
 
-Check back in a week to see what we'll be building.
+For CSE 110 at UC San Diego we are tasked with building a _CRUD_ app using _core web technologies_ (HTML/CSS/JS) which organizes _personal data_ with a focus on _local first_ design.
+
+### Our Project
+
+We decided to build a planner for this project. As a school which uses quarters rather than symesters, most time management tools are not built for our schedules. So we wanted to make a planner specifically designed around being used for quarters. 

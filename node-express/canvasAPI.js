@@ -15,7 +15,9 @@ let data; // To store parsed data of all courses
 let apiToken;
 
 const milliInDay = 1000 * 60 * 60 * 24;
+
 const daysInQuarter = 150;
+
 const todayDate = new Date();
 const EVENT = "event-calendar-event-";
 const ASSIGNMENT = "event-assignment-"; 
@@ -24,7 +26,9 @@ const coursesURL = "https://canvas.ucsd.edu/api/v1/courses?per_page=100";
 let INSERT = 
 `
 INSERT INTO events (
+
     username,
+
     event_id,
     event_type,
     event_name,
@@ -39,15 +43,19 @@ INSERT INTO events (
 `;
 
 // Main function
+
 module.exports = async function (queryUsername, queryAPIToken) {
     // Assign the api token
+
     apiToken = await queryAPIToken;
 
      // Grab active courses of users
     let myCourses = await getCurrentCourses();
 
     // Grab calendar events info from these active courses from CANVAS
+
     let icsStringsArray = await getICStexts(myCourses);
+
 
     /* ICAL SESSION */
     for (let COURSE_NUM = 0; COURSE_NUM < myCourses.length; COURSE_NUM++) {
@@ -67,6 +75,7 @@ module.exports = async function (queryUsername, queryAPIToken) {
             let end = "N/A";
             let done = Boolean(false);
             let color = "#000000";
+
 
             if (event.hasProperty('summary')) {
                 name = event.getFirstPropertyValue('summary').replace(/ *\[[^)]*\] */g, "");
@@ -92,6 +101,7 @@ module.exports = async function (queryUsername, queryAPIToken) {
                     + "/assignments/" + DEID;
                 }
             }
+
             
             // Handling the formatting of the start and end date
             if (event.hasProperty('dtstart')) {
@@ -129,6 +139,7 @@ module.exports = async function (queryUsername, queryAPIToken) {
 
             // dataentry read to be inserted into database
             db.run(INSERT, newEvent, (err) => {
+
                 // Do nothing
             });
         })
@@ -194,8 +205,7 @@ async function getCurrentCourses() {
             let diffDay = Math.ceil(diffTime / milliInDay); 
 
             // A quarter at UCSD has on average 100 days, we only want
-            // courses that are still active within the last 100 days
-            
+
             if (diffDay < daysInQuarter) {
                 currentCourses.push(data[i]);
             }
@@ -230,6 +240,8 @@ async function getICStexts(dataArray) {
         return allICStexts;
     }
     catch (err) {
+
         console.log(err.message);
+
     }
 }

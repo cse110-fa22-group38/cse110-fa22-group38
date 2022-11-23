@@ -6,6 +6,7 @@ const md5 = require('md5');
 let usersTable = 
 `
 CREATE TABLE IF NOT EXISTS users (
+
   username type UNIQUE,
   password_hash,
   api_token)
@@ -14,7 +15,9 @@ CREATE TABLE IF NOT EXISTS users (
 let eventTable = 
 `
 CREATE TABLE IF NOT EXISTS events (
+
   username,
+
   event_id,
   event_type,
   event_name,
@@ -30,6 +33,8 @@ CREATE TABLE IF NOT EXISTS events (
 let insertNewUser = 
 `
 INSERT INTO users (
+
+
   username,
   password_hash,
   api_token) VALUES (?,?,?,?)
@@ -66,6 +71,7 @@ module.exports = db;
 
 // Example of a dataentry object
 var dataentry = {
+
     "username": "Tung",
     "event_id": "dataentryID",
     "event_type": "event",
@@ -77,4 +83,5 @@ var dataentry = {
     "event_end": "yyyy-mm-ddThh:mm:00Z",
     "event_completed": Boolean(false),
     "event_color": "#ffffff"
+
 }
