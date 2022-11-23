@@ -6,7 +6,6 @@ const md5 = require('md5');
 let usersTable = 
 `
 CREATE TABLE IF NOT EXISTS users (
-
   username type UNIQUE,
   password_hash,
   api_token)
@@ -33,8 +32,6 @@ CREATE TABLE IF NOT EXISTS events (
 let insertNewUser = 
 `
 INSERT INTO users (
-
-
   username,
   password_hash,
   api_token) VALUES (?,?,?,?)

@@ -232,6 +232,16 @@ app.get('/accountsettings', checkNotAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname + '/../source/accountsettings.html'));
 })
 
+// Add event page
+app.get('/add', checkNotAuthenticated, (req, res) => {
+
+    if (logged_user == null) {
+        res.redirect("/login");
+    }
+
+    res.sendFile(path.join(__dirname + '/../source/addevent.html'));
+})
+
 // Handling output from the accountsettings page
 app.post('/accountsettings', checkNotAuthenticated, async (req, res) => {
     try {
@@ -618,7 +628,9 @@ ms, (err, row) => {
         }
 
         res.json({row});
+    }
     });
+
 });
   
 // Get all by event_id
