@@ -11,12 +11,15 @@
 }
 /*styles the contents inside of */
 .tevent-box > * {
+    overflow-wrap: break-word;
     color: white;
     font-size: 10pt;
     padding: 0px;
     margin: 0;
     width: fit-content;
     font-weight: 500;
+    font-family: 'IBM Plex Sans';
+    font-weight: 400;
 }
 
 .tevent {
@@ -34,6 +37,7 @@
 }
 
 .ttask > * {
+    overflow-wrap: break-word;
     opacity: 0.75;
     position: relative;
     top: -2px;
@@ -41,6 +45,8 @@
     width: 100%;
     height: 4px;
     border: 1px solid white;
+    font-family: 'IBM Plex Sans';
+    font-weight: 400;
 }
 
 /*style for levent*/
@@ -58,9 +64,12 @@
 }
 
 .levent-box > * {
-    font-size: 14pt;
+    overflow-wrap: break-word;
+    font-size: 12pt;
     font-weight: 200;
     margin: 5px;
+    font-family: 'IBM Plex Sans';
+    font-weight: 400;
 }
 
 /*style for ltask*/
@@ -80,9 +89,17 @@
 }
 
 .ltask-box > * {
-    font-size: 14pt;
+    overflow-wrap: break-word;
+    font-size: 12pt;
     font-weight: 200;
     margin: 5px;
+    font-family: 'IBM Plex Sans';
+    font-weight: 400;
+}
+
+.ltask-box > span > * {
+    font-family: 'IBM Plex Sans';
+    font-weight: 400;
 }
 /*style for quarter page*/
 

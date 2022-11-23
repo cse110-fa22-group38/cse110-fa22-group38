@@ -45,7 +45,14 @@
     border-radius: 10px;
     overflow: scroll;
     position: relative;
-    margin: 10px 10px 10px 10px
+    margin: 10px 10px 10px 10px;
+  }
+
+  #eventslistcontainer, #tasklistcontainer {
+    display: flex;
+    justify-content: start;
+    gap: 5px;
+    flex-direction: column;
   }
 
   #timelinecontainer {
@@ -136,6 +143,12 @@
     background: black;
   }
 
+  @media screen and (min-width: 997px) {
+    .spacer {
+      display: none;
+    }
+  }
+
   ::-webkit-scrollbar {
     display: none;
   }
@@ -186,7 +199,7 @@
       <div id="tasklistcontainer" class="container">
         <!--Tasks go in here, they should expand horizontally to fill up all available space, and will contract vertically to math the size of their contents-->
       </div>
-      <div class="container"></div>
+      <div class="container spacer"></div>
     </div>
   </main>
   <header>
@@ -270,7 +283,7 @@
       name: "lab 1",
       relation: "cse110",
       location: "center hall 113",
-      details: "probably some rediculous javascript assignment",
+      details: "probablysomerediculousjavascriptassignmentthathasareallylongwordinthetitle",
       start: "2022-11-21T17:00:00.000",
       end: "2022-11-21T17:00:00.000",
       done: false,
@@ -314,8 +327,9 @@
       let newEvent = document.createElement('div');
       if (deArray[i].type != "task") {
         levent(newEvent, deArray[i]);
+        element.appendChild(newEvent);
       }
-      element.appendChild(newEvent);
+      
     }
   }
 
@@ -326,8 +340,9 @@
       let newEvent = document.createElement('div');
       if (deArray[i].type == "task") {
         ltask(newEvent, deArray[i]);
+        element.appendChild(newEvent);
       }
-      element.appendChild(newEvent);
+      
     }
   }
 </script>
