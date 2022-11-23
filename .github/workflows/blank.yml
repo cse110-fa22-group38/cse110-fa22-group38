@@ -1,0 +1,46 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" "frontend-node" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    
+    - name: HTML5 Validator
+      # You may pin to the exact commit or the version.
+      # uses: Cyb3r-Jak3/html5validator-action@41633d488eb36e18fd1a95ffc83daf1bf22a75bd
+      uses: Cyb3r-Jak3/html5validator-action@v7.2.0
+      with:
+        # Path of the files to test
+        root: source/
+        # Path of config file
+        config: # optional
+        # Extra arguments to test with
+        extra: # optional
+        # Format for logging output. Valid values: gnu, xml, json, text
+        format: # optional
+        # Logging Level. Valid values: DEBUG, INFO, WARNING. Default: WARNING
+        log_level: # optional, default is WARNING
+        # Checks css as well
+        css: true
+        # Files or directories to ignore in checking
+        blacklist: # optional
+        # Skip checking that code has been checked out
+        skip_git_check: # optional
