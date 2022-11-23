@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: FrontEnd Checks
 
 # Controls when the workflow will run
 on:
@@ -31,16 +31,16 @@ jobs:
         # Path of the files to test
         root: source/
         # Path of config file
-        config: # optional
+        #config: # optional
         # Extra arguments to test with
-        extra: # optional
+        #extra: # optional
         # Format for logging output. Valid values: gnu, xml, json, text
-        format: # optional
+        format: text
         # Logging Level. Valid values: DEBUG, INFO, WARNING. Default: WARNING
-        log_level: # optional, default is WARNING
+        #log_level: # optional, default is WARNING
         # Checks css as well
         css: true
         # Files or directories to ignore in checking
-        blacklist: # optional
+        #blacklist: # optional
         # Skip checking that code has been checked out
-        skip_git_check: # optional
+        #skip_git_check: # optional
