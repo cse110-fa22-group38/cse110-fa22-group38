@@ -10,9 +10,9 @@
 
         <link rel="Web Icon" href="./assets/favicon.ico" type="">
         <!--Template Object Linking-->
-        <script src="./scripts/templates.js"></script>
-	      <link rel="stylesheet" href="./scripts/templatestyle.css">
-        <link rel="stylesheet" href="./assets/navbar.css">
+        <script src="/templates.js"></script>
+	      <link rel="stylesheet" href="/templatestyle.css">
+        <link rel="stylesheet" href="/navbar.css">
         <!--Font Linking-->
         <link rel="preconnect" href="https://fonts.googleapis.com"> 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
@@ -105,6 +105,12 @@ header {
     flex-grow: 1;
     flex-basis: 250px;
     flex-direction: column;
+  }
+
+  @media screen and (min-width: 2000px) {
+    .spacer {
+      display: none;
+    }
   }
   
   .event-border {
