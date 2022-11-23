@@ -6,10 +6,10 @@ const DBSOURCE = "./database/user.sqlite";
 // DB instance started
 let db = new sqlite3.Database(DBSOURCE, sqlite3.OPEN_READWRITE, (err) => {
     if (err){
-        console.log("passport-config: ERR DB connection");
+        console.log("passport-config.js: Failed database connection");
     }
     else {
-        console.log('passport-config: Connected to DB');
+        console.log('passport-config.js: Connected to DB');
     }
 })
 

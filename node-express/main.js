@@ -83,17 +83,15 @@ app.post('/login', checkNotAuthenticated, async (req, res) => {
                 throw err;
             }
             
-            console.log(results);
-            
             // Username found
             if (results.length > 0) {
                 results.forEach((result) => {
                     let matched = bcrypt.compareSync(password, result.password_hash);
-                    console.log(matched); 
                     if (matched) {
                         // Authenticate the user
+                        console.log("Password is correct!")
+                        console.log("Current logged in user: " + username);
                         res.redirect('/today');
-                        console.log("SUCCESS");
                         logged_user = username;
                     }
                     else {

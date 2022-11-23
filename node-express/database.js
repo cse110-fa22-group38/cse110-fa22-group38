@@ -44,7 +44,7 @@ let db = new sqlite3.Database(DBSOURCE,
         throw(err);
     }
     else {
-        console.log("Connected to DB")
+        console.log("database.js: Connected to DB")
         db.run(usersTable, (err) => {
             if (err) {
                 // Table already created

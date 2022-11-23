@@ -49,7 +49,6 @@ module.exports = async function (queryUsername, queryAPIToken) {
     // Grab calendar events info from these active courses from CANVAS
     let icsStringsArray = await getICStexts(myCourses);
 
-
     /* ICAL SESSION */
     for (let COURSE_NUM = 0; COURSE_NUM < myCourses.length; COURSE_NUM++) {
         const calendarData = ical.parse(icsStringsArray[COURSE_NUM]);
@@ -108,11 +107,8 @@ module.exports = async function (queryUsername, queryAPIToken) {
 
                     // Date.parse converts date string into equivalent milliseconds
                     // since when?
-                    console.log("EVENT NAME: " + name);
                     start = new Date(Date.parse(icalStart) + myTimeZoneOffset).toISOString();
-                    console.log("FROM ALL DAY: " + start);
                     end = new Date(Date.parse(icalStart) + myTimeZoneOffset + millisecondInDay).toISOString();
-                    console.log("FROM ALL DAY: " + end);
                 }
                 // Handling NONE ALL DAY events
                 // isDate is false if both DTSTART AND DTEND EXIST
@@ -149,7 +145,7 @@ module.exports = async function (queryUsername, queryAPIToken) {
     }
     */
 
-    console.log("finished");
+    console.log("Successfully grabbed calendar events from Canvas's API");
 };
 
 async function getAllCourses() {
