@@ -30,7 +30,7 @@ const deleteHeader = {
 // From table users
 export async function queryUsernameFromUsers(username) {
     let URL = baseURL + usersUSERNAME + username;
-    return await fetchForMe(URL, getHeader);
+    return await fetchForMe(URL, options);
 }
 
 export async function queryUUIDFromUsers(uuid) {
@@ -152,7 +152,7 @@ var dataentry = {
  */
 export async function deleteUserByUsername(username) {
     let URL = baseURL + deleteByUSERNAME + username;
-    await fetchForMe(URL, deleteHeader);
+    await fetchForMe(URL, options2);
 }
 
 // Helper function to fetch data from our local server/database

@@ -189,7 +189,8 @@ async function getCurrentCourses() {
             // Get said difference but in days
             let diffDay = Math.ceil(diffTime / milliInDay); 
 
-            // A quarter at UCSD has on average 150 days, we only want
+            // A quarter at UCSD has on average 100 days, we only want
+            // courses that are still active within the last 100 days     
             if (diffDay < daysInQuarter) {
                 currentCourses.push(data[i]);
             }
