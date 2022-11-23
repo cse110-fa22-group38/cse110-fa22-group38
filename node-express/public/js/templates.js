@@ -94,8 +94,21 @@ function tevent(element, de) {
     let start = new Date(de.start);
     let end = new Date(de.end);
 
-    let top = ((start.getHours() - 6) + (start.getMinutes() / 60)) / .18;
-    let bottom = 100 - ((end.getHours() - 6) + (end.getMinutes() / 60)) / .18;
+    let bottom, top;
+
+    // check if start time is before 6AM
+    if (start.getHours() < 6) {
+        top = 0;
+    } else {
+        top = ((start.getHours() - 6) + (start.getMinutes() / 60)) / .18;
+    }
+
+    // check if the end time for an event is on a different day (i.e. tomorrow or like 12:00AM)
+    if (end.getDate() != start.getDate()) {
+        bottom = 0;
+    } else {
+        bottom = (100 - ((end.getHours() - 6) + (end.getMinutes() / 60)) / .18);
+    }
 
     
 
@@ -109,6 +122,25 @@ function tevent(element, de) {
             <p class="location">${elapsedTime} min | ${de.location}</p>
         </div>
         `;
+        element.style=`background-color: ${de.color}; width: 100%; top: ${top}%; bottom: ${bottom}%; overflow: hidden;`;
+        // if event is longer than 18 hours it is an all-day event
+    } else if ((end - start) > 72000000) {
+        element.innerHTML = `
+        <div class="tevent-box">
+            <p class="name">All Day: ${de.name}</p>
+        </div>
+        `;
+        element.style=`background-color: ${de.color}; position: relative; width: 50%; height: 22pt; left: 0%; overflow: hidden;`;
+        // if event is more than 4 hours, make it less wide
+    } else if ((end - start) > 14400000) {
+        element.innerHTML = `
+        <div class="tevent-box">
+            <p class="name">${de.name}</p>
+            <p class="location">${de.location}</p>
+            <p class="time">${start.toLocaleTimeString()} — ${end.toLocaleTimeString()}</p>
+        </div>
+        `;
+        element.style=`background-color: ${de.color}; top: ${top}%; bottom: ${bottom}%; left: 50%; right: 0%; overflow: hidden;`;
     } else {
         element.innerHTML = `
         <div class="tevent-box">
@@ -117,8 +149,8 @@ function tevent(element, de) {
             <p class="time">${start.toLocaleTimeString()} — ${end.toLocaleTimeString()}</p>
         </div>
         `;
+        element.style=`background-color: ${de.color}; width: 100%; top: ${top}%; bottom: ${bottom}%; overflow: hidden;`;
     }
-    element.style=`background-color: ${de.color}; top: ${top}%; bottom: ${bottom}%; overflow: hidden;`;
     element.classList.add("ID" + de.DEID);
     element.classList.add("tevent");
 }
