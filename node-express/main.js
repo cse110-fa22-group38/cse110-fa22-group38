@@ -171,6 +171,72 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
 })
 
 
+//add event 
+app.post('/add', checkNotAuthenticated, async (req, res) => {
+    try {
+        let event_id = Date.now() + Math.random();
+        let username = logged_user;
+        let event_n = req.body.event_name;
+        let event_t = req.body.event_type;
+        let event_rel = req.body.event_relation;
+        let event_loc = req.body.event_location;
+        let start_time = req.body.event_start_time;
+        let end_time = req.body.event_end_time;
+        let event_details = req.body.event_details;
+        let event_color = req.body.event_color;
+        let event_completed = Boolean(false);
+
+        console.log(end_time);
+        
+        let INSERT = 
+        `
+        INSERT INTO events (
+            username,
+            event_id,
+            event_type,
+            event_name,
+            event_relation,
+            event_location,
+            event_details,
+            event_start,
+            event_end,
+            event_completed,
+            event_color) 
+            VALUES (?,?,?,?,?,?,?,?,?,?,?)
+        `;
+
+        let params = 
+        [username, event_id, event_t, 
+        event_n, event_rel, event_loc, event_details, 
+        start_time, end_time, event_completed, 
+        event_color];
+
+        //insert user in db param : uuid, username, password
+        db.run(INSERT, params, async (err) => {
+            if (err){
+                // If err thrown, likely that a user already existed in the database
+                // with the same username
+                console.error('Failed to add event to DB');
+                console.error(err);
+
+                // Redirect back to register so that they can register again
+                res.redirect('/add');
+            }
+            else {
+                console.log('Succesfully added new event for user: ' + username);
+  
+                // Aftering registering, redirect to the login page
+                res.redirect('/today')
+            }
+        })
+    } catch (err) {
+        // If somehow failed, redirect to registering again
+        res.redirect('/add') // redirect change
+        console.error(err);
+    }
+})
+
+
 //to log out (FIX IT)
 app.delete('/logout', (req, res) => {
     req.logOut() // Log out first
@@ -328,7 +394,6 @@ app.post('/accountsettings', checkNotAuthenticated, async (req, res) => {
         console.log(err);
     }
 })
-
 
 /*
  * This function checks authentication from the array 
