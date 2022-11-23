@@ -18,6 +18,9 @@
   <!--Script Source-->
   <script src="/assets/template.js" type="module"></script> <!-- Added -->
 
+  <script src="/today.js" type="module"></script>
+
+
   <!--Template Object Linking-->
 	<script src="/templates.js"></script>
 	<link rel="stylesheet" href="/templatestyle.css">
@@ -180,12 +183,14 @@
       <!--Event List vertical flex box-->
       <div id="eventslistcontainer" class="container">
         <!--Events go in here, they should expand horizontally to fill up all available space, and will contract vertically to match the size of their content-->
+
       </div>
 
       <!--Task List vertical flex box-->
       <div id="tasklistcontainer" class="container">
         <!--Tasks go in here, they should expand horizontally to fill up all available space, and will contract vertically to math the size of their contents-->
       </div>
+
       <div class="container"></div>
     </div>
   </main>
@@ -204,6 +209,7 @@
     </div>
   </header>
 </body>
+
 <script>
   // Once the skeleton loaded, run the script to populate the page
   window.addEventListener('DOMContentLoaded', init);
@@ -331,5 +337,6 @@
     }
   }
 </script>
+
 
 </html>
