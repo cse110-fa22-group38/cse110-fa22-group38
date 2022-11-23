@@ -92,51 +92,51 @@
         }
     </style>
     <body>
-        <form>
+        <form action="/add" method="POST">
             <div>
                 <div>Type of Event</div>
                 <div>
-                    <input type="radio" id="event" name="event-type" value="event">
+                    <input type="radio" id="event" name="event_type" value="event">
                     <label for="event">Event</label>
                 </div>
                 <div>
-                    <input type="radio" id="final" name="event-type" value="final">
+                    <input type="radio" id="final" name="event_type" value="final">
                     <label for="final">Final</label>
                 </div>
                 <div>
-                    <input type="radio" id="task" name="event-type" value="task">
+                    <input type="radio" id="task" name="event_type" value="task">
                     <label for="task">Task</label>
                 </div>
             </div>
             <div>
                 <label for="relation">Association</label>
                 <select>
-                    <option>New</option>
-                    <option>Mom's Spaghetti</option>
+                    <option name="event_relation">New</option>
+                    <option name="event_relation">Mom's Spaghetti</option>
                 </select>
             </div>
             <div>
                 <label for="name">Name</label>
-                <input type="text" id="name">
+                <input type="text" id="name" name="event_name">
             </div>
             <div>
                 <label for="location">Location</label>
-                <input type="text" id="location">
+                <input type="text" id="location" name="event_location">
             </div>
             <div>
                 <label for="start">Start</label>
-                <input type="datetime-local" id="start">
+                <input type="datetime-local" id="start" name="event_start_time">
             </div>
             <div>
                 <label for="end">End Time / Due</label>
-                <input type="datetime-local" id="end">
+                <input type="datetime-local" id="end" name="event_end_time">
             </div>
                 <div><label for="description">Description</label>
-                <textarea id="description" rows="7"></textarea>
+                <textarea id="description" rows="7" name="event_details"></textarea>
             </div>
             <div>
                 <label for="color">Color</label>
-                <input type="color" id="color" value="#ee6fa8">
+                <input type="color" id="color" value="#ee6fa8" name="event_color">
             </div>
             <div>
                 <input type="submit">
