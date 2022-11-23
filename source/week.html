@@ -22,45 +22,10 @@
         <script src="week.js" type="module"></script>
     </head>
     <style>
-        * {
+* {
   font-family: IBM Plex Mono;
 }
-header {
-  display: flex;
-  flex-direction: row;
-  width: 98%;
-  left: 1%;
-  align-items: center;
-  top: 1.5vh;
-  position: absolute;
-}
-.title {
-  font-family: IBM Plex Sans;
-  font-weight: 600;
-  font-size: 4vh;
-  color: white;
-  margin-top: 0;
-  margin-left: 1vh;
-  color: #ee6fa8;
-  flex-grow: 1;
-}
-.menu {
-  align-self: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  height: 4vh;
-  width: 4vh;
-  margin-right: 2vh;
-  cursor: pointer;
-}
 
-.hamburger-line {
-  height: .5vh;
-  width: 100%;
-  background-color: white;
-  border-radius: 2.5px;
-}
 .content {
   display: flex;
   gap: 20px;
@@ -68,7 +33,7 @@ header {
   left: 1%;
   /*background: rgb(40,40,40);*/
   position: absolute;
-  top: 8vh;
+  top: 80px;
   flex-wrap: wrap;
   overflow: hidden;
   border-radius: 20px;
@@ -438,6 +403,20 @@ header {
     
   </div>
 </main>
+<header>
+  <div class="navcontainer">
+      <nav>
+          <ul>
+            <li><img src="/favicon.ico" alt="logo" class="logo"></li>
+              <li><a href="/quarter">Quarter</a></li>
+              <li><a href="/week">Weekly</a></li>
+              <li><a href="/today">Daily</a></li>
+              <li><a href="/settings">Settings</a></li>
+              <li><a href="/add">Add</a></li>
+          </ul>
+      </nav>
+  </div>
+</header>
 </body>
 <script>
 
