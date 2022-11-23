@@ -162,7 +162,6 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
     }
 })
 
-
 //to log out (FIX IT)
 app.delete('/logout', (req, res) => {
     req.logOut() // Log out first
@@ -206,15 +205,6 @@ app.get('/settings', checkNotAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname + '/../source/settings.html'));
 })
 
-// Account settings page
-app.get('/accountsettings', checkNotAuthenticated, (req, res) => {
-    if (logged_user == null) {
-        res.redirect("/login");
-    }
-
-    res.sendFile(path.join(__dirname + '/../source/accountsettings.html'));
-})
-
 // Add event page
 app.get('/add', checkNotAuthenticated, (req, res) => {
     if (logged_user == null) {
@@ -224,8 +214,8 @@ app.get('/add', checkNotAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname + '/../source/addevent.html'));
 })
 
-// Handling output from the accountsettings page
-app.post('/accountsettings', checkNotAuthenticated, async (req, res) => {
+// Handling output from the settings page
+app.post('/settings', checkNotAuthenticated, async (req, res) => {
     try {
         // Handling the save button
         if (req.query.button == "save") {
