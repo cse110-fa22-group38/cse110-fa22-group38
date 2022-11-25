@@ -8,19 +8,37 @@ const ical = require('ical.js');
 const db = require("./database.js");
 
 /* CANVAS API SECTION */
-let data; // To store parsed data of all courses
+// To store parsed data of all courses
+let data;
 
-// TODO: FILL YOYR CANVAS API KEY HERE IF YOU WANT TO TRY THIS OUT
-// THERE ARE TUTORIALS ON HOW TO GET THE CANVAS API KEY, LOOK IT UP!
+// Storing the user's api token to fetch calendar events from Canvas
 let apiToken;
 
+// Some date constants
 const milliInDay = 1000 * 60 * 60 * 24;
 const daysInQuarter = 150;
 const todayDate = new Date();
-const EVENT = "event-calendar-event-";
-const ASSIGNMENT = "event-assignment-"; 
+
+// Available type of events
+const REGULAR_EVENT = {
+    name: "event-calendar-event-",
+    color: "#0000FF",
+};
+
+const TASK = {
+    name: "event-assignment-",
+    color: "#FFA500"
+}
+
+const SPECIAL_EVENT = {
+    name: ["midterm", "exam", "final", "quiz"],
+    color: "#FF0000",
+}
+
+// UCSD's Canvas infrastructure
 const coursesURL = "https://canvas.ucsd.edu/api/v1/courses?per_page=100";
 
+// Syntax string to insert a new event into our database
 let INSERT = 
 `
 INSERT INTO events (
@@ -39,6 +57,29 @@ INSERT INTO events (
 `;
 
 // Main function
+/* Welcome to the Canvas API. This function can be exported and used by other
+ * files in the same directory. It queries Canvas API's for the user's calendar events
+ * for their "currently active" courses, based on their provided Canvas API token. 
+ * For each event in the ics file, it will use ICAL.JS to parse the data and insert them
+ * into table "events" in our database file. 
+ * 
+ * PRECONDITION: queryUsername nor queryAPIToken
+ *               (recommended) queryAPIToken is a valid API token.
+ *  
+ * @param queryUsername The username whose we are grabbing calendar events for
+ * @param queryAPIToken The Canvas API Token of the user
+ * 
+ * @return None
+ * 
+ * POSTCONDITION: 
+ * If the queryAPIToken was not null and valid, 
+ * then we should be able to fetch data from Canvas, 
+ * unless other errors show up. Case that we succesfully fetched
+ * and parsed the data from Canvas, table "events" should be populated 
+ * with new calendar events for the queryUsername.
+ * 
+ * BUGS: Currently not known.
+ */
 module.exports = async function (queryUsername, queryAPIToken) {
     // Assign the api token
     apiToken = await queryAPIToken;
@@ -46,7 +87,7 @@ module.exports = async function (queryUsername, queryAPIToken) {
      // Grab active courses of users
     let myCourses = await getCurrentCourses();
 
-    // Grab calendar events info from these active courses from CANVAS
+    // Grab raw calendar events info from these active courses from CANVAS
     let icsStringsArray = await getICStexts(myCourses);
 
     /* ICAL SESSION */
@@ -56,6 +97,7 @@ module.exports = async function (queryUsername, queryAPIToken) {
         let allEvents = comp.getAllSubcomponents('vevent');
         
         // Treating this as a for loop
+        // i.e For each event 
         allEvents.map((event) => {
             let DEID = "N/A";
             let type = "N/A";
@@ -66,7 +108,7 @@ module.exports = async function (queryUsername, queryAPIToken) {
             let start = "N/A";
             let end = "N/A";
             let done = Boolean(false);
-            let color = "#000000";
+            let color = "#000000"; // White by default
 
             if (event.hasProperty('summary')) {
                 name = event.getFirstPropertyValue('summary').replace(/ *\[[^)]*\] */g, "");
@@ -83,14 +125,26 @@ module.exports = async function (queryUsername, queryAPIToken) {
                 DEID = UID.match(/\d+/)[0];
         
                 // Finding the type of event
-                if (UID.includes(EVENT)) {
+                if (UID.includes(REGULAR_EVENT.name)) {
                     type = "event";
+                    color = REGULAR_EVENT.color;
                 }
-                else if (UID.includes(ASSIGNMENT)) {
-                    type = "assignment";
+                else if (UID.includes(TASK.name)) {
+                    type = "task";
                     details = "https://canvas.ucsd.edu/courses/" + myCourses[COURSE_NUM]['id']
                     + "/assignments/" + DEID;
+                    color = TASK.color;
                 }
+            }
+
+            // Handling special events
+            let isSpecial = isSpecialEvent(name);
+
+            console.log(isSpecial);
+            if (isSpecial) {
+                console.log("SPECIAL EVENT DETECTED!");
+                type = "exam";
+                color = SPECIAL_EVENT.color;
             }
 
             // Handling the formatting of the start and end date
@@ -129,25 +183,44 @@ module.exports = async function (queryUsername, queryAPIToken) {
             });
         })
     }
-    
-    // Other Debugging
-    /*
-    for (let i = 0; i < myCourses.length; i++) {
-        console.log("Course " + i + ": " + myCourses[i]['name'])
-        console.log("ID " + i + ": " + myCourses[i]['id'])
-        console.log("Link to ICS: " + myCourses[i]['calendar']['ics'])
-    }
-    */
-
-    /*
-    for (let i = 0; i < test.length; i++) {
-        console.log(icsStringArray[i]);
-    }
-    */
 
     console.log("Successfully grabbed calendar events from Canvas's API");
 };
 
+/* This function checks if an even is a special event based on the
+ * event's name (or ics's "summary"). Canvas's ics file is unfortunately 
+ * not very specific about the event type, so we want to do a more throughout
+ * check. The special events are:
+ * 
+ * Final, Quiz, Exam, Midterm
+ * 
+ * PRECONDITION: input is not null and correctly parsed from ics file.
+ * 
+ * If the event's name contains any of these strings, it will return true.
+ * Otherwise, returns false
+ *  
+ * @param input The name of the event we want to determine the event type on
+ * @return true if a special event
+ *         false otherwise
+ * 
+ */
+function isSpecialEvent(input) {
+    return SPECIAL_EVENT.name.some(event => 
+        input.toLowerCase().includes(event.toLowerCase()));
+}
+
+/* Given the user's Canvas API token, we want to fetch all of their still
+ * active courses from UCSD's Canvas API. Usually the json data returned from
+ * the Canvas API includes a link to an ics file, which contains all the calendar info
+ * for that particular courses. 
+ * 
+ * PRECONDITION: apiToken is set and checked if invalid or not.
+ *  
+ * @param No param needed
+ * @return An array of course OBJECTS if the user is valid and authorized.
+ *         An empty array if no courses for the user is found.
+ *         An error message from Canvas otherwise.
+ */
 async function getAllCourses() {
     let options = {
         method: 'GET',
@@ -160,7 +233,8 @@ async function getAllCourses() {
         let courses = await fetch(coursesURL, options);
     
         // courseData is an Array of Objects
-        let courseData = await courses.json(); // Parse into a JSON format for human readability
+        // Parse into a JSON format for human readability
+        let courseData = await courses.json(); 
         return courseData;
     }
     catch (err) {
@@ -168,6 +242,21 @@ async function getAllCourses() {
     }
 } 
 
+/* Given that we have fetched all "active" courses from Canvas,
+ * which are courses that did not end and still accessible 
+ * even though the class was already finished. We want to sort them
+ * and grab only the ones that are still "truly active" from all 
+ * the courses.
+ * 
+ * PRECONDITION: getAllCourses() was called to populate var data.
+ *               var data is not null or undefined.
+ *               (recommended) var data is not empty.
+ *  
+ * @param No param needed
+ * @return An array of "truly active" course OBJECTS if sorted successfully.
+ *         An empty array if no 'truly active" courses.
+ *         An error message from Canvas otherwise.
+ */
 async function getCurrentCourses() {
     try {
         data = await getAllCourses(); // Grab parsed data of ALL courses
@@ -189,8 +278,8 @@ async function getCurrentCourses() {
             // Get said difference but in days
             let diffDay = Math.ceil(diffTime / milliInDay); 
 
-            // A quarter at UCSD has on average 100 days, we only want
-            // courses that are still active within the last 100 days     
+            // A quarter at UCSD has on average 150 days, we only want
+            // courses that are still active within the last 150 days     
             if (diffDay < daysInQuarter) {
                 currentCourses.push(data[i]);
             }
@@ -203,6 +292,23 @@ async function getCurrentCourses() {
     }
 }
 
+/* Given that we have fetched the "truly active" courses from Canvas,
+ * we want to parse the ics file included in each course object to extract
+ * the calendar info from them. Currently, it is unknown which standard
+ * Canvas used for their ics file. But we will just hand it to node-module
+ * ICAL.JS to do all the hard works. This function only downloads and
+ * extracts all the raw ics texts. The actual parsing will be done in 
+ * grabFromCanvas().
+ * 
+ * PRECONDITION: getCurrentCourses() was called to make dataArray.
+ *               dataArray is not null or undefined.
+ *               (recommended) dataArray is not empty.
+ *  
+ * @param dataArray An array of all "truly active" course objects, if any.
+ * @return An array of raw ics texts.
+ *         An empty array dataArray was empty.
+ *         An error message from Canvas otherwise.
+ */
 async function getICStexts(dataArray) {
     try {
         // Array to store raw texts of all the courses in dataArray
