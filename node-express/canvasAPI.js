@@ -22,17 +22,17 @@ const todayDate = new Date();
 // Available type of events
 const REGULAR_EVENT = {
     name: "event-calendar-event-",
-    color: "#0000FF",
+    color: "#0000FF", // Blue
 };
 
 const TASK = {
     name: "event-assignment-",
-    color: "#FFA500"
+    color: "#FFA500", // Orange
 }
 
 const SPECIAL_EVENT = {
     name: ["midterm", "exam", "final", "quiz"],
-    color: "#FF0000",
+    color: "#FF0000", // Red
 }
 
 // UCSD's Canvas infrastructure
@@ -156,7 +156,8 @@ module.exports = async function (queryUsername, queryAPIToken) {
                 //              false otherwise
                 if (icalStart.isDate) {
                     // myTimeZoneOffset is in millisecond
-                    const myTimeZoneOffset = new Date().getTimezoneOffset() * 60 * 1000; // In california, it's 8 hours 
+                    // i.e In california, it's 8 hours (but in milliseconds)
+                    const myTimeZoneOffset = new Date().getTimezoneOffset() * 60 * 1000; 
                     const millisecondInDay = 86400000 - 60000;
 
                     // Date.parse converts date string into equivalent milliseconds
