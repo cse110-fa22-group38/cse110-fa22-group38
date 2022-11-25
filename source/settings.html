@@ -129,21 +129,23 @@
         <div class="header">Account Settings</div>
       </header>
     <main>
-      <form class="form1" action="">
+      <form class="form1" action="/settings" method="POST">
         <label for="username">Username:</label>
         <input id="username" type="email">
 
         <label for="password">Create New Password:</label>
-        <input id="password" type="password">
+        <input id="password" type="password" name="password">
 
         <label for="confirmpassword">Confirm New Password:</label>
-        <input id="confirmpassword" type="password">
+        <input id="confirmpassword" type="password" name="password">
 
-        <button type="save">Update</button>
+        <button type="save" formaction="add?button=update">Update</button>
       </form>
-      <div>
-        <button type="delete">Delete Account</button>
-      </div>
+      <form action="/add" method="POST">
+        <div>
+          <button type="delete" formaction="/add?button=delete">Delete Account</button>
+        </div>
+      </form>
     </main>    
     </body>
 </html>
