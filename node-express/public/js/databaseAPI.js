@@ -17,6 +17,7 @@ let deleteByUSERNAME = "api/users/delete/";
 let eventsTODAY = "api/events/today";
 let eventsTHISWEEK = "api/events/this_week";
 let eventsTHISMONTH = "api/events/this_month";
+let allEvents = "api/events/";
 
 const getHeader =  {
     method: 'GET',
@@ -124,6 +125,18 @@ export async function queryThisWeekEvents() {
  */
 export async function queryThisMonthEvents() {
     let URL = baseURL + eventsTHISMONTH;
+    return await fetchForMe(URL, getHeader);
+}
+
+/* This function contacts the database to grab this all events 
+ * for the logged in user (full 24 hours) in their LOCAL TIME.
+ * 
+ * @params NO param needed
+ * @return An ARRAY of dataentry objects if any events
+ *         An empty ARRAY otherwise
+ */
+export async function queryAllEvents() {
+    let URL = baseURL + allEvents;
     return await fetchForMe(URL, getHeader);
 }
 
