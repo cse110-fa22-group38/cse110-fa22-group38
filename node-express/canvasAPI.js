@@ -15,7 +15,9 @@ let data; // To store parsed data of all courses
 let apiToken;
 
 const milliInDay = 1000 * 60 * 60 * 24;
-const daysInQuarter = 100;
+
+const daysInQuarter = 150;
+
 const todayDate = new Date();
 const EVENT = "event-calendar-event-";
 const ASSIGNMENT = "event-assignment-"; 
@@ -24,7 +26,9 @@ const coursesURL = "https://canvas.ucsd.edu/api/v1/courses?per_page=100";
 let INSERT = 
 `
 INSERT INTO events (
-    uuid,
+
+    username,
+
     event_id,
     event_type,
     event_name,
@@ -39,18 +43,19 @@ INSERT INTO events (
 `;
 
 // Main function
-module.exports = async function(queryUUID, queryAPIToken) {
-    // Assign the api toke
+
+module.exports = async function (queryUsername, queryAPIToken) {
+    // Assign the api token
+
     apiToken = await queryAPIToken;
 
      // Grab active courses of users
     let myCourses = await getCurrentCourses();
 
     // Grab calendar events info from these active courses from CANVAS
-    let icsStringsArray = await getICStexts(myCourses); 
 
-    // Grab the UUID first, store somewhere
-    // Then moveon to this portion
+    let icsStringsArray = await getICStexts(myCourses);
+
 
     /* ICAL SESSION */
     for (let COURSE_NUM = 0; COURSE_NUM < myCourses.length; COURSE_NUM++) {
@@ -69,7 +74,8 @@ module.exports = async function(queryUUID, queryAPIToken) {
             let start = "N/A";
             let end = "N/A";
             let done = Boolean(false);
-            let color = "#ffffff";
+            let color = "#000000";
+
 
             if (event.hasProperty('summary')) {
                 name = event.getFirstPropertyValue('summary').replace(/ *\[[^)]*\] */g, "");
@@ -95,35 +101,45 @@ module.exports = async function(queryUUID, queryAPIToken) {
                     + "/assignments/" + DEID;
                 }
             }
-        
-            if (event.hasProperty('dtstart')) {
-                start = event.getFirstPropertyValue('dtstart').toJSDate();
-            }
-        
-            if (event.hasProperty('dtend')) {
-                end = event.getFirstPropertyValue('dtend').toJSDate();
-            }
-            else if (event.hasProperty('dtstart')) {
-                end = event.getFirstPropertyValue('dtstart').toJSDate();
-            }
+
             
-            // Debugging
-            /*
-            console.log("Name: " + dataentry.name);
-            console.log("Type of event: " + dataentry.type);
-            console.log("DEID: " + dataentry.DEID);
-            console.log("Relation: " + dataentry.relation);
-            console.log("Location: " + dataentry.location);
-            console.log("Details: " + dataentry.details);
-            console.log("Start time: " + dataentry.start);
-            console.log("End date: " + dataentry.end);
-            console.log("Done?: " + dataentry.done);
-            console.log("Color?: " + dataentry.color);
-            console.log("");
-            */
-    
+            // Handling the formatting of the start and end date
+            if (event.hasProperty('dtstart')) {
+                icalStart = event.getFirstPropertyValue('dtstart');
+
+                // Handling ALL DAY events
+                // Agenda 1
+                // isDate means true if "YYYY-MM-DD" but no hours, minutes nor settings
+                //              false otherwise
+                if (icalStart.isDate) {
+                    // myTimeZoneOffset is in millisecond
+                    const myTimeZoneOffset = new Date().getTimezoneOffset() * 60 * 1000; // In california, it's 8 hours 
+                    const millisecondInDay = 86400000 - 60000;
+
+                    // Date.parse converts date string into equivalent milliseconds
+                    // since when?
+                    console.log("EVENT NAME: " + name);
+                    start = new Date(Date.parse(icalStart) + myTimeZoneOffset).toISOString();
+                    console.log("FROM ALL DAY: " + start);
+                    end = new Date(Date.parse(icalStart) + myTimeZoneOffset + millisecondInDay).toISOString();
+                    console.log("FROM ALL DAY: " + end);
+                }
+                // Handling NONE ALL DAY events
+                // isDate is false if both DTSTART AND DTEND EXIST
+                else {
+                    start = new Date(icalStart).toISOString();
+
+                    if (event.hasProperty('dtend')) {
+                        end = new Date(event.getFirstPropertyValue('dtend')).toISOString();
+                    }
+                }
+            }
+
+            let newEvent = [queryUsername, DEID, type, name, relation, location, details, start, end, done, color];
+
             // dataentry read to be inserted into database
-            db.run(INSERT, [DEID, queryUUID, type, name, relation, location, details, start, end, done, color], (err) => {
+            db.run(INSERT, newEvent, (err) => {
+
                 // Do nothing
             });
         })
@@ -189,7 +205,7 @@ async function getCurrentCourses() {
             let diffDay = Math.ceil(diffTime / milliInDay); 
 
             // A quarter at UCSD has on average 100 days, we only want
-            // courses that are still active within the last 100 days     
+
             if (diffDay < daysInQuarter) {
                 currentCourses.push(data[i]);
             }
@@ -224,6 +240,8 @@ async function getICStexts(dataArray) {
         return allICStexts;
     }
     catch (err) {
-        console.log(error.message);
+
+        console.log(err.message);
+
     }
 }
