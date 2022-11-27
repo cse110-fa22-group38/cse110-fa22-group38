@@ -1,11 +1,34 @@
+import * as dbAPI from "./databaseAPI.js";
+
+// predefined quarter start and end date for FA2022
+const quarter = {
+	start: "2022-09-22T07:00:00.000Z",
+	end: "2022-12-10T19:59:59.000Z",
+};
+
 // Waiting for the html page 
 window.addEventListener('DOMContentLoaded', init);
-function init() {
-	let quarter = {
-		start: "2022-09-22T00:00:00",
-		end: "2022-12-10T00:00:00"
-	};
+
+async function init() {
+	// 1) Retrieve all the events for this quarter based on the date range
+	// From the database
+	// Converting the strings into universal time first
+	let universal_start = new Date(quarter.start);
+	let universal_end = new Date(quarter.end);
+	let universal_start_string = universal_start.toISOString();
+	let universal_end_string = universal_end.toISOString();
+
+	console.log(universal_start_string);
+	console.log(universal_end_string);
+
+	let deArray = await retrieveFromDatabase(universal_start_string, universal_end_string);
+	console.log(deArray);
 	
+	// 2) Build the calendar from the data that we just grabbed.
+	buildCalendar(deArray);
+}
+
+async function buildCalendar(deArray) {
 	let qstart = new Date(quarter.start);
 	let qend = new Date(quarter.end);
 	
@@ -20,7 +43,7 @@ function init() {
 		numweek = 0;
 	}
 	
-	// set up first week (becuase it is specail :) )
+	// set up first week (becuase it is special :) )
 	let weeknum = document.createElement("td");
 	weeknum.innerHTML = `${numweek}`;
 	weeknum.classList.add("week-number");
@@ -29,7 +52,6 @@ function init() {
 	
 	for (let i = 0; i < currdate.getDay(); i++) {
 		week.appendChild(document.createElement("td"));
-		console.log("this thing ran lol");
 		calendar.appendChild(week);
 	}
 	let i = 0;
@@ -48,7 +70,6 @@ function init() {
 			week.appendChild(weeknum)
 		}
 		let day = document.createElement("td");
-		
 		
 		/*Stuff in the boxes goes here:*/
 		//let events = Databaseething.getByDate(currday.toISOString);
@@ -86,13 +107,13 @@ function init() {
 		day.appendChild(eventcontainer);
 		day.appendChild(taskcontainer);
 		
-		console.log(currdate.toISOString());
 		week.appendChild(day);
 		currdate.setDate(currdate.getDate() + 1);
 		i++;
 	}
 }
 
-async function retrieveFromDatabase() {
-    return awa
+// Retrieving this quarter's events within
+async function retrieveFromDatabase(start_date, end_date) {
+    return await dbAPI.queryThisQuarterEvents(start_date, end_date);
 }

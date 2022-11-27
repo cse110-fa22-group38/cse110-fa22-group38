@@ -138,7 +138,7 @@ export async function queryThisMonthEvents() {
  *         An empty ARRAY otherwise
  */
 export async function queryThisQuarterEvents(start_date, end_date) {
-    let URL = baseURL + start_date + "/" + end_date;
+    let URL = baseURL + eventsTHISQUARTER + start_date + "/" + end_date;
     return await fetchForMe(URL, getHeader);
 }
 
