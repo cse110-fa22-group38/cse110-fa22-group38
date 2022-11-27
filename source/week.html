@@ -10,7 +10,8 @@
         <link rel="Web Icon" href="./assets/favicon.ico" type="">
 
         <!--Template Object Linking-->
-        <script src="./js/templates.js"></script>
+        <script src="./js/templates.js"> type='module'</script>
+        <script src="./js/databaseAPI.js" type="module"></script>
 	      <link rel="stylesheet" href="./styles/templatestyle.css">
         <link rel="stylesheet" href="./styles/navbar.css">
 
@@ -426,48 +427,4 @@
   </div>
 </header>
 </body>
-<script>
-
-  ////Code for filling days with information.
-  
-  const curDate = new Date(Date.now());
-
-  // if sunday, do stuff differently
-  if (curDate.getDay() == 0) {
-    curDate.setDate(curDate.getDate() - 6);
-  } else {
-    curDate.setDate(curDate.getDate() - curDate.getDay() + 1);
-  }
-  
-  console.log(curDate);   //goes to event container of monday of this week.
-
-  let i = 0;
-
-  let eventcontainer;
-  while (i < 7) {
-    eventcontainer = document.querySelector(`#W${curDate.getDay()}`);
-    curDate.setDate(curDate.getDate() + 1);
-    i++;
-  }
-
-  
- 
-  for (let i = 0; i < darray.length; i++) {
-      let newEvent = document.createElement('div');
-      if ((darray[i].type == "event") || (darray[i].type == "exam")) {
-        tevent(newEvent, darray[i]);
-      } else {
-        ttask(newEvent, darray[i]);
-      }
-      eventcontainer.appendChild(newEvent);
-      console.log(newEvent);
-  }
-
-  
-
-  
-
-
-</script>
-
 </html>

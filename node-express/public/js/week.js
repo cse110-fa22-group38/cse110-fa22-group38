@@ -1,35 +1,52 @@
+import * as dbAPI from "/js/databaseAPI.js";
+
 // Once the skeleton loaded, run the script to populate the page
 window.addEventListener('DOMContentLoaded', init);
 
-function init() {
-    let timeline = document.getElementsByClassName('timelinecontainer');
+async function init() {
+    // Retrieve calendar events for this week
+    let deArray = await retrieveFromDatabase();
 
-    //puts all the hours into the timeline.
-    //setInterval(setNow(), 60000);
+    // Logging whatever was returned from the database
+    console.log(deArray);
+
+    // Populate the timeline lists from Monday to Sunday
+    populateLists(deArray);
 }
 
-function setNow() {
-  //get time values using Date() Object
-  let time = new Date();
-  let hour = time.getHours();
-  let minute = time.getMinutes();
-  
-  // calendar starts at 6AM not 12AM
-  hour = hour - 6;
-  
-  // only set now-bar if time is after 6AM
-  if (hour >= 6) {
-    
-    minute = minute/60; //convert minutes to fractions of an hour
-    
-    
-    let percentage = (hour + minute)/.18; // divide by 18 and multiply by 100 to get percentage of container
-    
-    let now = document.getElementById('now-line');
-    now.style=`top: ${percentage}%;` // set now's location to percentage of page
-    
-    console.log(`now line set position ${hour + minute}`);
-  } else {
-    console.log("now line not set")
+// Retrieve this week event from the database
+async function retrieveFromDatabase() {
+  return await dbAPI.queryThisWeekEvents();
+}
+
+function populateLists(deArray) {
+  if (!deArray) return;
+
+  // Iterating over the events and sort them 
+  // based on their weekday
+  for (let i = 0; i < deArray.length; i++) {
+    // Sunday-Saturday is 0-6
+    let endDate = deArray[i]["event_end"];
+    let weekDay = new Date(endDate).getDay();
+
+    // For each event, select the appropriate timeline list and append
+    // the event to that timeline list.
+    // Sunday-Saturday is D0-D6
+    let timeContainer = document.querySelector("#W" + weekDay);
+    let eventType = deArray[i]["event_type"];
+    let newEvent = document.createElement('div');
+
+    // Displaying the event based on its type
+    // Event/Exam or Task
+    if (eventType == "event" || 
+        eventType == "exam") {
+      tevent(newEvent, deArray[i]);
+    }
+    else {
+      ttask(newEvent, deArray[i]);
+    }
+
+    // Append new event to the timeline list
+    timeContainer.appendChild(newEvent);
   }
 }
