@@ -228,12 +228,10 @@ app.post('/add', checkNotAuthenticated, async (req, res) => {
     }
 })
 
-//to log out (FIX IT)
-app.delete('/logout', (req, res) => {
-    req.logOut() // Log out first
-    res.redirect('/login') // Redirect to login
+//to log out
+app.get('/logout', (req, res) => {
     logged_user = null;
-
+    res.redirect('/') // Redirect to login
 })
 
 // Today page
