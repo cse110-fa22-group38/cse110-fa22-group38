@@ -71,9 +71,9 @@
         border-radius: 10px;
       } 
   
-      button[type="delete"] {
+      button[type="submit"] {
         color: rgba(238,111,168,1);
-        margin-top: 20px;
+        margin-top: 5px;
         background: white;
         padding: 0.7em;
         width: 100%;
@@ -84,7 +84,7 @@
         margin-right: 28%;
       }
     
-      form button[type="save"]:hover {
+      form button[type="submit"]:hover {
         background: rgb(237, 185, 209);
       } 
   
@@ -125,9 +125,6 @@
   
     </style>
   </head>
-
-
-  
   <body>
     <!-- Main Login Page -->
       <header>
@@ -136,16 +133,16 @@
     <main>
       <form class="form1" action="/settings" method="POST">
         <label for="username">Username:</label>
-        <input id="username" type="email">
+        <input id="username" type="email" readonly>
 
-        <label for="password">Create New Password:</label>
-        <input id="password" type="password">
+        <label for="password">Confirm Old Password:</label>
+        <input id="password" type="password" name="old_pass">
 
-        <label for="confirmpassword">Confirm New Password:</label>
-        <input id="confirmpassword" type="password">
+        <label for="confirmpassword">New Password:</label>
+        <input id="confirmpassword" type="password" name="new_pass">
 
-        <button type="save">Update</button>
-        <button type="delete">Delete Account</button>
+        <button type="submit" value="update">Update New Password</button>
+        <button type="submit" value="delete">Delete Account</button>
       </form>
     </main>    
     </body>
