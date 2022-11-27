@@ -211,6 +211,8 @@ app.post('/add', checkNotAuthenticated, async (req, res) => {
         start_time, end_time, event_completed, 
         event_color];
 
+        console.log(params);
+
         //insert user in db param : uuid, username, password
         db.run(INSERT, params, async (err) => {
             if (err){
