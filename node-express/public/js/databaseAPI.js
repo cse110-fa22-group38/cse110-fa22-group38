@@ -17,7 +17,7 @@ let deleteByUSERNAME = "api/users/delete/";
 let eventsTODAY = "api/events/today";
 let eventsTHISWEEK = "api/events/this_week";
 let eventsTHISMONTH = "api/events/this_month";
-// let allEvents = "api/events/"
+let eventsTHISQUARTER = "api/events/";
 
 const getHeader =  {
     method: 'GET',
@@ -47,9 +47,7 @@ export async function queryDEIDFromEvents(deid) {
 
 export async function queryTypeFromEvents(type) {
     let URL = baseURL + eventsTYPE + type;
-
     return await fetchForMe(URL, getHeader);
-
 }
 
 export async function queryNameFromEvents(name) {
@@ -129,6 +127,21 @@ export async function queryThisMonthEvents() {
     return await fetchForMe(URL, getHeader);
 }
 
+/* This function contacts the database to grab this quarter's events 
+ * within a specified date range 
+ * for the logged in user (full 24 hours) in their LOCAL TIME.
+ * 
+ * @param start_date The start date of the quarter in universal time (UTC)
+ * @param end_date The end date of the quarter in universal time (UTC)
+ * 
+ * @return An ARRAY of dataentry objects if any events
+ *         An empty ARRAY otherwise
+ */
+export async function queryThisQuarterEvents(start_date, end_date) {
+    let URL = baseURL + start_date + "/" + end_date;
+    return await fetchForMe(URL, getHeader);
+}
+
 // Example of a dataentry object
 var dataentry = {
     "username": "Tung",
@@ -155,7 +168,6 @@ var dataentry = {
 export async function deleteUserByUsername(username) {
     let URL = baseURL + deleteByUSERNAME + username;
     await fetchForMe(URL, deleteHeader);
-
 }
 
 // Helper function to fetch data from our local server/database

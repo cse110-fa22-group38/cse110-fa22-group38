@@ -800,3 +800,31 @@ app.get("/api/events/this_month", (req, res, next) => {
         res.json({row});
     });
 });
+
+// Getting this quarter's events 
+app.get("/api/events/:start_date/:end_date", (req, res, next) => {
+    var sql = `
+    SELECT * from events where 
+    strftime('%Y-%m-%d', event_start, 'localtime') >= strftime('%Y-%m-%d', ?, 'localtime') and
+    strftime('%Y-%m-%d', event_end, 'localtime') <= strftime('%Y-%m-%d', ?, 'localtime')
+    and username = ?
+    ORDER BY event_start`;
+
+    // ?, ?, ?
+    var params = [req.params.start_date, req.params.end_date, logged_user];
+
+    console.log(logged_user);
+    if (!logged_user) {
+        console.log("User not logged in");
+        res.redirect('/login');
+        return;
+    };
+
+    db.all(sql, params, (err, row) => {
+        if (err) {
+          res.status(400).json({"error":err.message});
+          return;
+        }
+        res.json({row});
+    });
+})
