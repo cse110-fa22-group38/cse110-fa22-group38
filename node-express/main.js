@@ -715,7 +715,8 @@ app.get("/api/events/today", (req, res, next) => {
     var sql = `
     SELECT * from events where 
     strftime('%Y-%m-%d', event_end, 'localtime') = strftime('%Y-%m-%d', 'now', 'localtime')
-    and username = ?`;
+    and username = ?
+    ORDER BY event_start`;
 
     var params = [logged_user]
 
@@ -735,12 +736,13 @@ app.get("/api/events/today", (req, res, next) => {
     });
 });
 
-// Getting this week's events (TODO)
+// Getting this week's events (TODO) 
 app.get("/api/events/this_week", (req, res, next) => {
     var sql = `
     SELECT * from events where 
     strftime('%W', event_end, 'localtime') = strftime('%W', 'now', 'localtime')
-    and username = ?`;
+    and username = ?
+    ORDER BY event_start`;
 
     // 'now' returns today in UTC time "YYYY-MM-DD"
     // select all where event_end is in "this" week
@@ -778,7 +780,8 @@ app.get("/api/events/this_month", (req, res, next) => {
     var sql = `
     select * from events where 
     strftime('%m', event_end, 'localtime') = strftime('%m', 'now', 'localtime')
-    and username = ?`;
+    and username = ?
+    ORDER BY event_start`;
 
     var params = [logged_user]
 
