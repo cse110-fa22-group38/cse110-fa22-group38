@@ -165,11 +165,18 @@ app.post('/add', checkNotAuthenticated, async (req, res) => {
         let event_t = req.body.event_type;
         let event_rel = req.body.event_relation;
         let event_loc = req.body.event_location;
-        let start_time = req.body.event_start_time;
-        let end_time = req.body.event_end_time;
+        let local_start_time = req.body.event_start_time;
+        let local_end_time = req.body.event_end_time;
         let event_details = req.body.event_details;
         let event_color = req.body.event_color;
         let event_completed = Boolean(false);
+
+        // Converting local time into universal time before inserting into db
+        let universal_start = new Date(local_start_time);
+        let universal_end = new Date(local_end_time);
+
+        start_time = universal_start.toISOString();
+        end_time = universal_end.toISOString();
         
         let INSERT = 
         `
