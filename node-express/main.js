@@ -47,9 +47,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 // 1) Serving the javascript files
 app.use(express.static(path.join(__dirname + '/public/')));
 
-// 2) Serving all the assets required for our HTML paes
-app.use(express.static(path.join(__dirname + '/node_modukes')));
-
 // tells application form to access them inside req inside post method
 app.use(express.urlencoded({extended: false}))
 app.use(flash())

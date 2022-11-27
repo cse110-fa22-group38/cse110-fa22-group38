@@ -1,0 +1,138 @@
+.tevent-box {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    gap: 5px;
+    align-content: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    flex-wrap: wrap;
+}
+/*styles the contents inside of */
+.tevent-box > * {
+    overflow-wrap: break-word;
+    color: white;
+    font-size: 10pt;
+    padding: 0px;
+    margin: 0;
+    width: fit-content;
+    font-weight: 500;
+    font-family: 'IBM Plex Sans';
+    font-weight: 400;
+}
+
+.tevent {
+    position: absolute;
+    border-radius: 10px;
+}
+
+/*style for ttask*/
+
+.ttask {
+    position: absolute;
+    height: 4px;
+    width: 100%;
+}
+
+.ttask > * {
+    overflow-wrap: break-word;
+    opacity: 0.75;
+    position: relative;
+    top: -2px;
+    border-radius: 3px;
+    width: 100%;
+    height: 4px;
+    border: 1px solid white;
+    font-family: 'IBM Plex Sans';
+    font-weight: 400;
+}
+
+/*style for levent*/
+.levent-box {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 5px;
+}
+
+.levent {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.levent-box > * {
+    overflow-wrap: break-word;
+    font-size: 12pt;
+    font-weight: 200;
+    margin: 5px;
+    font-family: 'IBM Plex Sans';
+    font-weight: 400;
+}
+
+/*style for ltask*/
+.ltask-box {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 5px;
+    height: auto;
+}
+
+.ltask {
+    width: 100%;
+    border-radius: 10px;
+    height: auto;
+}
+
+.ltask-box > * {
+    overflow-wrap: break-word;
+    font-size: 12pt;
+    font-weight: 200;
+    margin: 5px;
+    font-family: 'IBM Plex Sans';
+    font-weight: 400;
+}
+
+.ltask-box > span > * {
+    font-family: 'IBM Plex Sans';
+    font-weight: 400;
+}
+/*style for quarter page*/
+
+.qevent {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    flex-shrink: 2;
+    margin: 1px;
+}
+
+.qtask {
+    width: 14px;
+    height: 14px;
+    border-radius: 7px;
+    flex-shrink: 2;
+    margin: 1px;
+}
+
+.qexam {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    flex-shrink: 0;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1px;
+}
+
+.qexam-dot {
+    height: 10px;
+    width: 10px;
+    background-color: white;
+    border-radius: 5px;
+}

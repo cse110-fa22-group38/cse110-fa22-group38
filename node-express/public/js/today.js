@@ -1,4 +1,4 @@
-import * as dbAPI from "/databaseAPI.js";
+import * as dbAPI from "/js/databaseAPI.js";
 
 // Once the skeleton loaded, run the script to populate the page
 window.addEventListener('DOMContentLoaded', init);
