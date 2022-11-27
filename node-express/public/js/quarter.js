@@ -23,9 +23,18 @@ async function init() {
 
 	let deArray = await retrieveFromDatabase(universal_start_string, universal_end_string);
 	console.log(deArray);
+
+	convertDate(deArray);
 	
 	// 2) Build the calendar from the data that we just grabbed.
 	buildCalendar(deArray);
+}
+
+function convertDate(deArray) {
+	for (let i = 0; i < deArray.length; i++) {
+		deArray[i].start = new Date(deArray[i]['event_start'])
+		deArray[i].end = new Date(deArray[i]['event_end'])
+	}
 }
 
 async function buildCalendar(deArray) {
@@ -83,23 +92,31 @@ async function buildCalendar(deArray) {
 		
 		let eventcontainer = document.createElement("div");
 		eventcontainer.classList.add("event-container");
-
-        // if event date == currDate
 		
-        // create a qevent object
-
-        // eventcontainer.appendchild(qevent)
-        
-
 		let taskcontainer = document.createElement("div");
 		taskcontainer.classList.add("task-container");
 
-        // if task date == currDate
-		
-        // create a qtask object
+		for(let i = 0; i < deArray.length; i++) {
+			let event_type = deArray[i]['event_type'];
+			let event_start_local = deArray[i].start.toLocaleDateString();
+			let currdate_local = currdate.toLocaleDateString();
 
-        // taskcontainer.appendchild(qevent)
-		
+			if (event_start_local == currdate_local) {
+				let newDiv = document.createElement('div');
+				if (event_type == 'event') {
+					qevent(newDiv, deArray[i]);
+					eventcontainer.appendChild(newDiv);
+				}
+				else if (event_type == 'exam') {
+					qexam(newDiv, deArray[i]);
+					eventcontainer.appendChild(newDiv);
+				}
+				else {
+					qtask(newDiv, deArray[i]);
+					taskcontainer.appendChild(newDiv);
+				}
+			}
+		}
 
 		//for each event in eventsfromdatabase {add the event to the box in some clever way}
 		//for each task in eventsfromdatabase {add the event to the box in some clever way}
