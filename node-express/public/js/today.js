@@ -68,19 +68,18 @@ function setNow() {
   
   // only set now-bar if time is after 6AM
   if (hour >= 6) {
+    //convert minutes to fractions of an hour
+    minute = minute/60; 
     
-    minute = minute/60; //convert minutes to fractions of an hour
-    
-    let percentage = (hour + minute)/.18; // divide by 18 and multiply by 100 to get percentage of container
+     // divide by 18 and multiply by 100 to get percentage of container
+    let percentage = (hour + minute)/.18;
     
     let now = document.getElementById('now-line');
     now.style=`top: ${percentage}%;` // set now's location to percentage of page
-    
   }
 }
 
 /* DATABSE RELATED FUNCTION */
-// TODO ON THIS
 async function retrieveFromDatabase() {
     //array of events in JSON format(key value)
     let deArray = [];
@@ -99,8 +98,8 @@ function populateTimeContainer(element, deArray) {
     for (let i = 0; i < deArray.length; i++) {
         let newEvent = document.createElement('div');
         
-        // CHANGED
-        if (deArray[i]["event_type"] == "event") {
+        if (deArray[i]["event_type"] == "event" || 
+            deArray[i]["event_type"] == "exam") {
             tevent(newEvent, deArray[i]);
         }
         else {
@@ -118,11 +117,11 @@ function populateEventContainer(element, deArray) {
     for (let i = 0; i < deArray.length; i++) {
         let newEvent = document.createElement('div');
         
-        if (deArray[i]["event_type"] != "task") {
+        if (deArray[i]["event_type"] == "event" || 
+            deArray[i]["event_type"] == "exam") {
             levent(newEvent, deArray[i]);
+            element.appendChild(newEvent);
         }
-        
-        element.appendChild(newEvent);
     }
 }
 
@@ -135,8 +134,7 @@ function populateTaskContainer(element, deArray) {
         
         if (deArray[i].type == "task") {
             ltask(newEvent, deArray[i]);
+            element.appendChild(newEvent);
         }
-        
-        element.appendChild(newEvent);
     }
 }
