@@ -8,7 +8,6 @@ async function init() {
 
     //puts all the hours into the timeline.
     setInterval(setNow(), 60000);
-    buildTimeline(timeline);
 
     // Retrieving data entry array from database
     let deArray = await retrieveFromDatabase();
@@ -27,8 +26,9 @@ async function init() {
 }
 
 /**
-* creates a time-markers from 6AM to 12PM inside a timeline holder
-* parameter: timelinecontainer.
+ * Currently unsued, and timeline is now hard-coded from 6AM to 12AM
+ * creates a time-markers from 6AM to 12PM inside a timeline holder
+ * parameter: timelinecontainer.
 */
 function buildTimeline(timeline) {
   for (var i = 0; i < 19; i++) {
