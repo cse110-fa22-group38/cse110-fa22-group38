@@ -87,7 +87,7 @@ async function retrieveFromDatabase() {
     
     // Return an array of dataentry objects from the database
     // Each de is already initialized
-    deArray = await dbAPI.queryThisMonthEvents();
+    deArray = await dbAPI.queryTodayEvents();
     
     return deArray;
 }
