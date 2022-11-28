@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Quarter View</title>
-	<link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon"/>
+	<link rel="icon" href="/assets/favicon.png" type="image/png"/>
 
 	<!--Template Object Linking-->
 	<script src="/js/templates.js"></script>
@@ -34,12 +34,14 @@
 			flex-direction: row;
 			justify-content: center;
 			gap: 4px;
+			margin-top: 5px;
 		}
 		.event-container {
 			display: flex;
 			flex-direction: row;
 			justify-content: center;
 			gap: 4px;
+			margin-top: 5px;
 		}
 	
 		.day-container {
@@ -64,6 +66,7 @@
 			background-color: #000000;
 			margin-left: auto;
 			margin-right: auto;
+			border-spacing: 20px;
 		}
 		
 		.weekday {
@@ -75,54 +78,50 @@
 			color: white;
 			text-align: center;
 		}
-	
+		
 		.day-container:has(.qexam) {
 			background-color: #666666;
 		}
-	
-	
 	</style>
 </head>
 <body style = "background-color:black;">
-	
-	<br/>
-	
-	<table class="table" cellspacing="21">
-	<caption>
-	</caption>
-	
-	<thead>
-		<tr>
-			<th class="weekday">Week #</th>
-			<th class="weekday">Sun</th>
-			<th class="weekday">Mon</th>
-			<th class="weekday">Tue</th>
-			<th class="weekday">Wed</th>
-			<th class="weekday">Thu</th>
-			<th class="weekday">Fri</th>
-			<th class="weekday">Sat</th>
-		</tr>
-	</thead>
-	
-	<tbody class="calendar">
+	<main>
+		<br/>
 		
-	</tbody>
-</table>
+		<table class="table">
+			<caption>
+			</caption>
+			
+			<thead>
+				<tr>
+					<th class="weekday">Week #</th>
+					<th class="weekday">Sun</th>
+					<th class="weekday">Mon</th>
+					<th class="weekday">Tue</th>
+					<th class="weekday">Wed</th>
+					<th class="weekday">Thu</th>
+					<th class="weekday">Fri</th>
+					<th class="weekday">Sat</th>
+				</tr>
+			</thead>
+			<tbody class="calendar"></tbody>
+		</table>
+	</main>
+	<header>
+		<div class="navcontainer">
+			<nav>
+				<ul>
+					<li><img src="/assets/logo-square.png" alt="logo" class="logo"></li>
+					<li><a href="/logout">Logout</a></li>
+					<li><a href="/quarter">Quarter</a></li>
+					<li><a href="/week">Weekly</a></li>
+					<li><a href="/today">Daily</a></li>
+					<li><a href="/settings">Settings</a></li>
+					<li><a href="/add">Add</a></li>
+				</ul>
+			</nav>
+		</div>
+	</header>
 </body>
-<header>
-	<div class="navcontainer">
-		<nav>
-			<ul>
-				<li><img src="/assets/logo-square.png" alt="logo" class="logo"></li>
-				<li><a href="/logout">Logout</a></li>
-				<li><a href="/quarter">Quarter</a></li>
-				<li><a href="/week">Weekly</a></li>
-				<li><a href="/today">Daily</a></li>
-				<li><a href="/settings">Settings</a></li>
-				<li><a href="/add">Add</a></li>
-			</ul>
-		</nav>
-	</div>
-</header>
 </html>
 

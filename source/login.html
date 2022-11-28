@@ -19,8 +19,8 @@
             /* Main Login Page*/
             /* Black background*/
             * {
-                font-family: IBM Plex Sans;
-                font-weight: Regular;
+                font-family: 'IBM Plex Sans';
+                font-weight: 400;
             }
             Body {    
                 background-color: black;  
@@ -32,7 +32,7 @@
                 position: absolute;
                 top: 5vh;
                 line-height: 1;
-                font-weight: Regular;
+                font-weight: 400;
                 font-size: 64px;
                 opacity: 1;
                 text-align: center;
@@ -78,7 +78,7 @@
                 text-align: center;
                 border: 2px solid rgba(238,111,168,1);
                 border-radius: 20px;
-                font-size: 30;
+                font-size: 30px;
             }
             /* New? text*/
             #new {
@@ -88,8 +88,7 @@
                 top: 73%;
                 left: 45%;
                 right: 45%;
-                font-family: IBM Plex Sans;
-                font-weight: Regular;
+                font-family: 'IBM Plex Sans';
                 font-size: 20px;
                 font-weight: 600;
                 opacity: 1;
@@ -102,7 +101,7 @@
                 font-weight: 500;
                 border-radius: 20px;
                 border: 2px solid rgba(238,111,168,1);
-                font-size: 16;
+                font-size: 16pt;
                 text-align: center;
             }
         </style>
@@ -117,9 +116,8 @@
 
             </header>
             <form action="/login" method="post">
-                <div class="loginbox"> 
-
-                    <input type="username" placeholder="Username" name="username" class="textentry" required>    
+                <div class="loginbox">
+                    <input type="text" placeholder="Username" name="username" class="textentry" required>    
                     <input type="password" placeholder="Password" name="password" class="textentry" required>  
                     <div style="flex-shrink: 1;"></div>
                     <button type="submit">Login</button> 
@@ -127,8 +125,8 @@
             </form>
             <div id="new">New?</div>
             <div style="display: flex; flex-direction: column; align-items: center; top: 78%; left: 1%; position: absolute; width: 98%; gap: 10px;">
-                <button type="info" class="info-button">Learn More</button>
-                <button type="signup" class="info-button" onclick="window.location.href='./register'" >Sign Up</button>
+                <button class="info-button" onclick="window.location.href='./'">Learn More</button>
+                <button class="info-button" onclick="window.location.href='./register'" >Sign Up</button>
             </div>      
         </main>
     </body>
