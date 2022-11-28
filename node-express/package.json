@@ -4,7 +4,8 @@
   "description": "Express REST API",
   "main": "main.js",
   "scripts": {
-    "server": "nodemon node_express/main.js"
+    "server": "node node_express/main.js",
+    "server-dev": "nodemon node_express/main.js"
   },
   "author": "Tung Nguyen",
   "license": "ISC",
