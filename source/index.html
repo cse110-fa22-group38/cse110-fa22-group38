@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <title>Powell Puff Planner</title>
         <link rel="preconnect" href="https://fonts.googleapis.com"> 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
@@ -21,13 +22,13 @@
                 gap: 20px;
 
             }
-            button {
+            .button {
                 background-color: #ee6fa8;
                 border-radius: 20px;
                 font-size: 40pt;
             }
 
-            button > * {
+            .button > * {
                 color: white;
                 text-decoration: none;
             }
@@ -74,7 +75,6 @@
                 grid-area: menu;
                 display: flex;
                 flex-direction: column;
-                align-content: left;
                 gap: 15pt;
                 padding: 50px;
             }
@@ -169,17 +169,14 @@
                 color: white;
             }
         </style>
-    <assets/head>
+    </head>
     <body>
-        <header>
-
-        <assets/header>
         <div class="buttons">
-            <button id="login-button"><a href="./login">Login</a></button>
-            <button id="today-button"><a href="./today">Today</a></button>
-            <button id="week-button"><a href="./week">Week</a></button>
-            <button id="quarter-button"><a href="./quarter">Quarter</a></button>
-            <button id="settings-button"><a href="./settings">Settings</a></button>
+            <div class="button" id="login-button"><a href="./login">Login</a></div>
+            <div class="button" id="today-button"><a href="./today">Today</a></div>
+            <div class="button" id="week-button"><a href="./week">Week</a></div>
+            <div class="button" id="quarter-button"><a href="./quarter">Quarter</a></div>
+            <div class="button" id="settings-button"><a href="./settings">Settings</a></div>
         </div>
         <main>
             <div id="about">
@@ -216,49 +213,47 @@
                 <p>Codepen.io</p>
                 <!-- <p>Honestly I don't know what to put here ye</p> -->
             </div>
-            <img id="team" src="assets/team.jpg">
+            <img id="team" src="assets/team.jpg" alt="Team 38 Group Picture">
             <!--Divyam-->
-            <div class="personal-space" id="divyam">
+            <div class="personal-space" id="divyam" alt="Divyam">
                 <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="assets/headshots/divyam.jpg"></a> <p>This block of space is about Divyam. Once he sees this block he can let John know what he thinks about it and will decide what's going to be written in it. For now its just some filler text so that I can see what the text overflow looks like and other things related to the looks of the page. Not gonna lie looks pretty good so far if I do say so myself.</p>
             </div>
             <!---->
-            <span class="personal-space" id="jason">
+            <span class="personal-space" id="jason" alt="Jason">
                 <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="assets/headshots/logo-square.png"></a> <p>Here's a block for Jason.</p>
             </span>
             <!---->
-            <span class="personal-space" id="tung">
+            <span class="personal-space" id="tung" alt="Tung">
                 <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="assets/headshots/tung.jpg"></a> <p>Here's a block for Tung.</p>
             </span>
             <!---->
-            <span class="personal-space" id="vedant">
+            <span class="personal-space" id="vedant" alt="Vedant">
                 <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="assets/headshots/logo-square.png"></a> <p>Here's a block for Vedant.</p>
             </span>
             <!--Rachel-->
-            <span class="personal-space" id="rachel">
+            <span class="personal-space" id="rachel" alt="Rachel">
                 <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="assets/headshots/rachel.png"></a> <p>Here's a block for Rachel.</p>
             </span>
             <!--John-->
-            <span class="personal-space" id="john">
+            <span class="personal-space" id="john" alt="John">
                 <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="assets/headshots/john.jpg"></a> <p>Here's a block for John.</p>
             </span>
             <!--Hugo-->
-            <span class="personal-space" id="hugo">
+            <span class="personal-space" id="hugo" alt="Hugo">
                 <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="assets/headshots/logo-square.png"></a> <p>Here's a block for Hugo.</p>
             </span>
             <!--Thu-->
-            <span class="personal-space" id="thu">
+            <span class="personal-space" id="thu" alt="Thu">
                 <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="assets/headshots/thu.jpg"></a> <p>Here's a block for Thu.</p>
             </span>
             <!--Nina-->
-            <span class="personal-space" id="nina">
+            <span class="personal-space" id="nina" alt="Nina">
                 <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="assets/headshots/nina.jpg"></a> <p>Here's a block for Nina.</p>
             </span>
             <!--Yousuf-->
-            <span class="personal-space" id="yousuf">
+            <span class="personal-space" id="yousuf" alt="Yousuf">
                 <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="assets/headshots/logo-square.png"></a> <p>Here's a block for Yousuf.</p>
             </span>
         </main>
     </body>
-    
-    
 </html>
