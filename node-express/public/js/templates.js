@@ -46,6 +46,11 @@ var darray = [dataentry];
  * Templates for timelines of objects on the Today/Week views: tevent, ttask */
 
 
+ function displayPopUp(event_id) {
+    let URL = `/popup/${event_id}`;
+    window.location.href = URL;
+}
+
 /**
  * Timeline Event
  * 
@@ -123,8 +128,11 @@ function tevent(element, de) {
     }
     element.classList.add("ID" + de['event_id']);
     element.classList.add("tevent");
-}
 
+    element.addEventListener('click', () => {
+        displayPopUp(de["event_id"]);
+    });
+}
 
 /**
  * Timeline Task
@@ -146,10 +154,14 @@ function ttask(element, de) {
         <div style="background-color: ${de['event_color']};"></div>
         `;
     element.style = `top: ${top}%`;
+    element.classList.add("ID" + de['event_id']);
     element.classList.add("ttask");
+
+    element.addEventListener('click', () => {
+        displayPopUp(de["event_id"]);
+    });
     ;
 }
-
 
 /*******************************************************************
  * Templates for lists of objects on the Today view: ltask, levent */
@@ -183,6 +195,9 @@ function levent(element, de) {
     element.style=`background-color: ${de['event_color']}; height: match-content;`;
     element.classList.add("ID" + de['event_id']);
     element.classList.add("levent");
+    element.addEventListener('click', () => {
+        displayPopUp(de["event_id"]);
+    });
 }
 
 /**
@@ -227,6 +242,9 @@ function ltask(element, de) {
     element.style=`background-color: ${de['event_color']}; height: match-content;`;
     element.classList.add("ID" + de['event_id']);
     element.classList.add("ltask");
+    element.addEventListener('click', () => {
+        displayPopUp(de["event_id"]);
+    });
 }
 
 /********************************
@@ -248,6 +266,9 @@ function qevent(element, de) {
     element.classList.add("qevent");
     element.classList.add("ID" + de['event_id']);
     element.style = `background-color: ${de['event_color']}`;
+    element.addEventListener('click', () => {
+        displayPopUp(de["event_id"]);
+    });
 }
 
 /**
@@ -265,6 +286,9 @@ function qtask(element, de) {
     element.classList.add("qtask");
     element.classList.add("ID" + de['event_id']);
     element.style = `background-color: ${de['event_color']}`;
+    element.addEventListener('click', () => {
+        displayPopUp(de["event_id"]);
+    });
 }
 
 /**
@@ -285,6 +309,9 @@ function qexam(element, de) {
     <div class="qexam-dot"></div>
     `;
     element.style = `background-color: ${de['event_color']}`;
+    element.addEventListener('click', () => {
+        displayPopUp(de["event_id"]);
+    });
 }
 
 /**

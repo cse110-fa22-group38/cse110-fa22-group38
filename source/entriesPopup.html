@@ -61,7 +61,7 @@
 </body>
 
 <script>
-  // Calculate milliseconds in a month
+// Calculate milliseconds in a month
 const minute = 1000 * 60;
 const hour = minute * 60;
 const day = hour * 24;
@@ -128,6 +128,7 @@ function parseTime(start, end) {
   return time;
 }
 
+/*
 let dataentry = {
   UUID: "userID", // user ID
   DEID: "dataentryID", // unique ID for this dataentry
@@ -141,17 +142,47 @@ let dataentry = {
   done: Boolean(false), // whether a task has been completed or not
   color: "#FE5656" // color of the dataentry object as it appears in a view
 };
-window.onload = function () {
-  document.getElementById("name").innerHTML = dataentry.name;
-  document.getElementById("location").innerHTML = dataentry.location;
+*/
+
+window.onload = async function () {
+  // Split the URL into multiple substrings using "/" as the delimiter
+  // The eventId is always the last substring (at index length - 1)
+  let hrefArray = window.location.href.split('/');
+  let eventId = hrefArray[hrefArray.length - 1];
+
+  // Fetch from the database the event that matches the id
+  let dataentry = await getEvent(eventId);
+
+  console.log(dataentry);
+
+  // Populate the entry pop up with the data we just from our database
+  document.getElementById("name").innerHTML = dataentry[0]["event_name"];
+  document.getElementById("location").innerHTML = dataentry[0]["event_location"];
   document.getElementById("start-end").innerHTML = parseTime(
-    dataentry.start,
-    dataentry.end
+    dataentry[0]["event_start"],
+    dataentry[0]["event_end"]
   );
-  document.getElementById("details").innerHTML = dataentry.details;
+  document.getElementById("details").innerHTML = dataentry[0]["event_details"];
   document.getElementsByClassName("details-content")[0].style.backgroundColor =
-    dataentry.color;
+    dataentry[0]["event_color"];
 };
+
+async function getEvent(event_id) {
+  try {
+    const URL = `/api/events/event_id/${event_id}`;
+    const getHeader = {
+        method: 'GET',
+    }
+
+    let response = await fetch(URL, getHeader);
+    let dataentry = await response.json();
+    return dataentry;
+  }
+  catch (err) {
+    console.error(err);
+    return;
+  }
+}
 
 </script>
 </html>

@@ -155,11 +155,10 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
     }
 })
 
-
 //add event 
 app.post('/add', checkNotAuthenticated, async (req, res) => {
     try {
-        let event_id = Date.now() + Math.random();
+        let event_id = Date.now() + Math.floor(Math.random()*1000);
         let username = logged_user;
         let event_n = req.body.event_name;
         let event_t = req.body.event_type;
@@ -286,6 +285,17 @@ app.get('/add', checkNotAuthenticated, (req, res) => {
     }
 
     res.sendFile(path.join(__dirname + '/../source/addevent.html'));
+})
+
+// Add pop up page
+app.get('/popup/:event_id', checkNotAuthenticated, (req, res) => {
+    let event_id = req.params.event_id;
+
+    if (logged_user == null) {
+        res.redirect("/login");
+    }
+
+    res.sendFile(path.join(__dirname + '/../source/entriesPopup.html'));
 })
 
 // Handling output from the settings page
@@ -715,7 +725,7 @@ app.get("/api/events/event_id/:event_id", (req, res, next) => {
           return;
         }
 
-        res.json({row});
+        res.json(row);
     });
 });
 
