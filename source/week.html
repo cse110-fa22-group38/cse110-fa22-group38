@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <title>Powell Puff Planner</title>
@@ -21,140 +21,140 @@
 
         <!--Script source(s)-->
         <script src="./js/week.js" type="module"></script>
+        <style>
+          * {
+            font-family: IBM Plex Mono;
+          }
+    
+          .content {
+            display: flex;
+            gap: 20px;
+            width: 98%;
+            left: 1%;
+            /*background: rgb(40,40,40);*/
+            position: absolute;
+            top: 130px;
+            flex-wrap: wrap;
+            overflow: hidden;
+            border-radius: 20px;
+            justify-content: space-between;
+            align-content: space-between;
+          }
+    
+          .titlewrapper {
+              display: flex;
+              flex-grow: 1;
+              flex-basis: 250px;
+              min-height: 800px;
+              flex-direction: column;
+              /*background-color: #191919;*/
+              position: relative;
+              border-radius: 20px;
+            }
+            
+            .timelinecontainer {
+              display: flex;
+              height: 100%;
+              /*flex-basis: 250px;
+              min-height: 800px;*/
+              flex-direction: column;
+              justify-content: space-between;
+              background-color: #191919;
+              position: relative;
+              margin-bottom: 5px;
+              border-radius: 10px;
+            }
+            
+            .spacer {
+              display: flex;
+              flex-grow: 1;
+              flex-basis: 250px;
+              flex-direction: column;
+            }
+    
+            @media screen and (min-width: 2000px) {
+              .spacer {
+                display: none;
+              }
+            }
+            
+            .event-border {
+              position: absolute;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-around;
+              width: 100%;
+              height: 100%;
+              flex-grow: 1;
+            }
+            
+            .event-container {
+              position: relative;
+              flex-grow: 1;
+              margin-top: 6.2pt;
+              margin-bottom: 6.2pt;
+              margin-left: 24pt;
+              /*background-color: blue;*/
+            }
+            
+            .time-container {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: space-between;
+              gap: 10px;
+            }
+            .line {
+              display: inline-block;
+              height: 2px;
+              background: grey;
+              flex-grow: 1;
+              border-radius: 1.5px;
+            }
+            .hour {
+              display: inline-block;
+              padding-left: 1ex;
+              margin-top: 0ex;
+              margin-bottom: 0ex;
+              color: grey;
+              font-size: 10pt;
+              font-weight: 800;
+            }
+            .now {
+              position: absolute;
+              top: 0%;
+              height: 5px;
+              width: 100%;
+            }
+            .now-line {
+              position: relative;
+              background-color: #ee6fa8;
+              opacity: .75;
+              width: 100%;
+              height: 3px;
+              top: -1.5px;
+              border-radius: 1.5px;
+            }
+            /*These are basic properties that all events should have*/
+            .timeline-event {
+              font-size: 10pt;
+            }
+            .eventlist-event {
+              font-size: 12pt;
+            }
+            .task {
+              font-size: 12pt;
+            }
+            Body {
+              background: black;
+            }
+            .weekday {
+              color: white;
+              text-align: center;
+              font-size: 18pt;
+          }
+        </style>
     </head>
-    <style>
-* {
-  font-family: IBM Plex Mono;
-}
-
-.content {
-  display: flex;
-  gap: 20px;
-  width: 98%;
-  left: 1%;
-  /*background: rgb(40,40,40);*/
-  position: absolute;
-  top: 130px;
-  flex-wrap: wrap;
-  overflow: hidden;
-  border-radius: 20px;
-  justify-content: space-between;
-  align-content: space-between;
-}
-
-.titlewrapper {
-    display: flex;
-    flex-grow: 1;
-    flex-basis: 250px;
-    min-height: 800px;
-    flex-direction: column;
-    /*background-color: #191919;*/
-    position: relative;
-    border-radius: 20px;
-  }
-  
-  .timelinecontainer {
-    display: flex;
-    height: 100%;
-    /*flex-basis: 250px;
-    min-height: 800px;*/
-    flex-direction: column;
-    justify-content: space-between;
-    background-color: #191919;
-    position: relative;
-    margin-bottom: 5px;
-    border-radius: 10px;
-  }
-  
-  .spacer {
-    display: flex;
-    flex-grow: 1;
-    flex-basis: 250px;
-    flex-direction: column;
-  }
-
-  @media screen and (min-width: 2000px) {
-    .spacer {
-      display: none;
-    }
-  }
-  
-  .event-border {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 100%;
-    height: 100%;
-    flex-grow: 1;
-  }
-  
-  .event-container {
-    position: relative;
-    flex-grow: 1;
-    margin-top: 6.2pt;
-    margin-bottom: 6.2pt;
-    margin-left: 24pt;
-    /*background-color: blue;*/
-  }
-  
-  .time-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-  }
-  .line {
-    display: inline-block;
-    height: 2px;
-    background: grey;
-    flex-grow: 1;
-    border-radius: 1.5px;
-  }
-  .hour {
-    display: inline-block;
-    padding-left: 1ex;
-    margin-top: 0ex;
-    margin-bottom: 0ex;
-    color: grey;
-    font-size: 10pt;
-    font-weight: 800;
-  }
-  .now {
-    position: absolute;
-    top: 0%;
-    height: 5px;
-    width: 100%;
-  }
-  .now-line {
-    position: relative;
-    background-color: #ee6fa8;
-    opacity: .75;
-    width: 100%;
-    height: 3px;
-    top: -1.5px;
-    border-radius: 1.5px;
-  }
-  /*These are basic properties that all events should have*/
-  .timeline-event {
-    font-size: 10pt;
-  }
-  .eventlist-event {
-    font-size: 12pt;
-  }
-  .task {
-    font-size: 12pt;
-  }
-  Body {
-    background: black;
-  }
-  .weekday {
-    color: white;
-    text-align: center;
-    font-size: 18pt;
-}
-    </style>
     <header>
         <div class="title">Today</div>
         <div class="menu">

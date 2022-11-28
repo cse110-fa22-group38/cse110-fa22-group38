@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <title>Add Event</title>
@@ -10,86 +11,86 @@
         <link rel="preconnect" href="https://fonts.googleapis.com"> 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+        <style>
+            * {
+                font-family: 'IBM Plex Mono';
+            }
+    
+            body {
+                background-color: black;
+                display: grid;
+                justify-content: center;
+                margin: 50px;
+                
+            }
+    
+            form {
+                width: 500px;
+                background-color: #ee6fa8;
+                display: grid;
+                padding: 20px;
+                border-radius: 20px;
+                justify-content: center;
+                gap: 20px;
+                height: fit-content;
+            }
+    
+            form > * {
+                color: white;
+                width: 300px
+            }
+    
+            form > * > * {
+                color: white;
+                font-size: 14pt;
+                display: block;
+            }
+            form > div > * {
+                display: block;
+            }
+            form > div > input {
+                background-color: #ee6fa8;
+                border-color: white;
+                border-style: solid;
+                border-width: 1px;
+                width: 300px;
+                border-radius: 5px;
+            }
+            textarea {
+                font-family: 'IBM Plex Sans';
+                font-size: 12pt;
+                background-color: #ee6fa8;
+                border-color: white;
+                border-style: solid;
+                width: 300px;
+                border-radius: 5px;
+                resize: none;
+            }
+            select {
+                background-color: #ee6fa8;
+                border-color: white;
+                border-style: solid;
+                width: 300px;
+                border-radius: 5px;
+                font-family: 'IBM Plex Sans';
+                appearance: none;
+            }
+            input[type="color"] {
+                background-color: white;
+                border-radius: 5px;
+                height: 30px;
+            }
+            input[type="color"]::-webkit-color-swatch {
+                border-radius: 10px;
+                border-style: solid;
+                border-width: 2px;
+                border-color: #555;
+            }
+            input {
+                font-family: 'IBM Plex Sans';
+            }
+        </style>
     </head>
-    <style>
-        * {
-            font-family: 'IBM Plex Mono';
-        }
-
-        body {
-            background-color: black;
-            display: grid;
-            justify-content: center;
-            margin: 50px;
-            
-        }
-
-        form {
-            width: 500px;
-            background-color: #ee6fa8;
-            display: grid;
-            padding: 20px;
-            border-radius: 20px;
-            justify-content: center;
-            gap: 20px;
-            height: fit-content;
-        }
-
-        form > * {
-            color: white;
-            width: 300px
-        }
-
-        form > * > * {
-            color: white;
-            font-size: 14pt;
-            display: block;
-        }
-        form > div > * {
-            display: block;
-        }
-        form > div > input {
-            background-color: #ee6fa8;
-            border-color: white;
-            border-style: solid;
-            border-width: 1px;
-            width: 300px;
-            border-radius: 5px;
-        }
-        textarea {
-            font-family: 'IBM Plex Sans';
-            font-size: 12pt;
-            background-color: #ee6fa8;
-            border-color: white;
-            border-style: solid;
-            width: 300px;
-            border-radius: 5px;
-            resize: none;
-        }
-        select {
-            background-color: #ee6fa8;
-            border-color: white;
-            border-style: solid;
-            width: 300px;
-            border-radius: 5px;
-            font-family: 'IBM Plex Sans';
-            appearance: none;
-        }
-        input[type="color"] {
-            background-color: white;
-            border-radius: 5px;
-            height: 30px;
-        }
-        input[type="color"]::-webkit-color-swatch {
-            border-radius: 10px;
-            border-style: solid;
-            border-width: 2px;
-            border-color: #555;
-        }
-        input {
-            font-family: 'IBM Plex Sans';
-        }
-    </style>
     <body>
         <form action="/add" method="POST">
             <div>
