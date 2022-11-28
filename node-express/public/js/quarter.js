@@ -52,15 +52,14 @@ async function init() {
 	// 2) Retrieve all the events for this quarter based on the date range
 	// From the database
 	// Converting the strings into universal time first
+	/*
 	let universal_start = new Date(quarter.start);
 	let universal_end = new Date(quarter.end);
 	let universal_start_string = universal_start.toISOString();
 	let universal_end_string = universal_end.toISOString();
+	*/
 
-	console.log(universal_start_string);
-	console.log(universal_end_string);
-
-	let deArray = await retrieveFromDatabase(universal_start_string, universal_end_string);
+	let deArray = await retrieveFromDatabase(quarter.start, quarter.end);
 	console.log(deArray);
 
 	convertDate(deArray);

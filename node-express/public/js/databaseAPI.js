@@ -182,8 +182,8 @@ async function fetchForMe(URL, header) {
         let rows = await response.json();
 
         if (rows) {
-            for (let i = 0; i < rows.row.length; i++) {
-                retData.push(rows.row[i]);
+            for (let i = 0; i < rows.length; i++) {
+                retData.push(rows[i]);
             }
         }
     }
