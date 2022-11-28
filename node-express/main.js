@@ -288,35 +288,60 @@ app.get('/add', checkNotAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname + '/../source/addevent.html'));
 })
 
-// Handling output from the accountsettings page
-app.post('/accountsettings', checkNotAuthenticated, async (req, res) => {
+// Handling output from the settings page
+app.post('/settings', checkNotAuthenticated, async (req, res) => {
     try {
-        // Handling the save button
-        if (req.query.button == "save") {
-            let hashedPassword = bcrypt.hashSync(req.body.password, 10);
+        let button = req.body.button;
 
-            let sql = `UPDATE users set password_hash = COALESCE (?,password_hash) WHERE username = ?`;
-            db.run(sql, [hashedPassword, logged_user], async (err) => {
+        // Handling the update button
+        if (button == "update") {
+            let sqlUpdate = `UPDATE users set password_hash = COALESCE (?,password_hash) WHERE username = ?`;
+            let queryOldPass = 'SELECT * from users WHERE username = ?'
+            let password = await req.body.old_pass;
+            let hashedNew = bcrypt.hashSync(req.body.new_pass, 10);
+
+            // First check if the user knew the old password
+            db.all(queryOldPass, [logged_user], async (err, results) => {
                 if (err) {
                     console.err(err);
-                    return;
+                    throw err;
                 }
                 else {
-                    console.log("PASSWORD SUCCESSFULLY CHANGED FOR USER " + logged_user);
-                    res.redirect('/login');
+                    console.log(results);
+                    if (results.length > 0) {
+                        results.forEach((result) => {
+                            let matched = bcrypt.compareSync(password, result.password_hash);
+
+                            if (matched) {
+                                // Update user with new passord
+                                db.run(sqlUpdate, [hashedNew, logged_user], async (err) => {
+                                    if (err) {
+                                        console.err(err);
+                                        return;
+                                    }
+                                    else {
+                                        console.log("PASSWORD SUCCESSFULLY CHANGED FOR USER " + logged_user);
+                                        res.redirect('/login');
+                                    }
+                                })
+                            }
+                            else {
+                                res.redirect('/settings');
+                            }
+                        }) 
+                    }
                 }
             });
         }
 
         // Handling the delete button
-        if (req.query.button == "delete") {
-            // Do nothing
-            let sqlUsers = `DELETE from users WHERE username = ?`;
-            let sqlEvents = 'DELETE from events WHERE username = ?';
-            let password = await req.body.password;
-
+        if (button == "delete") {
+            let sqlDelUsers = `DELETE from users WHERE username = ?`;
+            let sqlDelEvents = 'DELETE from events WHERE username = ?';
             let queryOldPass = 'SELECT * from users WHERE username = ?';
-            db.all(queryOldPass, [logged_user], (err, results) => {
+            let password = await req.body.old_pass;
+
+            db.all(queryOldPass, [logged_user], async (err, results) => {
                 if (err) {
                     console.log(err);
                     throw err;
@@ -326,10 +351,9 @@ app.post('/accountsettings', checkNotAuthenticated, async (req, res) => {
                     if (results.length > 0) {
                         results.forEach((result) => {
                             let matched = bcrypt.compareSync(password, result.password_hash);
-                            console.log(matched); 
                             if (matched) {
                                 // Delete the user
-                                db.run(sqlUsers, [logged_user], async (err) => {
+                                db.run(sqlDelUsers, [logged_user], async (err) => {
                                     if (err) {
                                         console.err(err);
                                         return;
@@ -339,7 +363,7 @@ app.post('/accountsettings', checkNotAuthenticated, async (req, res) => {
                                     }
                                 })
                     
-                                db.run(sqlEvents, [logged_user], async (err) => {
+                                db.run(sqlDelEvents, [logged_user], async (err) => {
                                     if (err) {
                                         console.err(err);
                                         return;
@@ -352,8 +376,8 @@ app.post('/accountsettings', checkNotAuthenticated, async (req, res) => {
                                 // Log out the user
                                 logged_user = null;
 
-                                // Once finished deleting, redirect to login page
-                                res.redirect("/login");
+                                // Once finished deleting, redirect to index page
+                                res.redirect("/");
                             }
                             else {
                                 // PLACEBO
