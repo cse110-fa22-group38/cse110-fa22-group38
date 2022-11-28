@@ -227,7 +227,7 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
 // Handling the outputs on the add event page
 app.post('/add', checkNotAuthenticated, async (req, res) => {
     try {
-        let event_id = Date.now() + Math.floor(Math.random()*1000);
+        let event_id = String(Date.now() + Math.floor(Math.random()*1000));
         let username = logged_user;
         let event_n = req.body.event_name;
         let event_t = req.body.event_type;
