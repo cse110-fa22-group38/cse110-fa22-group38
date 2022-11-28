@@ -56,6 +56,9 @@
           <div id="details" class="content">
           </div>
         </div>
+        <form action="/deleteEvent" method="POST">
+          <button type="submit" name="button">Delete</button>
+        </form>
       </div>
   </main>
 </body>
@@ -152,8 +155,10 @@ window.onload = async function () {
 
   // Fetch from the database the event that matches the id
   let dataentry = await getEvent(eventId);
-
-  console.log(dataentry);
+  
+  // Assigning the value for the button
+  let delete_button = document.querySelector('button');
+  delete_button.value = eventId;
 
   // Populate the entry pop up with the data we just from our database
   document.getElementById("name").innerHTML = dataentry[0]["event_name"];

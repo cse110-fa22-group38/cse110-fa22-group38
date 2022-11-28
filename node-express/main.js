@@ -409,6 +409,31 @@ app.post('/settings', checkNotAuthenticated, async (req, res) => {
     }
 })
 
+// Handling the delete button from entriesPopUp page
+app.post("/deleteEvent", checkNotAuthenticated, async (req, res) => {
+    let eventId = req.body.button;
+    
+    try {
+        let sqlDelEvent = 'DELETE from events WHERE username = ? and event_id = ?';
+        let params = [logged_user, eventId];
+
+        db.run(sqlDelEvent, params, async (err) => {
+            if (err) {
+                console.error(err);
+                throw err;
+            }
+            else {
+                console.log("SUCCESSFULLY DELETED EVENT " + eventId + " FROM TABLE EVENTS");
+                res.redirect('/today');
+            }
+        })
+    }  
+    catch (err) {
+        console.log("FAILED TO DELETE EVENT " + eventId + " FROM TABLE EVENTS");
+        return;
+    }
+})
+
 /*
  * This function checks authentication from the array 
  * and checks the output of the query
