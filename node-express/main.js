@@ -761,18 +761,18 @@ app.delete("/api/users/delete/:username", (req, res, next) => {
     var params = [req.params.username];
 
     db.run(deletesql, params, (err, row) => {
-            if (err){
-                res.status(400).json({"error": res.message})
-                return;
+        if (err){
+            res.status(400).json({"error": res.message})
+            return;
+        }
+        else {
+            if (this.changes != 0) {
+                console.log(username + " wasn't found");
             }
             else {
-                if (this.changes != 0) {
-                    console.log(username + " wasn't found");
-                }
-                else {
-                    console.log(username + " was succesffuly deleted");
-                }
+                console.log(username + " was succesffuly deleted");
             }
+        }
     });
 });
 

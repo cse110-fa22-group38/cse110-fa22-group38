@@ -42,7 +42,7 @@ function populateLists(deArray) {
         eventType == "exam") {
       tevent(newEvent, deArray[i]);
     }
-    else {
+    else if (eventType == "task") {
       ttask(newEvent, deArray[i]);
     }
 

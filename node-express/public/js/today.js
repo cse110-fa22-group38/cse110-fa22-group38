@@ -97,12 +97,13 @@ function populateTimeContainer(element, deArray) {
 
     for (let i = 0; i < deArray.length; i++) {
         let newEvent = document.createElement('div');
-        
-        if (deArray[i]["event_type"] == "event" || 
-            deArray[i]["event_type"] == "exam") {
+        let eventType = deArray[i]["event_type"];
+
+        if (eventType == "event" || 
+            eventType == "exam") {
             tevent(newEvent, deArray[i]);
         }
-        else {
+        else if (eventType == "task") {
             ttask(newEvent, deArray[i]);
         }
 

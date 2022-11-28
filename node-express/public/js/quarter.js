@@ -1,16 +1,55 @@
 import * as dbAPI from "./databaseAPI.js";
 
 // predefined quarter start and end date for FA2022
-const quarter = {
-	start: "2022-09-22T07:00:00.000Z",
-	end: "2022-12-10T19:59:59.000Z",
+let quarter = {
+	start: "",
+	end: "",
 };
 
 // Waiting for the html page 
 window.addEventListener('DOMContentLoaded', init);
 
 async function init() {
-	// 1) Retrieve all the events for this quarter based on the date range
+	// 1.a) query for quarter objects from the database
+	let qA = await dbAPI.queryTypeFromEvents('quarter');
+
+	// 1.b) select the quarter we are currently in OR if not in a quarter, select the upcoming quarter
+	// Note: Date.parse returns milliseconds since 1970
+	const today = Date.parse(new Date()); // in milliseconds since 1970
+
+	// Iterating over all the quarter objects to find the current quarter
+	for (let i = 0; i < qA.length; i++) {
+		qA[i].start = Date.parse(qA[i]['event_start']); // in milliseconds since 1970
+		qA[i].end = Date.parse(qA[i]['event_end']); // in milliseconds since 1970
+
+		// We found the current quarter if both conditions are true
+		if (qA[i].start < today && qA[i].end > today) {
+			quarter.start = qA[i]["event_start"];
+			quarter.end = qA[i]["event_end"];
+			break;
+		}
+		// Saving the dates for upcoming quarter as well
+		if (qA[i].start > today) {
+			quarter.startNext = qA[i]["event_start"];
+			quarter.endNext = qA[i]["event_end"];
+			break;
+		}
+	}
+
+	// If current quarter is not found, we will take the upcoming quarter
+	if (quarter.start == "") {
+		// search for upcoming quarter
+		quarter.start = quarter.startNext;
+		quarter.end = quarter.endNext;
+	} 
+	// If there are still no valid quarters to choose from, 
+	// display a message 'add a quarter to show here'
+	if (quarter.start == "") {
+		// If there is no quarter
+		console.error("Can't display quarter if there is no quarter to display *taps head*")
+	}
+
+	// 2) Retrieve all the events for this quarter based on the date range
 	// From the database
 	// Converting the strings into universal time first
 	let universal_start = new Date(quarter.start);
@@ -111,7 +150,7 @@ async function buildCalendar(deArray) {
 					qexam(newDiv, deArray[i]);
 					eventcontainer.appendChild(newDiv);
 				}
-				else {
+				else if (event_type == 'task'){
 					qtask(newDiv, deArray[i]);
 					taskcontainer.appendChild(newDiv);
 				}
