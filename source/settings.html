@@ -124,28 +124,6 @@
       }  
   
     </style>
-  </head>
-  <body>
-    <!-- Main Login Page -->
-      <header>
-        <div class="header">Account Settings</div>
-      </header>
-    <main>
-      <form class="form1" action="/settings" method="POST">
-        <label for="username">Username:</label>
-        <input id="username" type="email" readonly>
-
-        <label for="password">Confirm Old Password:</label>
-        <input id="password" type="password" name="old_pass">
-
-        <label for="confirmpassword">New Password:</label>
-        <input id="confirmpassword" type="password" name="new_pass">
-
-        <button type="submit" name="button" value="update">Update New Password</button>
-        <button type="submit" name="button" value="delete">Delete Account</button>
-      </form>
-    </main>    
-    </body>
     <script>
       window.addEventListener('DOMContentLoaded', init);
 
@@ -173,4 +151,26 @@
         }
       }
     </script>
+  </head>
+  <body>
+    <!-- Main Login Page -->
+      <header>
+        <div class="header">Account Settings</div>
+      </header>
+    <main>
+      <form class="form1" action="/settings" method="POST">
+        <label for="username">Username:</label>
+        <input id="username" type="email" readonly>
+
+        <label for="password">Confirm Old Password:</label>
+        <input id="password" type="password" name="old_pass">
+
+        <label for="confirmpassword">New Password:</label>
+        <input id="confirmpassword" type="password" name="new_pass">
+
+        <button type="submit" name="button" value="update">Update New Password</button>
+        <button type="submit" name="button" value="delete">Delete Account</button>
+      </form>
+    </main>    
+    </body>
 </html>

@@ -5,43 +5,167 @@
   <meta name="description" content="Powell Puff Planner">
   <meta name="author" content="Powell Puff Group 38">
   <meta name="keywords" content="Powell Puff Planner, Powell Puff, Planner">
-  <meta http-equiv="refresh" content="60">
   <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
-  <link rel="Web Icon" href="./assets/favicon.ico" type="">
+  <link rel="icon" href="/assets/favicon.png" type="image/png">
   <!--Font Linking-->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" type="text/css">
+  <style>
+    body {
+    background-color: black;
+    font-family: IBM Plex Sans;
+    color: white;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .details-content {
+    margin: 1.5% auto 10% auto;
+    border: none;
+    width: 100%;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+    flex-grow: 1;
+    word-wrap: break-word;
+    white-space: pre-line;
+  }
+  
+  .content {
+    font-size: 200%;
+    margin: 5% 5%;
+    width: 100%
+  }
+  </style>
+  <script>
+    // Calculate milliseconds in a month
+    const minute = 1000 * 60;
+    const hour = minute * 60;
+    const day = hour * 24;
+    const month = day * 31;
+    
+    function parseTime(start, end) {
+      // parse given time
+      const startTime = Date.parse(start);
+      const endTime = Date.parse(end);
+      // find difference of times to find duration
+      const duration = endTime - startTime;
+      // initialize variables needed for later
+      let parsedStart = "";
+      let parsedEnd = "";
+      let timeNum = 0;
+      let time = "";
+      // Rewrite the given times to be look like (%%:%% *M)
+      if (
+        start.split("T")[1].split(":")[0] >= 0 &&
+        start.split("T")[1].split(":")[0] < 12
+      ) {
+        parsedStart =
+          start.split("T")[1].split(":")[0] +
+          ":" +
+          start.split("T")[1].split(":")[1] +
+          "AM";
+      } else {
+        parsedStart =
+          start.split("T")[1].split(":")[0] -
+          12 +
+          ":" +
+          start.split("T")[1].split(":")[1] +
+          "PM";
+      }
+      if (
+        end.split("T")[1].split(":")[0] >= 0 &&
+        end.split("T")[1].split(":")[0] < 12
+      ) {
+        parsedEnd =
+          end.split("T")[1].split(":")[0] +
+          ":" +
+          end.split("T")[1].split(":")[1] +
+          "AM";
+      } else {
+        parsedEnd =
+          end.split("T")[1].split(":")[0] -
+          12 +
+          ":" +
+          end.split("T")[1].split(":")[1] +
+          "PM";
+      }
+      // Evaluate duration to fit the right description of it
+      if (duration < hour) {
+        timeNum = Math.round(duration / minute);
+        time = `${parsedStart}` + "-" + `${parsedEnd}` + `   ${timeNum} minute(s)`;
+      } else if (duration < day) {
+        timeNum = Math.round(duration / hour);
+        time = `${parsedStart}` + "-" + `${parsedEnd}` + `   ${timeNum} hour(s)`;
+      } else if (duration < month) {
+        timeNum = Math.round(duration / day);
+        time = `${parsedStart}` + "-" + `${parsedEnd}` + `   ${timeNum} day(s)`;
+      }
+    
+      return time;
+    }
+    
+    /*
+    let dataentry = {
+      UUID: "userID", // user ID
+      DEID: "dataentryID", // unique ID for this dataentry
+      type: "event", // event, exam (type of event), task, subtask (type of task, may or may not be implemented, not part of MVP)
+      name: "UYCERFZBQGTGODNKDGKY", // 20 char limit for display purposes
+      relation: "class 100a", // reference to associated event or task (group events together, and tasks to an event)
+      location: "9500 Gillman Dr", // address or URL
+      details: "s", // user provided notes for this event
+      start: "2022-11-09T05:00:00", // event start time
+      end: "2022-11-09T17:00:00", // event end time OR task completion time
+      done: Boolean(false), // whether a task has been completed or not
+      color: "#FE5656" // color of the dataentry object as it appears in a view
+    };
+    */
+    
+    window.onload = async function () {
+      // Split the URL into multiple substrings using "/" as the delimiter
+      // The eventId is always the last substring (at index length - 1)
+      let hrefArray = window.location.href.split('/');
+      let eventId = hrefArray[hrefArray.length - 1];
+    
+      // Fetch from the database the event that matches the id
+      let dataentry = await getEvent(eventId);
+      
+      // Assigning the value for the button
+      let delete_button = document.querySelector('button');
+      delete_button.value = eventId;
+    
+      // Populate the entry pop up with the data we just from our database
+      document.getElementById("name").innerHTML = dataentry[0]["event_name"];
+      document.getElementById("location").innerHTML = dataentry[0]["event_location"];
+      document.getElementById("start-end").innerHTML = parseTime(
+        dataentry[0]["event_start"],
+        dataentry[0]["event_end"]
+      );
+      document.getElementById("details").innerHTML = dataentry[0]["event_details"];
+      document.getElementsByClassName("details-content")[0].style.backgroundColor =
+        dataentry[0]["event_color"];
+    };
+    
+    async function getEvent(event_id) {
+      try {
+        const URL = `/api/events/event_id/${event_id}`;
+        const getHeader = {
+            method: 'GET',
+        }
+    
+        let response = await fetch(URL, getHeader);
+        let dataentry = await response.json();
+        return dataentry;
+      }
+      catch (err) {
+        console.error(err);
+        return;
+      }
+    }
+    </script>
 </head>
-<style>
-  body {
-  background-color: black;
-  font-family: IBM Plex Sans;
-  color: white;
-  display: flex;
-  flex-direction: column;
-}
-
-.details-content {
-  margin: 1.5% auto 10% auto;
-  border: none;
-  width: 100%;
-  border-radius: 20px;
-  display: flex;
-  flex-direction: row;
-  flex-shrink: 0;
-  flex-grow: 1;
-  word-wrap: break-word;
-  white-space: pre-line;
-}
-
-.content {
-  font-size: 200%;
-  margin: 5% 5%;
-  width: 100%
-}
-
-</style>
 
 <body>
   <main>
@@ -63,132 +187,4 @@
       </div>
   </main>
 </body>
-
-<script>
-// Calculate milliseconds in a month
-const minute = 1000 * 60;
-const hour = minute * 60;
-const day = hour * 24;
-const month = day * 31;
-
-function parseTime(start, end) {
-  // parse given time
-  const startTime = Date.parse(start);
-  const endTime = Date.parse(end);
-  // find difference of times to find duration
-  const duration = endTime - startTime;
-  // initialize variables needed for later
-  let parsedStart = "";
-  let parsedEnd = "";
-  let timeNum = 0;
-  let time = "";
-  // Rewrite the given times to be look like (%%:%% *M)
-  if (
-    start.split("T")[1].split(":")[0] >= 0 &&
-    start.split("T")[1].split(":")[0] < 12
-  ) {
-    parsedStart =
-      start.split("T")[1].split(":")[0] +
-      ":" +
-      start.split("T")[1].split(":")[1] +
-      "AM";
-  } else {
-    parsedStart =
-      start.split("T")[1].split(":")[0] -
-      12 +
-      ":" +
-      start.split("T")[1].split(":")[1] +
-      "PM";
-  }
-  if (
-    end.split("T")[1].split(":")[0] >= 0 &&
-    end.split("T")[1].split(":")[0] < 12
-  ) {
-    parsedEnd =
-      end.split("T")[1].split(":")[0] +
-      ":" +
-      end.split("T")[1].split(":")[1] +
-      "AM";
-  } else {
-    parsedEnd =
-      end.split("T")[1].split(":")[0] -
-      12 +
-      ":" +
-      end.split("T")[1].split(":")[1] +
-      "PM";
-  }
-  // Evaluate duration to fit the right description of it
-  if (duration < hour) {
-    timeNum = Math.round(duration / minute);
-    time = `${parsedStart}` + "-" + `${parsedEnd}` + `   ${timeNum} minute(s)`;
-  } else if (duration < day) {
-    timeNum = Math.round(duration / hour);
-    time = `${parsedStart}` + "-" + `${parsedEnd}` + `   ${timeNum} hour(s)`;
-  } else if (duration < month) {
-    timeNum = Math.round(duration / day);
-    time = `${parsedStart}` + "-" + `${parsedEnd}` + `   ${timeNum} day(s)`;
-  }
-
-  return time;
-}
-
-/*
-let dataentry = {
-  UUID: "userID", // user ID
-  DEID: "dataentryID", // unique ID for this dataentry
-  type: "event", // event, exam (type of event), task, subtask (type of task, may or may not be implemented, not part of MVP)
-  name: "UYCERFZBQGTGODNKDGKY", // 20 char limit for display purposes
-  relation: "class 100a", // reference to associated event or task (group events together, and tasks to an event)
-  location: "9500 Gillman Dr", // address or URL
-  details: "s", // user provided notes for this event
-  start: "2022-11-09T05:00:00", // event start time
-  end: "2022-11-09T17:00:00", // event end time OR task completion time
-  done: Boolean(false), // whether a task has been completed or not
-  color: "#FE5656" // color of the dataentry object as it appears in a view
-};
-*/
-
-window.onload = async function () {
-  // Split the URL into multiple substrings using "/" as the delimiter
-  // The eventId is always the last substring (at index length - 1)
-  let hrefArray = window.location.href.split('/');
-  let eventId = hrefArray[hrefArray.length - 1];
-
-  // Fetch from the database the event that matches the id
-  let dataentry = await getEvent(eventId);
-  
-  // Assigning the value for the button
-  let delete_button = document.querySelector('button');
-  delete_button.value = eventId;
-
-  // Populate the entry pop up with the data we just from our database
-  document.getElementById("name").innerHTML = dataentry[0]["event_name"];
-  document.getElementById("location").innerHTML = dataentry[0]["event_location"];
-  document.getElementById("start-end").innerHTML = parseTime(
-    dataentry[0]["event_start"],
-    dataentry[0]["event_end"]
-  );
-  document.getElementById("details").innerHTML = dataentry[0]["event_details"];
-  document.getElementsByClassName("details-content")[0].style.backgroundColor =
-    dataentry[0]["event_color"];
-};
-
-async function getEvent(event_id) {
-  try {
-    const URL = `/api/events/event_id/${event_id}`;
-    const getHeader = {
-        method: 'GET',
-    }
-
-    let response = await fetch(URL, getHeader);
-    let dataentry = await response.json();
-    return dataentry;
-  }
-  catch (err) {
-    console.error(err);
-    return;
-  }
-}
-
-</script>
 </html>
