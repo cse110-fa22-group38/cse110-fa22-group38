@@ -433,6 +433,17 @@ function checkNotAuthenticated(req, res, next) {
 app.listen(PORT);
 
 /* DATABASE API ENDPOINTS */
+// Get currently logged in username
+app.get("/api/username", (req, res, next) => {
+    if (!logged_user) {
+        console.log("User not logged in");
+        res.redirect('/login');
+        return;
+    };
+
+    res.json(logged_user);
+})
+
 // Get all users' info
 app.get("/api/users", (req, res, next) => {
     var sql = "select * from users"

@@ -146,4 +146,31 @@
       </form>
     </main>    
     </body>
+    <script>
+      window.addEventListener('DOMContentLoaded', init);
+
+      const getHeader =  {
+          method: 'GET',
+      }
+      const URL = "api/username";
+
+      async function init() {
+        let username = "N/A";
+        username = await getUsername();
+        let username_input = document.querySelector('#username');
+        
+        username_input.value = username;
+      }
+      
+      async function getUsername() {
+        try {
+          let response = await fetch(URL, getHeader);
+          return await response.json();
+        }
+        catch (err) {
+          console.error(err);
+          return;
+        }
+      }
+    </script>
 </html>
