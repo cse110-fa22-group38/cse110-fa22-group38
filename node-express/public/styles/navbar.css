@@ -5,7 +5,7 @@
     font-weight: 800;
 }
 
-.navcontainer > img {
+.navcontainer img {
     width: 42px;
     height: 42px;
     
@@ -42,8 +42,8 @@ nav ul {
 
 nav a {
     display: inline-block;
-    margin-left: 35px;
-    margin-right: 35px;
+    margin-left: 20px;
+    margin-right: 20px;
     text-align: center;
     padding-top: 23px;
     padding-bottom: 23px;
