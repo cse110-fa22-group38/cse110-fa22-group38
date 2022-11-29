@@ -133,9 +133,12 @@
       // Fetch from the database the event that matches the id
       let dataentry = await getEvent(eventId);
       
-      // Assigning the value for the button
-      let delete_button = document.querySelector('button');
+      // Assigning the value for the buttons so
+      // that the server knows which event to handle.
+      let delete_button = document.getElementById("delete_but");
       delete_button.value = eventId;
+      let update_button = document.getElementById("update_but");
+      update_button.value = eventId;
     
       // Populate the entry pop up with the data we just from our database
       document.getElementById("name").innerHTML = dataentry[0]["event_name"];
@@ -183,10 +186,10 @@
           </div>
         </div>
         <form action="/deleteEvent" method="POST">
-          <button type="submit" name="button">Delete Event</button>
+          <button id = "delete_but" type="submit" name="button">Delete Event</button>
         </form>
         <form action="/updateEvent" method="POST">
-          <button type="submit" name="button">Update Event</button>
+          <button id="update_but" type="submit" name="button">Update Event</button>
         </form>
       </div>
     </div>
