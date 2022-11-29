@@ -13,4 +13,5 @@ jobs :
       - run: npm --version
       - uses: actions/checkout@v3
       - run: npm install
-      - run: npm run server
+        working-directory: ./node-express
+      - run: npm run server-dev
