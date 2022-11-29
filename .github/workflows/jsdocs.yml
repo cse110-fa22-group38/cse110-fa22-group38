@@ -18,7 +18,6 @@ jobs:
           source_dir: ./node-express
           recurse: true
           output_dir: ./
-          front_page: README_backend.md
 
       - name: Build
         uses: andstor/jsdoc-action@v1
