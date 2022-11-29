@@ -14,9 +14,7 @@ CREATE TABLE IF NOT EXISTS users (
 let eventTable = 
 `
 CREATE TABLE IF NOT EXISTS events (
-
   username,
-
   event_id,
   event_type,
   event_name,
@@ -46,7 +44,7 @@ let db = new sqlite3.Database(DBSOURCE,
         throw(err);
     }
     else {
-        console.log("Connected to DB")
+        console.log("database.js: Connected to DB")
         db.run(usersTable, (err) => {
             if (err) {
                 // Table already created
@@ -68,7 +66,6 @@ module.exports = db;
 
 // Example of a dataentry object
 var dataentry = {
-
     "username": "Tung",
     "event_id": "dataentryID",
     "event_type": "event",
@@ -80,5 +77,4 @@ var dataentry = {
     "event_end": "yyyy-mm-ddThh:mm:00Z",
     "event_completed": Boolean(false),
     "event_color": "#ffffff"
-
 }

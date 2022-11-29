@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <title>Powell Puff Planner</title>
@@ -6,15 +7,100 @@
         <meta name="keywords" content="Powell Puff Planner, Powell Puff, Planner">
         <meta http-equiv="refresh" content="60">
         <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
-        <link rel="Web Icon" href="./assets/favicon.ico" type="">
+        <link rel="icon" href="./assets/favicon.png" type="image/png">
         <!--Font Linking-->
         <link rel="preconnect" href="https://fonts.googleapis.com"> 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" type="text/css">
 
 
         <!-- Dedicated script for signup page-->
         <!--<script src ="/register.js" type="module"></script>-->
+        <style>
+            /* Username and Password Input box within popup */
+    
+            input[type="text"], input[type="password"], input[type="apitokenSU"] {
+    
+                width: 90%;
+                padding: 14px;
+                margin: 5px 0 20px 0;
+                display: inline-block;
+                border: 2px solid rgba(238,111,168,1);
+                background: #f1f1f1;
+                color: black;
+                border-radius: 20px;
+            }
+    
+            /* Add a background color when the inputs get focus */
+            input[type=text]:focus, input[type=password]:focus {
+                background-color: #ddd;
+                outline: none;
+            }
+    
+            /* Confirm and Cancel buttons*/
+            button {
+                border: none;
+                margin: 8px 0;  
+                padding: 12px 20px;
+                width: 50%;
+                border-radius: 20px;
+            }
+    
+            /* Make cancel and confirm buttons next to each other*/
+            .cancel, .confirm {
+                float: left;
+                width: 50%;
+            }
+    
+            /* Add padding to container elements */
+            .container {
+                padding: 16px;
+            }
+            /* Cancel button*/
+            .cancel{
+                background-color: #dddddd;
+                color: black;
+            }
+            /* Confirm button*/
+            .confirm{
+                background-color: white;
+                color: rgba(238,111,168,1);
+            }
+            /* Grey background */
+            .popup {
+                display: block;
+                position: fixed;
+                z-index: 1; 
+                left: 0;
+                top: 0;
+                width: 100%; 
+                height: 100%;
+                background-color: #474e5d;
+                padding-top: 2.6%;
+            }   
+    
+            /* Popup Block */
+            .popup-content {
+                background-color: rgba(238,111,168,1);
+                margin: 10% auto 20% auto;
+                border: 1px solid rgba(238,111,168,1);
+                width: 33%; 
+                border-radius: 20px;
+            }
+    
+            /* Horizontal Line under Sign up */
+            hr {
+                border: 1px solid white;
+                margin-bottom: 25px;
+            }
+    
+            /* Wipe the values in inputs */
+            .wipe::after {
+                content: "";
+                clear: both;
+                display: table;
+            }
+        </style>
     </head>
     <body>
         <div id="popup" class="popup">
@@ -23,106 +109,21 @@
                 <div class="container">
                     <h1 style="text-align: center; color: white">Sign Up</h1>
                     <hr>
-                    <input type="usernameSU" placeholder="Enter Username" name="username" required>
+                    <input type="text" placeholder="Enter Username" name="username" required>
 
-                    <input type="passwordSU" placeholder="Enter Password" name="password" required>
+                    <input type="password" placeholder="Enter Password" name="password" required>
 
-                    <input type="passwordSU" placeholder="Repeat Password" name="password-repeat" required>
+                    <input type="password" placeholder="Repeat Password" name="password-repeat" required>
 
 
-                    <input type="apitokenSU" placeholder="Insert your Canvas's API token here" name="apiToken" required>
+                    <input type="text" placeholder="Insert your Canvas's API token here" name="apiToken" required>
                     <div class="wipe">
-                        <button type="cancel" onclick="window.location.href= `./login`" class="cancel">Cancel</button>
+                        <button onclick="window.location.href= `./login`" class="cancel">Cancel</button>
 
-                        <button type="confirm" class="confirm">Confirm</button>
+                        <button class="confirm">Confirm</button>
                     </div>
                 </div>
             </form>
         </div>
     </body>
-    <style>
-        /* Username and Password Input box within popup */
-
-        input[type="usernameSU"], input[type="passwordSU"], input[type="apitokenSU"] {
-
-            width: 100%;
-            padding: 14px;
-            margin: 5px 0 20px 0;
-            display: inline-block;
-            border: 2px solid rgba(238,111,168,1);
-            background: #f1f1f1;
-            color: black;
-            border-radius: 20px;
-        }
-
-        /* Add a background color when the inputs get focus */
-        input[type=text]:focus, input[type=password]:focus {
-            background-color: #ddd;
-            outline: none;
-        }
-
-        /* Confirm and Cancel buttons*/
-        button[type=cancel], button[type=confirm]{
-            border: none;
-            margin: 8px 0;  
-            padding: 12px 20px;
-            width: 50%;
-            border-radius: 20px;
-        }
-
-        /* Make cancel and confirm buttons next to each other*/
-        .cancel, .confirm {
-            float: left;
-            width: 50%;
-        }
-
-        /* Add padding to container elements */
-        .container {
-            padding: 16px;
-        }
-        /* Cancel button*/
-        .cancel{
-            background-color: FFFF99;
-            color: black;
-        }
-        /* Confirm button*/
-        .confirm{
-            background-color: white;
-            color: rgba(238,111,168,1);
-        }
-        /* Grey background */
-        .popup {
-            display: block;
-            position: fixed;
-            z-index: 1; 
-            left: 0;
-            top: 0;
-            width: 100%; 
-            height: 100%;
-            background-color: #474e5d;
-            padding-top: 2.6%;
-        }   
-
-        /* Popup Block */
-        .popup-content {
-            background-color: rgba(238,111,168,1);
-            margin: 10% auto 20% auto;
-            border: 1px solid rgba(238,111,168,1);
-            width: 33%; 
-            border-radius: 20px;
-        }
-
-        /* Horizontal Line under Sign up */
-        hr {
-            border: 1px solid white;
-            margin-bottom: 25px;
-        }
-
-        /* Wipe the values in inputs */
-        .wipe::after {
-            content: "";
-            clear: both;
-            display: table;
-        }
-    </style>
 </html>

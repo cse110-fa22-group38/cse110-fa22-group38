@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -6,146 +6,155 @@
   <meta name="description" content="Powell Puff Planner">
   <meta name="author" content="Powell Puff Group 38">
   <meta name="keywords" content="Powell Puff Planner, Powell Puff, Planner">
-  <meta http-equiv="refresh" content="60">
   <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
-  <link rel="Web Icon" href="source/assets/favicon.ico" type="">
+  <link rel="icon" href="/assets/favicon.png" type="image/png">
 
   <!--Font Linking-->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" type="text/css">
 
   <!--Script Source-->
-  <script src="/assets/template.js" type="module"></script> <!-- Added -->
+  <script src="./js/templates.js" type="text/javascript"></script>
+  <script src="./js/databaseAPI.js" type="module"></script>
+  <script src="./js/today.js" type="module"></script>
 
-  <script src="/today.js" type="module"></script>
-
-
-  <!--Template Object Linking-->
-	<script src="/templates.js"></script>
-	<link rel="stylesheet" href="/templatestyle.css">
-  <link rel="stylesheet" href="/navbar.css">
+  <!--Style Linking-->
+	<link rel="stylesheet" href="/styles/templatestyle.css" type="text/css">
+  <link rel="stylesheet" href="/styles/navbar.css" type="text/css">
+  <style>
+    * {
+      font-family: IBM Plex Mono;
+    }
+  
+    .content {
+      display: flex;
+      gap: 10px;
+      margin: 130px 0px 0px 0px;
+      flex-wrap: wrap;
+      overflow: hidden;
+      border-radius: 10px;
+      align-content: space-between;
+    }
+  
+    .container {
+      flex-grow: 1;
+      flex-basis: 300px;
+      border-radius: 10px;
+      overflow: scroll;
+      position: relative;
+      margin: 10px 10px 10px 10px;
+    }
+  
+    #eventslistcontainer, #tasklistcontainer {
+      display: flex;
+      justify-content: start;
+      gap: 5px;
+      flex-direction: column;
+    }
+  
+    #timelinecontainer {
+      height: 800px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background-color: #191919;
+    }
+  
+    .event-border {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 100%;
+      height: 100%;
+      /*background-color: blue;
+    opacity: .9;*/
+    }
+  
+    .event-container {
+      position: relative;
+      flex-grow: 1;
+      margin-top: 7pt;
+      margin-bottom: 7pt;
+      margin-left: 24pt;
+    }
+  
+    .time-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+  
+    .line {
+      display: inline-block;
+      height: 2px;
+      background: grey;
+      flex-grow: 1;
+      border-radius: 1.5px;
+    }
+  
+    .hour {
+      display: inline-block;
+      padding-left: 1ex;
+      margin-top: 0ex;
+      margin-bottom: 0ex;
+      color: grey;
+      font-size: 10pt;
+      font-weight: 800;
+    }
+  
+    .now {
+      position: absolute;
+      top: 0%;
+      height: 5px;
+      width: 100%;
+    }
+  
+    .now-line {
+      position: relative;
+      background-color: #ee6fa8;
+      opacity: .75;
+      width: 100%;
+      height: 3px;
+      top: -1.5px;
+      border-radius: 1.5px;
+    }
+  
+    /*These are basic properties that all events should have*/
+    .timeline-event {
+      font-size: 10pt;
+    }
+  
+    .eventlist-event {
+      font-size: 12pt;
+    }
+  
+    .task {
+      font-size: 12pt;
+    }
+  
+    body {
+      position: relative;
+      background: black;
+    }
+  
+    @media screen and (min-width: 997px) {
+      .spacer {
+        display: none;
+      }
+    }
+  
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
 </head>
-<style>
-  * {
-    font-family: IBM Plex Mono;
-  }
-
-  .content {
-    display: flex;
-    gap: 10px;
-    margin: 80px 0px 0px 0px;
-    background: rgb(40, 40, 40);
-    flex-wrap: wrap;
-    overflow: hidden;
-    border-radius: 10px;
-    align-content: space-between;
-  }
-
-  .container {
-    flex-grow: 1;
-    flex-basis: 300px;
-    border-radius: 10px;
-    overflow: scroll;
-    position: relative;
-    margin: 10px 10px 10px 10px
-  }
-
-  #timelinecontainer {
-    height: 800px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-color: #191919;
-  }
-
-  .event-border {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 100%;
-    height: 100%;
-    /*background-color: blue;
-  opacity: .9;*/
-  }
-
-  .event-container {
-    position: relative;
-    flex-grow: 1;
-    margin-top: 7pt;
-    margin-bottom: 7pt;
-    margin-left: 24pt;
-  }
-
-  .time-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-  }
-
-  .line {
-    display: inline-block;
-    height: 2px;
-    background: grey;
-    flex-grow: 1;
-    border-radius: 1.5px;
-  }
-
-  .hour {
-    display: inline-block;
-    padding-left: 1ex;
-    margin-top: 0ex;
-    margin-bottom: 0ex;
-    color: grey;
-    font-size: 10pt;
-    font-weight: 800;
-  }
-
-  .now {
-    position: absolute;
-    top: 0%;
-    height: 5px;
-    width: 100%;
-  }
-
-  .now-line {
-    position: relative;
-    background-color: #ee6fa8;
-    opacity: .75;
-    width: 100%;
-    height: 3px;
-    top: -1.5px;
-    border-radius: 1.5px;
-  }
-
-  /*These are basic properties that all events should have*/
-  .timeline-event {
-    font-size: 10pt;
-  }
-
-  .eventlist-event {
-    font-size: 12pt;
-  }
-
-  .task {
-    font-size: 12pt;
-  }
-
-  body {
-    position: relative;
-    background: black;
-  }
-
-  ::-webkit-scrollbar {
-    display: none;
-  }
-</style>
 <body>
   <main>
-    <!--make horizontal flex box with span-->
+    <!--make horizontal flex box with div-->
     <div class="content">
 
       <!--Calendar w/ absolute spacing using faction of /22 as percent%-->
@@ -153,31 +162,31 @@
         <!-- event-border is a flex box which allows the event-container to expand to fill up space using an absolute-size border-->
         <div class="event-border">
           <div class="event-container">
-            <div dominant-baseline="middle" class="now" id="now-line">
+            <div class="now" id="now-line">
               <div class="now-line"></div>
             </div>
             <!--Events go here, inside event-container and underneatth the now-line-->
           </div>
         </div>
-        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">6</div><div class="line time-element"></div></span>
-        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">7</div><div class="line time-element"></div></span>
-        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">8</div><div class="line time-element"></div></span>
-        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">9</div><div class="line time-element"></div></span>
-        <span class="time-container"><div class="hour time-element">10</div><div class="line time-element"></div></span>
-        <span class="time-container"><div class="hour time-element">11</div><div class="line time-element"></div></span>
-        <span class="time-container"><div class="hour time-element">12</div><div class="line time-element"></div></span>
-        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">1</div><div class="line time-element"></div></span>
-        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">2</div><div class="line time-element"></div></span>
-        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">3</div><div class="line time-element"></div></span>
-        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">4</div><div class="line time-element"></div></span>
-        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">5</div><div class="line time-element"></div></span>
-        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">6</div><div class="line time-element"></div></span>
-        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">7</div><div class="line time-element"></div></span>
-        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">8</div><div class="line time-element"></div></span>
-        <span class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">9</div><div class="line time-element"></div></span>
-        <span class="time-container"><div class="hour time-element">10</div><div class="line time-element"></div></span>
-        <span class="time-container"><div class="hour time-element">11</div><div class="line time-element"></div></span>
-        <span class="time-container"><div class="hour time-element">12</div><div class="line time-element"></div></span>
+        <div class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">6</div><div class="line time-element"></div></div>
+        <div class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">7</div><div class="line time-element"></div></div>
+        <div class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">8</div><div class="line time-element"></div></div>
+        <div class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">9</div><div class="line time-element"></div></div>
+        <div class="time-container"><div class="hour time-element">10</div><div class="line time-element"></div></div>
+        <div class="time-container"><div class="hour time-element">11</div><div class="line time-element"></div></div>
+        <div class="time-container"><div class="hour time-element">12</div><div class="line time-element"></div></div>
+        <div class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">1</div><div class="line time-element"></div></div>
+        <div class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">2</div><div class="line time-element"></div></div>
+        <div class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">3</div><div class="line time-element"></div></div>
+        <div class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">4</div><div class="line time-element"></div></div>
+        <div class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">5</div><div class="line time-element"></div></div>
+        <div class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">6</div><div class="line time-element"></div></div>
+        <div class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">7</div><div class="line time-element"></div></div>
+        <div class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">8</div><div class="line time-element"></div></div>
+        <div class="time-container"><div class="hour time-element" style="margin-left: 1.1ex;">9</div><div class="line time-element"></div></div>
+        <div class="time-container"><div class="hour time-element">10</div><div class="line time-element"></div></div>
+        <div class="time-container"><div class="hour time-element">11</div><div class="line time-element"></div></div>
+        <div class="time-container"><div class="hour time-element">12</div><div class="line time-element"></div></div>
       </div>
 
       <!--Event List vertical flex box-->
@@ -190,15 +199,15 @@
       <div id="tasklistcontainer" class="container">
         <!--Tasks go in here, they should expand horizontally to fill up all available space, and will contract vertically to math the size of their contents-->
       </div>
-
-      <div class="container"></div>
+      <div class="container spacer"></div>
     </div>
   </main>
   <header>
     <div class="navcontainer">
-        <img src="/logo-square.png" alt="logo" class="logo">
         <nav>
             <ul>
+                <li><img src="/assets/logo-square.png" alt="logo" class="logo"></li>
+                <li><a href="/logout">Logout</a></li>
                 <li><a href="/quarter">Quarter</a></li>
                 <li><a href="/week">Weekly</a></li>
                 <li><a href="/today">Daily</a></li>
@@ -207,136 +216,6 @@
             </ul>
         </nav>
     </div>
-  </header>
+</header>
 </body>
-
-<script>
-  // Once the skeleton loaded, run the script to populate the page
-  window.addEventListener('DOMContentLoaded', init);
-
-  function init() {
-    let timeline = document.querySelector('.event-container');
-    //puts all the hours into the timeline.
-    setInterval(setNow(), 60000);
-    // Retrieving data entry array from database
-    let deArray = retrieveFromDatabase(0, 0);
-    // Populate timeline container
-    let timeContainer = timeline;
-    populateTimeContainer(timeContainer, deArray);
-    // Populate event list container
-    let eventContainer = document.querySelector("#eventslistcontainer");
-    populateEventContainer(eventContainer, deArray);
-    // Populate task list container
-    let taskContainer = document.querySelector("#tasklistcontainer");
-    populateTaskContainer(taskContainer, deArray);
-  }
-  /**
-   * creates a time-markers from 6AM to 12PM inside a timeline holder
-   * parameter: timelinecontainer.
-   */
-
-  function setNow() {
-    //get time values using Date() Object
-    let time = new Date();
-    let hour = time.getHours();
-    let minute = time.getMinutes();
-    // calendar starts at 6AM not 12AM
-    hour = hour - 6;
-    // only set now-bar if time is after 6AM
-    if (hour >= 6) {
-      minute = minute / 60; //convert minutes to fractions of an hour
-      let percentage = (hour + minute) / .18; // divide by 18 and multiply by 100 to get percentage of container
-      let now = document.getElementById('now-line');
-      now.style = `top: ${percentage}%;` // set now's location to percentage of page
-      console.log(`now line set position ${hour + minute}`);
-    } else {
-      console.log("now line not set")
-    }
-  }
-  /* DATABSE RELATED FUNCTION */
-  function retrieveFromDatabase(start, end) {
-    let deArray = [];
-    let d1 = {
-      UUID: "John",
-      DEID: 1,
-      type: "event",
-      name: "cse110 lecture",
-      relation: "cse110",
-      location: "center hall 113",
-      details: "this class is difficult",
-      start: "2022-11-21T14:00:00.000",
-      end: "2022-11-21T15:50:00.000",
-      done: false,
-      color: "#FF0000"
-    };
-    let t1 = {
-      UUID: "John",
-      DEID: 2,
-      type: "task",
-      name: "lab 1",
-      relation: "cse110",
-      location: "center hall 113",
-      details: "probably some rediculous javascript assignment",
-      start: "2022-11-21T17:00:00.000",
-      end: "2022-11-21T17:00:00.000",
-      done: false,
-      color: "#FF0000"
-    }
-    let e1 = {
-      UUID: "John",
-      DEID: 3,
-      type: "exam",
-      name: "midterm 1",
-      relation: "math100a",
-      location: "Price Center",
-      details: "chapters 2,3,6\ncan use 1 page of notes",
-      start: "2022-11-21T12:00:00.000",
-      end: "2022-11-21T12:50:00.000",
-      done: false,
-      color: "#0033AA"
-    }
-    deArray = [d1, t1, e1];
-    return deArray;
-  }
-
-  function populateTimeContainer(element, deArray) {
-    if (!element) return;
-    if (!deArray) return;
-    for (let i = 0; i < deArray.length; i++) {
-      let newEvent = document.createElement('div');
-      if ((deArray[i].type == "event") || (deArray[i].type == "exam")) {
-        tevent(newEvent, deArray[i]);
-      } else {
-        ttask(newEvent, deArray[i]);
-      }
-      element.appendChild(newEvent);
-    }
-  }
-
-  function populateEventContainer(element, deArray) {
-    if (!element) return;
-    if (!deArray) return;
-    for (let i = 0; i < deArray.length; i++) {
-      let newEvent = document.createElement('div');
-      if (deArray[i].type != "task") {
-        levent(newEvent, deArray[i]);
-      }
-      element.appendChild(newEvent);
-    }
-  }
-
-  function populateTaskContainer(element, deArray) {
-    if (!element) return;
-    if (!deArray) return;
-    for (let i = 0; i < deArray.length; i++) {
-      let newEvent = document.createElement('div');
-      if (deArray[i].type == "task") {
-        ltask(newEvent, deArray[i]);
-      }
-      element.appendChild(newEvent);
-    }
-  }
-</script>
-
-
 </html>

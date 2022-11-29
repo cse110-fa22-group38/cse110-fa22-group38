@@ -6,144 +6,171 @@
     <title> Account Settings </title>
     <meta name = "Description" content = "Account Settings"> 
 
-    <link rel="Web Icon" href="./assets/favicon.ico" type="">
+    <link rel="icon" href="/assets/favicon.png" type="image/png">
 
-    <link rel="stylesheet" href="./assets/navbar.css">
+    <link rel="stylesheet" href="./styles/navbar.css" type="text/css">
 
     <!--Font Linking-->
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-  </head>
-
-
-  <style>
-    .header {
-      position: relative;
-      z-index: 1;
-      background-color: rgba(238,111,168,1);
-      color: white;
-      text-align: center;
-      margin-top:0;
-      padding-top: 0px;
-      padding-bottom: 10%;
-      border-bottom-left-radius: 20px;
-      border-bottom-right-radius: 20px;
-      font-size: 5vw;
-    }
-
-    header {
-      position: relative;
-      background-color: rgba(238,111,168,1);
-      color: white;
-      text-align: center;
-      font-size: 5vw;
-      padding-top: 2%;
-      padding-bottom: 5%;
-      border-bottom-left-radius: 20px;
-      border-bottom-right-radius: 20px;
-
-    }
-
-    body {
-      background-color: black;
-    }
-
-    form {
-      color: white;
-      position: relative;
-      display: grid;
-      padding: 1em;
-      background: rgba(238,111,168,1);
-      border: 1px solid white;
-      margin: 2rem auto 0 auto;
-      max-width: 600px;
-      padding: 1em;
-    }
-
-    form input {
-      background: #fff;
-      border: 1px solid #9c9c9c;
-    }
- 
-    form button[type="save"] {
-      background: lightgrey;
-      padding: 0.7em;
-      width: 100%;
-      border: 0;
-    } 
-
-    button[type="delete"] {
-      margin-top: 20px;
-      background: rgba(238,111,168,1);
-      padding: 0.7em;
-      width: 100%;
-      border-radius: 10px;
-      border: 0;
-      width: 44%;
-      margin-left: 28%;
-      margin-right: 28%;
-    }
+    <style>
+      .header {
+        position: relative;
+        z-index: 1;
+        background-color: rgba(238,111,168,1);
+        color: white;
+        text-align: center;
+        margin-top:0;
+        padding-top: 0px;
+        padding-bottom: 10%;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        font-size: 5vw;
+      }
   
-    form button[type="save"]:hover {
-      background: rgb(237, 185, 209);
-    } 
-
-    button[type="delete"]:hover {
-      background: rgba(212, 159, 186, 0.773);
-    }
-    
-    label {
-      padding: 0.5em 0.5em 0.5em 0;
-    }
-    
-    input {
-      padding: 0.7em;
-      margin-bottom: 0.5rem;
-    }
-    input:focus {
-      outline: 3px solid black;
-    }
-    
-    @media (min-width: 400px) {
+      header {
+        position: relative;
+        background-color: rgba(238,111,168,1);
+        color: white;
+        text-align: center;
+        font-size: 5vw;
+        padding-top: 2%;
+        padding-bottom: 5%;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+  
+      }
+  
+      body {
+        background-color: black;
+      }
+  
       form {
-        grid-template-columns: 200px 1fr;
-        grid-gap: 16px;
+        color: white;
+        position: relative;
+        display: grid;
+        padding: 1em;
+        background: rgba(238,111,168,1);
+        border: 1px solid white;
+        margin: 2rem auto 0 auto;
+        max-width: 600px;
+        padding: 1em;
+      }
+  
+      form input {
+        background: #fff;
+        border: 1px solid #9c9c9c;
+      }
+   
+      form button[type="save"] {
+        background: lightgrey;
+        padding: 0.7em;
+        width: 100%;
+        border: 0;
+        border-radius: 10px;
+      } 
+  
+      button[type="submit"] {
+        color: rgba(238,111,168,1);
+        margin-top: 5px;
+        background: white;
+        padding: 0.7em;
+        width: 100%;
+        border-radius: 10px;
+        border: 0;
+        width: 44%;
+        margin-left: 28%;
+        margin-right: 28%;
       }
     
+      form button[type="submit"]:hover {
+        background: rgb(237, 185, 209);
+      } 
+  
+      button[type="delete"]:hover {
+        background-color: red;
+        color: black;
+      }
+      
       label {
-        text-align: right;
-        grid-column: 1 / 2;
+        padding: 0.5em 0.5em 0.5em 0;
       }
-    
-      input,
-      button {
-        grid-column: 2 / 3; 
+      
+      input {
+        padding: 0.7em;
+        margin-bottom: 0.5rem;
       }
-    }  
 
-  </style>
+      input:focus {
+        outline: 3px solid black;
+      }
+      
+      @media (min-width: 400px) {
+        form {
+          grid-template-columns: 200px 1fr;
+          grid-gap: 16px;
+        }
+      
+        label {
+          text-align: right;
+          grid-column: 1 / 2;
+        }
+      
+        input,
+        button {
+          grid-column: 2 / 3; 
+        }
+      }  
+  
+    </style>
+    <script>
+      window.addEventListener('DOMContentLoaded', init);
+
+      const getHeader =  {
+          method: 'GET',
+      }
+      const URL = "api/username";
+
+      async function init() {
+        let username = "N/A";
+        username = await getUsername();
+        let username_input = document.querySelector('#username');
+        
+        username_input.value = username;
+      }
+      
+      async function getUsername() {
+        try {
+          let response = await fetch(URL, getHeader);
+          return await response.json();
+        }
+        catch (err) {
+          console.error(err);
+          return;
+        }
+      }
+    </script>
+  </head>
   <body>
     <!-- Main Login Page -->
       <header>
         <div class="header">Account Settings</div>
       </header>
     <main>
-      <form class="form1" action="">
+      <form class="form1" action="/settings" method="POST">
         <label for="username">Username:</label>
-        <input id="username" type="email">
+        <input id="username" type="email" readonly>
 
-        <label for="password">Create New Password:</label>
-        <input id="password" type="password">
+        <label for="password">Confirm Old Password:</label>
+        <input id="password" type="password" name="old_pass">
 
-        <label for="confirmpassword">Confirm New Password:</label>
-        <input id="confirmpassword" type="password">
+        <label for="confirmpassword">New Password:</label>
+        <input id="confirmpassword" type="password" name="new_pass">
 
-        <button type="save">Update</button>
+        <button type="submit" name="button" value="update">Update New Password</button>
+        <button type="submit" name="button" value="delete">Delete Account</button>
       </form>
-      <div>
-        <button type="delete">Delete Account</button>
-      </div>
     </main>    
     </body>
 </html>
