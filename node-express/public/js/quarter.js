@@ -4,6 +4,8 @@ import * as dbAPI from "./databaseAPI.js";
 let quarter = {
 	start: "",
 	end: "",
+	startNext: "",
+	endNext: "",
 };
 
 // Waiting for the html page 
@@ -46,26 +48,38 @@ async function init() {
 	// display a message 'add a quarter to show here'
 	if (quarter.start == "") {
 		// If there is no quarter
-		console.error("Can't display quarter if there is no quarter to display *taps head*")
+		console.error("Can't display quarter if there is no quarter to display *taps head*");
+		let pageBody = document.querySelector('body');
+		let component = document.createElement('div');
+		component.classList.add('instructions');
+
+		component.innerHTML = `
+		<p>It looks like there isn't a quarter setup in your database.
+		Go <a style="color: #ee6fa8;" href="https://blink.ucsd.edu/instructors/resources/academic/calendars/index.html">here<a> and take note of the 'instruction begins' and 'instruction ends' dates for the current or upcoming quarter
+		and then add a new Quarter event with those as the start and end times. Be sure to name your quarter!</p>
+		`
+
+		pageBody.appendChild(component);
+	} else {
+
+		// 2) Retrieve all the events for this quarter based on the date range
+		// From the database
+		// Converting the strings into universal time first
+		/*
+		let universal_start = new Date(quarter.start);
+		let universal_end = new Date(quarter.end);
+		let universal_start_string = universal_start.toISOString();
+		let universal_end_string = universal_end.toISOString();
+		*/
+
+		let deArray = await retrieveFromDatabase(quarter.start, quarter.end);
+		console.log(deArray);
+
+		convertDate(deArray);
+		
+		// 2) Build the calendar from the data that we just grabbed.
+		buildCalendar(deArray);
 	}
-
-	// 2) Retrieve all the events for this quarter based on the date range
-	// From the database
-	// Converting the strings into universal time first
-	/*
-	let universal_start = new Date(quarter.start);
-	let universal_end = new Date(quarter.end);
-	let universal_start_string = universal_start.toISOString();
-	let universal_end_string = universal_end.toISOString();
-	*/
-
-	let deArray = await retrieveFromDatabase(quarter.start, quarter.end);
-	console.log(deArray);
-
-	convertDate(deArray);
-	
-	// 2) Build the calendar from the data that we just grabbed.
-	buildCalendar(deArray);
 }
 
 function convertDate(deArray) {
