@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "server": "node node_express/main.js",
-    "server-dev": "nodemon node_express/main.js"
+    "server-dev": "nodemon node_express/main.js",
+    "test": "jest"
   },
   "author": "Tung Nguyen",
   "license": "ISC",
@@ -23,5 +24,17 @@
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "sqlite3": "^5.1.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
+    "babel-jest": "^29.3.1",
+    "jest": "^29.3.1",
+    "jest-puppeteer": "^6.1.1",
+    "puppeteer": "^19.3.0"
+  },
+  "jest": {
+    "preset": "jest-puppeteer",
+    "verbose": true
   }
 }
