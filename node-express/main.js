@@ -502,7 +502,7 @@ app.get("/api/events/all", (req, res, next) => {
           return;
         }
 
-        res.json({row});
+        res.json(row);
     });
 });
 
