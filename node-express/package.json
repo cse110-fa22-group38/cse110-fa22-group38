@@ -4,7 +4,7 @@
   "description": "Express REST API",
   "main": "server.js",
   "scripts": {
-    "server": "node node_express/server.js",
+    "server": "node server.js",
     "server-dev": "nodemon node_express/server.js",
     "test": "jest"
   },
