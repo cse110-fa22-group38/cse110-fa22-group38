@@ -5,28 +5,19 @@
         <link rel="icon" href="/assets/favicon.png" type="image/png">
         <link rel="preconnect" href="https://fonts.googleapis.com"> 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="/styles/navbar.css" type="text/css">
         <style>
             * {
                 font-family: 'IBM Plex Mono';
             }
 
+            .content {
+                margin: 40px 0px 0px 0px;
+            }
+
             body {
                 background-color: black;
-            }
-
-            .buttons {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: center;
-                gap: 20px;
-
-            }
-            .button {
-                background-color: #ee6fa8;
-                border-radius: 20px;
-                font-size: 40pt;
             }
 
             .button > * {
@@ -41,6 +32,10 @@
                 display: flex;
                 flex-direction: row;
                 margin: 0 100px 0 100px;
+            }
+
+            .personal-space > p {
+                margin-right: 20px;
             }
 
             .personal-space > a {
@@ -72,11 +67,15 @@
                 grid-area: about;
             }
 
+            #about p {
+                font-size: 20pt;
+            }
+
             #menu {
                 grid-area: menu;
                 display: flex;
                 flex-direction: column;
-                gap: 15pt;
+                gap: 12pt;
                 padding: 50px;
             }
 
@@ -156,7 +155,7 @@
                 ". menu about about about ."
                 ". menu about about about ."
                 ". team team team team ."
-                ". divy divy divy divy ."
+                ". divy divy divy tools ."
                 ". jaso jaso jaso tools ."
                 ". tung tung tung tools ."
                 ". veda veda veda tools ."
@@ -172,24 +171,23 @@
         </style>
     </head>
     <body>
-        <div class="buttons">
-            <div class="button" id="login-button"><a href="./login">Login</a></div>
-            <div class="button" id="today-button"><a href="./today">Today</a></div>
-            <div class="button" id="week-button"><a href="./week">Week</a></div>
-            <div class="button" id="quarter-button"><a href="./quarter">Quarter</a></div>
-            <div class="button" id="settings-button"><a href="./settings">Settings</a></div>
-        </div>
-        <main>
+        <main class="content">
             <div id="about">
-                <!-- <p> Above you can see a very bad navigation bar, I promise it won't look that bad forever lol.</p> -->
-                <p style="font-size: 20pt;">This page is the result of team project made for CSE110 - Software Engineering at the University of California, San Diego during Fall 2022.</p>
-                <!-- <p> Y'all gonna have to help me come up with stuff to write in here...</p> -->
-                <p> Our project is a planner specifically designed for students in schools of quarter system. 
-                    The planner consists today view, week view and quarter view. It also has a login page, sign up page and settings page, 
+                
+                <p>
+                    This page is the result of team project made for CSE110 - Software Engineering at the University of California, San Diego during Fall 2022 by group 38.
+                </p>
+                
+                <p>
+                    Our project is a planner specifically designed for students in schools using a quarter system, such as UCSD.
+                    The planner consists 3 primary views: daily view, weekly view and quarter view. It also has a login page, sign up page and settings page, 
                     allowing users to create an account and customize settings.
                 </p>
-                <p> For this planner, you are able to add events so that it can show on the calendar. The event can be a homework, a exam or a task. 
-                    You can set its location and the time. Each event would show in the views differently.</p>
+
+                <p>
+                    For this planner, you are able to add events that show up in each view. The event can be a task (such as an assignment), an event, or an exam. 
+                    You can set their location, time, and even group events together by giving them the same relation. You can click on an event to see more details.
+                </p>
                 
             </div>
             <div id="menu">
@@ -208,53 +206,70 @@
             </div>
             <div id="tools">
                 <p>Some tools we used as part of this project:</p>
-                <p>Visual Studio Code</p>
-                <p>GitHub</p>
-                <p>Slack (aka, bad discord)</p>
-                <p>Codepen.io</p>
+                <p>- Visual Studio Code</p>
+                <p>- Node.js</p>
+                <p>- GitHub</p>
+                <p>- Slack</p>
+                <p>- Codepen.io</p>
+                <p>- WebStorm</p>
                 <!-- <p>Honestly I don't know what to put here ye</p> -->
             </div>
             <img id="team" src="assets/team.jpg" alt="Team 38 Group Picture">
             <!--Divyam-->
             <div class="personal-space" id="divyam">
-                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="assets/headshots/divyam.jpg" alt="Divyam"></a> <p>This block of space is about Divyam. Once he sees this block he can let John know what he thinks about it and will decide what's going to be written in it. For now its just some filler text so that I can see what the text overflow looks like and other things related to the looks of the page. Not gonna lie looks pretty good so far if I do say so myself.</p>
+                <a href="https://divyamrana007.github.io/Lab01/"><img src="assets/headshots/divyam.jpg" alt="Divyam"></a> <p>Divyam:</p><p>A senior majoring in Math - CS and minor in Data Science. After my classes, you would typically find me in the soccer field.</p>
             </div>
             <!---->
             <div class="personal-space" id="jason">
-                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="assets/headshots/logo-square.png" alt="Jason"></a> <p>Here's a block for Jason.</p>
+                <a href="https://jason011125.github.io/CSE110-Lab0-1/"><img src="assets/headshots/jason.jpg" alt="Jason"></a> <p>Jason:</p><p>I'm a junior Math-CS major. I like video games a lot and I have a cat who's named after a famous Chinese moba player "Dian Gun".</p>
             </div>
             <!---->
             <div class="personal-space" id="tung">
-                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="assets/headshots/tung.jpg" alt="Tung"></a> <p>Here's a block for Tung.</p>
+                <a href="https://tan002-fall2022.github.io/CSE110/"><img src="assets/headshots/tung.jpg" alt="Tung"></a> <p>Tung:</p><p> Yo! I'm a junior majoring in Computer Engineering. I'm usually at the library with my homies either grinding school work or watching some e-sports and memes.</p>
             </div>
             <!---->
             <div class="personal-space" id="vedant">
-                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="assets/headshots/logo-square.png" alt="Vedant"></a> <p>Here's a block for Vedant.</p>
+                <a href="https://vedant2812.github.io/CSE110/"><img src="assets/headshots/vedant.jpg" alt="Vedant"></a> <p>Vedant:</p><p> I'm a senior studying Computer Engineering. I like hiking and playing poker.</p>
             </div>
             <!--Rachel-->
             <div class="personal-space" id="rachel">
-                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="assets/headshots/rachel.png" alt="Rachel"></a> <p>Here's a block for Rachel.</p>
+                <a href="https://rachelayaka.github.io/CSE110-LAB1/"><img src="assets/headshots/rachel.png" alt="Rachel"></a> <p>Rachel:</p><p>I'm a 4th year majoring in Math-CS. I have an eyelashing business, so that is what I do and gym outside of school.</p>
             </div>
             <!--John-->
             <div class="personal-space" id="john">
-                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="assets/headshots/john.jpg" alt="John"></a> <p>Here's a block for John.</p>
+                <a href="https://jpaoad31.github.io"><img src="assets/headshots/john.jpg" alt="John"></a> <p>John:</p><p>Not good at HTML/CSS, but excited to build something cool & useful! I'm interested in Machine Learning and retro video game consoles.</p>
             </div>
             <!--Hugo-->
             <div class="personal-space" id="hugo">
-                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="assets/headshots/logo-square.png" alt="Hugo"></a> <p>Here's a block for Hugo.</p>
+                <a href="https://hugompham.github.io/Week-0-1-Lab/"><img src="assets/headshots/hugo.jpg" alt="Hugo"></a> <p>Hugo:</p><p>I'm a third year Computer Engineering major. If I am not working or watching anime, you will probably see me in the gym.</p>
             </div>
             <!--Thu-->
             <div class="personal-space" id="thu">
-                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="assets/headshots/thu.jpg" alt="Thu"></a> <p>Here's a block for Thu.</p>
+                <a href="https://maibaothu.github.io/cse-110-project/"><img src="assets/headshots/thu.jpg" alt="Thu"></a> <p>Thu:</p><p>A senior in CS. I like arts, drawings, video games and cats. Hope to have fun with you guys in CSE110.</p>
             </div>
             <!--Nina-->
             <div class="personal-space" id="nina">
-                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="assets/headshots/nina.jpg"  alt="Nina"></a> <p>Here's a block for Nina.</p>
+                <a href="https://ygnina.github.io/fa22-cse110-lab0-1/"><img src="assets/headshots/nina.jpg"  alt="Nina"></a> <p>Nina:</p><p>I'm a senior majoring in CS. I like to watch movies or go hiking when I have spare time.</p>
             </div>
             <!--Yousuf-->
             <div class="personal-space" id="yousuf">
-                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img src="assets/headshots/logo-square.png" alt="Yousuf"></a> <p>Here's a block for Yousuf.</p>
+                <a href="https://gonomo.github.io/CSE110/"><img src="assets/headshots/yousuf.jpg" alt="Yousuf"></a> <p>Yousuf:</p><p>I'm the newest member to this group, but I'm excited to get working on a real project!</p>
             </div>
         </main>
+        <header>
+            <div class="navcontainer">
+                <nav>
+                    <ul>
+                        <li><img src="/assets/logo-square.png" alt="logo" class="logo"></li>
+                        <li><a href="/logout">Logout</a></li>
+                        <li><a href="/quarter">Quarter</a></li>
+                        <li><a href="/week">Weekly</a></li>
+                        <li><a href="/today">Daily</a></li>
+                        <li><a href="/settings">Settings</a></li>
+                        <li><a href="/add">Add</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
     </body>
 </html>

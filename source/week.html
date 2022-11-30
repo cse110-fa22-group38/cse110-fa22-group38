@@ -29,22 +29,23 @@
           .content {
             display: flex;
             gap: 20px;
-            width: 98%;
+            
             left: 1%;
             /*background: rgb(40,40,40);*/
             position: absolute;
             top: 130px;
-            flex-wrap: wrap;
-            overflow: hidden;
+            flex-wrap: nowrap;
+            overflow: scroll;
             border-radius: 20px;
             justify-content: space-between;
-            align-content: space-between;
+            
+            align-items: stretch;
           }
     
           .titlewrapper {
             display: flex;
             flex-grow: 1;
-            flex-basis: 250px;
+            width: 300px;
             min-height: 800px;
             flex-direction: column;
             /*background-color: #191919;*/
@@ -66,7 +67,7 @@
           }
           
           .spacer {
-            display: flex;
+            display: none;
             flex-grow: 1;
             flex-basis: 250px;
             flex-direction: column;

@@ -61,3 +61,16 @@ body {
 .day-container:has(.qexam) {
     background-color: #666666;
 }
+
+.instructions {
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+p {
+    text-align: center;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
