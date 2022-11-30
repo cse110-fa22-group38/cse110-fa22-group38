@@ -1,10 +1,3 @@
-const puppeteer = require('puppeteer');
-
-const browser = await puppeteer.launch({
-    headless: true,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"]
-});
-
 const request = require("supertest");
 const PORT = 6900;
 const baseURL = "http://localhost:" + PORT;
