@@ -48,8 +48,8 @@
     
     function parseTime(start, end) {
       // parse given time
-      const startTime = Date.parse(start);
-      const endTime = Date.parse(end);
+      const startTime = new Date(start);
+      const endTime = new Date(end);
       // find difference of times to find duration
       const duration = endTime - startTime;
       // initialize variables needed for later
@@ -57,51 +57,17 @@
       let parsedEnd = "";
       let timeNum = 0;
       let time = "";
-      // Rewrite the given times to be look like (%%:%% *M)
-      if (
-        start.split("T")[1].split(":")[0] >= 0 &&
-        start.split("T")[1].split(":")[0] < 12
-      ) {
-        parsedStart =
-          start.split("T")[1].split(":")[0] +
-          ":" +
-          start.split("T")[1].split(":")[1] +
-          "AM";
-      } else {
-        parsedStart =
-          start.split("T")[1].split(":")[0] -
-          12 +
-          ":" +
-          start.split("T")[1].split(":")[1] +
-          "PM";
-      }
-      if (
-        end.split("T")[1].split(":")[0] >= 0 &&
-        end.split("T")[1].split(":")[0] < 12
-      ) {
-        parsedEnd =
-          end.split("T")[1].split(":")[0] +
-          ":" +
-          end.split("T")[1].split(":")[1] +
-          "AM";
-      } else {
-        parsedEnd =
-          end.split("T")[1].split(":")[0] -
-          12 +
-          ":" +
-          end.split("T")[1].split(":")[1] +
-          "PM";
-      }
+
       // Evaluate duration to fit the right description of it
       if (duration < hour) {
         timeNum = Math.round(duration / minute);
-        time = `${parsedStart}` + "-" + `${parsedEnd}` + `   ${timeNum} minute(s)`;
+        time = `${startTime.toLocaleTimeString()}` + " – " + `${endTime.toLocaleTimeString()}` + `\n${timeNum} minutes`;
       } else if (duration < day) {
         timeNum = Math.round(duration / hour);
-        time = `${parsedStart}` + "-" + `${parsedEnd}` + `   ${timeNum} hour(s)`;
+        time = `${startTime.toLocaleTimeString()}` + " – " + `${endTime.toLocaleTimeString()}` + `\n${timeNum} hours`;
       } else if (duration < month) {
         timeNum = Math.round(duration / day);
-        time = `${parsedStart}` + "-" + `${parsedEnd}` + `   ${timeNum} day(s)`;
+        time = `${startTime.toLocaleTimeString()}` + " – " + `${endTime.toLocaleString()}` + `\n${timeNum} days`;
       }
     
       return time;

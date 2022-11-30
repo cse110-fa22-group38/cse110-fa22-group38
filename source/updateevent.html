@@ -161,13 +161,14 @@
 
                 // update time
                 let timeZoneOffsetMinutes = await new Date(Date.now()).getTimezoneOffset();
+                let timeZoneOffsetHours = timeZoneOffsetMinutes / 60;
 
                 let startTime = new Date(dataentry['event_start']);
-                startTime.setMinutes(startTime.getMinutes() - timeZoneOffsetMinutes);
+                startTime.setHours(startTime.getHours() - timeZoneOffsetHours);
                 dataentry['event_start'] = startTime.toISOString();
 
                 let endTime = new Date(dataentry['event_end']);
-                endTime.setMinutes(startTime.getMinutes() - timeZoneOffsetMinutes);
+                endTime.setHours(endTime.getHours() - timeZoneOffsetHours);
                 dataentry['event_end'] = endTime.toISOString();
                 
                 // Give the update button a value, which is the event id
@@ -185,7 +186,9 @@
                 formInputs[6].value = dataentry['event_name'];
                 formInputs[7].value = dataentry['event_location'];
                 formInputs[8].value = dataentry['event_start'].substring(0,19);
+                console.log(dataentry['event_start'].substring(0,19));
                 formInputs[9].value = dataentry['event_end'].substring(0,19);
+                console.log(dataentry['event_end'].substring(0,19));
                 formInputs[10].value = dataentry['event_color'];
 
                 descriptionElement.value = dataentry['event_details'];
