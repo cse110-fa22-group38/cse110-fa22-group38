@@ -1,6 +1,6 @@
 const request = require("supertest");
 const PORT = 6900;
-const baseURL = "http://localhost:" + PORT;
+const baseURL = require(`../main.js`);
 
 let login = "/login";
 let register = "/register";
@@ -56,7 +56,7 @@ describe("Testing the registering page's redirection", () => {
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
             .expect(302)
-            .expect('Location', register, done) // Check if server redirect to regist
+            .expect('Location', register, done) // Check if server redirect to register
     })
 })
 
