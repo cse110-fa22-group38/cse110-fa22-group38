@@ -487,17 +487,17 @@ app.get("/api/username", (req, res, next) => {
 
 // Get all users' info (SECURITY RISK)
 app.get("/api/users", (req, res, next) => {
-    var sql = "select * from users"
-    var params = []
-    db.all(sql, params, (err, row) => {
+    var sql = "select * from users";
+    var params = [];
 
+    return db.all(sql, params, (err, row) => {
         if (err) {
-          res.status(400).json({"error":err.message});
-          return;
+            res.status(400).json({"error":err.message});
+            return;
         }
-
+    
         res.json(row);
-    });
+    })
 });
 
 // Get all events for all users (SECURITY RISK)
