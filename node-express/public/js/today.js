@@ -133,7 +133,7 @@ function populateTaskContainer(element, deArray) {
     for (let i = 0; i < deArray.length; i++) {
         let newEvent = document.createElement('div');
         
-        if (deArray[i].type == "task") {
+        if (deArray[i]['event_type'] == "task") {
             ltask(newEvent, deArray[i]);
             element.appendChild(newEvent);
         }
