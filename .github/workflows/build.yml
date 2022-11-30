@@ -6,7 +6,7 @@ on:
 
 jobs : 
   build-node:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     container: node:19
     steps:
       - run: node --version
