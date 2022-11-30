@@ -135,6 +135,17 @@ app.get('/popup/:event_id', checkNotAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname + '/../source/entriesPopup.html'));
 })
 
+// Add update page
+app.get('/update/:event_id', checkNotAuthenticated, (req, res) => {
+    let event_id = req.params.event_id;
+
+    if (logged_user == null) {
+        res.redirect("/login");
+    }
+
+    res.sendFile(path.join(__dirname + '/../source/updateevent.html'));
+})
+
 // Logging out
 app.get('/logout', (req, res) => {
     logged_user = null;
@@ -427,6 +438,87 @@ app.post("/deleteEvent", checkNotAuthenticated, async (req, res) => {
     catch (err) {
         console.log("FAILED TO DELETE EVENT " + eventId + " FROM TABLE EVENTS");
         return;
+    }
+})
+
+// Pressing update button on pop up page
+app.post("/updateEvent", checkNotAuthenticated, async (req, res) => {
+    let eventId = req.body.button;
+
+    try {
+        res.redirect(`/update/${eventId}`);
+        return;
+    }
+    catch (err) {
+        // TODO
+        console.log("FAILED TO UPDATE EVENT " + eventId + " ON TABLE EVENTS");
+        return;
+    }
+})
+
+// Handling the update button on update event page
+app.post("/update", checkNotAuthenticated, async (req, res) => {
+    try {
+        let event_id = req.body.event_id;
+        let username = logged_user;
+        let event_n = req.body.event_name;
+        let event_t = req.body.event_type;
+        let event_rel = req.body.event_relation;
+        let event_loc = req.body.event_location;
+        let local_start_time = req.body.event_start_time;
+        let local_end_time = req.body.event_end_time;
+        let event_details = req.body.event_details;
+        let event_color = req.body.event_color;
+        let event_completed = Boolean(false);
+
+        // Converting local time into universal time before inserting into db
+        let universal_start = new Date(local_start_time);
+        let universal_end = new Date(local_end_time);
+
+        start_time = universal_start.toISOString();
+        end_time = universal_end.toISOString();
+        
+        let UPDATE = 
+        `
+        UPDATE events SET
+            username = COALESCE (?,username),
+            event_type = COALESCE (?,event_type),
+            event_name = COALESCE (?,event_name),
+            event_relation = COALESCE (?,event_relation),
+            event_location = COALESCE (?,event_location),
+            event_details = COALESCE (?,event_details),
+            event_start = COALESCE (?,event_start),
+            event_end = COALESCE (?,event_end),
+            event_completed = COALESCE (?,event_completed),
+            event_color = COALESCE (?,event_color)
+        WHERE event_id = ?
+        `;
+
+        let params = 
+        [username, event_t, event_n, event_rel, event_loc, event_details, 
+        start_time, end_time, event_completed, event_color, event_id];
+
+        // Update event that matches the event id in database
+        db.run(UPDATE, params, async (err) => {
+            if (err){
+                // If err thrown, we don't know why
+                console.error(`Failed to update ${event_id} event to DB`);
+                console.error(err);
+
+                // Redirect back to today view
+                res.redirect('/today');
+            }
+            else {
+                console.log(`Succesfully update event ${event_id} for user: ${username}`);
+  
+                // If succeeded, also redirect to today view
+                res.redirect('/today')
+            }
+        })
+    } catch (err) {
+        console.error(err);
+        // Catastrophic error, redirect to index page
+        res.redirect('/') // redirect to index
     }
 })
 

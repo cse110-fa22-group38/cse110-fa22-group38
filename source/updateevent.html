@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Update Event</title>
+        <meta name="description" content="Powell Puff Planner">
+        <meta name="author" content="Powell Puff Group 38">
+        <meta name="keywords" content="Powell Puff Planner, Powell Puff, Planner">
+        <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="/assets/favicon.png" type="image/png">
+        <!--Font Linking-->
+        <link rel="preconnect" href="https://fonts.googleapis.com"> 
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+        <style>
+            * {
+                font-family: 'IBM Plex Mono';
+            }
+    
+            body {
+                background-color: black;
+                display: grid;
+                justify-content: center;
+                margin: 50px;
+                
+            }
+    
+            form {
+                width: 500px;
+                background-color: #ee6fa8;
+                display: grid;
+                padding: 20px;
+                border-radius: 20px;
+                justify-content: center;
+                gap: 20px;
+                height: fit-content;
+            }
+    
+            form > * {
+                color: white;
+                width: 300px
+            }
+    
+            form > * > * {
+                color: white;
+                font-size: 14pt;
+                display: block;
+            }
+            form > div > * {
+                display: block;
+            }
+            form > div > input {
+                background-color: #ee6fa8;
+                border-color: white;
+                border-style: solid;
+                border-width: 1px;
+                width: 300px;
+                border-radius: 5px;
+            }
+            textarea {
+                font-family: 'IBM Plex Sans';
+                font-size: 12pt;
+                background-color: #ee6fa8;
+                border-color: white;
+                border-style: solid;
+                width: 300px;
+                border-radius: 5px;
+                resize: none;
+            }
+            select {
+                background-color: #ee6fa8;
+                border-color: white;
+                border-style: solid;
+                width: 300px;
+                border-radius: 5px;
+                font-family: 'IBM Plex Sans';
+                appearance: none;
+            }
+            input[type="color"] {
+                background-color: white;
+                border-radius: 5px;
+                height: 30px;
+            }
+            input[type="color"]::-webkit-color-swatch {
+                border-radius: 10px;
+                border-style: solid;
+                border-width: 2px;
+                border-color: #555;
+            }
+            input {
+                font-family: 'IBM Plex Sans';
+            }
+        </style>
+    </head>
+    <body>
+        <form action="/update" method="POST">
+            <div>Update Event</div>
+            <div>
+                <div>
+                    <input style="display: none;" type="text" id="event_id" name="event_id" readonly>
+                </div>
+                <div>Type of Event</div>
+                <div>
+                    <input type="radio" id="event" name="event_type" value="event">
+                    <label for="event">Event</label>
+                </div>
+                <div>
+                    <input type="radio" id="exam" name="event_type" value="exam">
+                    <label for="exam">Exam</label>
+                </div>
+                <div>
+                    <input type="radio" id="task" name="event_type" value="task">
+                    <label for="task">Task</label>
+                </div>
+                <div>
+                    <input type="radio" id="quarter" name="event_type" value="quarter">
+                    <label for="quarter">Quarter</label>
+                </div>
+            </div>
+            <div>
+                <label for="relation">Relation</label>
+                <input type="text" id="relation" name="event_relation">
+            </div>
+            <div>
+                <label for="name">Name</label>
+                <input type="text" id="name" name="event_name">
+            </div>
+            <div>
+                <label for="location">Location</label>
+                <input type="text" id="location" name="event_location">
+            </div>
+            <div>
+                <label for="start">Start</label>
+                <input type="datetime-local" id="start" name="event_start_time">
+            </div>
+            <div>
+                <label for="end">End Time / Due</label>
+                <input type="datetime-local" id="end" name="event_end_time">
+            </div>
+                <div><label for="description">Description</label>
+                <textarea id="description" rows="7" name="event_details"></textarea>
+            </div>
+            <div>
+                <label for="color">Color</label>
+                <input type="color" id="color" value="#ee6fa8" name="event_color">
+            </div>
+            <div>
+                <input type="submit">
+            </div>
+        </form>
+        <script>
+            window.onload = async function() {
+                // Split the URL into multiple substrings using "/" as the delimiter
+                // The eventId is always the last substring (at index length - 1)
+                let hrefArray = window.location.href.split('/');
+                let eventId = hrefArray[hrefArray.length - 1];
+                
+                // Fetch from the database the event that matches the id
+                let dataentries = await getEvent(eventId);
+                let dataentry = dataentries[0];
+                console.log(dataentry);
+
+                // update time
+                let timeZoneOffsetMinutes = await new Date(Date.now()).getTimezoneOffset();
+
+                let startTime = new Date(dataentry['event_start']);
+                startTime.setMinutes(startTime.getMinutes() - timeZoneOffsetMinutes);
+                dataentry['event_start'] = startTime.toISOString();
+
+                let endTime = new Date(dataentry['event_end']);
+                endTime.setMinutes(startTime.getMinutes() - timeZoneOffsetMinutes);
+                dataentry['event_end'] = endTime.toISOString();
+                
+                // Give the update button a value, which is the event id
+                let eventIdElement = document.getElementById('event_id');
+                eventIdElement.value = eventId;
+
+                // let formElement = document.querySelector('form');
+                // formElement.action = `/update/${eventId}`;
+                // console.error(formElement.action);
+
+                let formInputs = document.querySelectorAll('input');
+                let descriptionElement = document.querySelector('textarea');
+
+                formInputs[5].value = dataentry['event_relation'];
+                formInputs[6].value = dataentry['event_name'];
+                formInputs[7].value = dataentry['event_location'];
+                formInputs[8].value = dataentry['event_start'].substring(0,19);
+                formInputs[9].value = dataentry['event_end'].substring(0,19);
+                formInputs[10].value = dataentry['event_color'];
+
+                descriptionElement.value = dataentry['event_details'];
+
+                let radioElement = document.getElementById(dataentry["event_type"]);
+                radioElement.checked = true;
+
+                async function getEvent(event_id) {
+                    try {
+                        const URL = `/api/events/event_id/${event_id}`;
+                        const getHeader = {
+                            method: 'GET',
+                        }
+                    
+                        let response = await fetch(URL, getHeader);
+                        let dataentry = await response.json();
+                        return dataentry;
+                    }
+                    catch (err) {
+                        console.error(err);
+                        return;
+                    }
+                }
+
+                // Prepopulate the fields
+            }
+        </script>
+    </body>
+</html>
