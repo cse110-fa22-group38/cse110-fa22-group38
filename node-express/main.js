@@ -269,9 +269,7 @@ app.post('/add', checkNotAuthenticated, async (req, res) => {
         start_time, end_time, event_completed, 
         event_color];
 
-        console.log(params);
-
-        // Insert user in db param : uuid, username, password
+        //insert user in db param : uuid, username, password
         db.run(INSERT, params, async (err) => {
             if (err){
                 // If err thrown, likely that a user already existed in the database
@@ -466,13 +464,7 @@ function checkNotAuthenticated(req, res, next) {
 }
 
 /**************************************************************************/
-/* SECTION 5: STARTING UP THE SERVER */
-
-// Starting up the local server at PORT
-app.listen(PORT);
-
-/**************************************************************************/
-/* SECTION 6: DATABASE API ENDPOINTS */
+/* SECTION 5: DATABASE API ENDPOINTS */
 
 // Get currently logged in user's username
 app.get("/api/username", (req, res, next) => {
@@ -487,31 +479,30 @@ app.get("/api/username", (req, res, next) => {
 
 // Get all users' info (SECURITY RISK)
 app.get("/api/users", (req, res, next) => {
-    var sql = "select * from users"
-    var params = []
-    db.all(sql, params, (err, row) => {
+    var sql = "select * from users";
+    var params = [];
 
+    return db.all(sql, params, (err, row) => {
         if (err) {
-          res.status(400).json({"error":err.message});
-          return;
+            res.status(400).json({"error":err.message});
+            return;
         }
-
+    
         res.json(row);
-    });
+    })
 });
 
 // Get all events for all users (SECURITY RISK)
 app.get("/api/events/all", (req, res, next) => {
     var sql = "select * from events"
     var params = []
-
-    db.all(sql, params, (err, rows) => {
+    db.all(sql, params, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
           return;
         }
 
-        res.json(rows);
+        res.json({row});
     });
 });
 
@@ -724,6 +715,7 @@ app.get("/api/events/event_type/:event_type", (req, res, next) => {
 
         res.json(rows);
     });
+
 });
   
 // Get all by event_id for the logged in user
@@ -871,3 +863,9 @@ app.get("/api/events/:start_date/:end_date", (req, res, next) => {
         res.json(rows);
     });
 })
+
+/**************************************************************************/
+/* SECTION 6: EXPORTING THE APP */
+
+// Exporting the app for use by other files
+module.exports = app;

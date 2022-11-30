@@ -2,10 +2,11 @@
   "name": "express-api",
   "version": "1.0.0",
   "description": "Express REST API",
-  "main": "main.js",
+  "main": "server.js",
   "scripts": {
-    "server": "node main.js",
-    "server-dev": "nodemon node_express/main.js"
+    "server": "node node_express/server.js",
+    "server-dev": "nodemon node_express/server.js",
+    "test": "jest"
   },
   "author": "Tung Nguyen",
   "license": "ISC",
@@ -23,5 +24,12 @@
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "sqlite3": "^5.1.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
+    "babel-jest": "^29.3.1",
+    "jest": "^29.3.1",
+    "supertest": "^6.3.1"
   }
 }
