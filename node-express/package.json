@@ -2,10 +2,10 @@
   "name": "express-api",
   "version": "1.0.0",
   "description": "Express REST API",
-  "main": "main.js",
+  "main": "server.js",
   "scripts": {
-    "server": "node node_express/main.js",
-    "server-dev": "nodemon node_express/main.js",
+    "server": "node node_express/server.js",
+    "server-dev": "nodemon node_express/server.js",
     "test": "jest"
   },
   "author": "Tung Nguyen",

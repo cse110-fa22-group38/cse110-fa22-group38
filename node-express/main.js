@@ -466,13 +466,7 @@ function checkNotAuthenticated(req, res, next) {
 }
 
 /**************************************************************************/
-/* SECTION 5: STARTING UP THE SERVER */
-
-// Starting up the local server at PORT
-app.listen(PORT);
-
-/**************************************************************************/
-/* SECTION 6: DATABASE API ENDPOINTS */
+/* SECTION 5: DATABASE API ENDPOINTS */
 
 // Get currently logged in user's username
 app.get("/api/username", (req, res, next) => {
@@ -871,3 +865,9 @@ app.get("/api/events/:start_date/:end_date", (req, res, next) => {
         res.json(rows);
     });
 })
+
+/**************************************************************************/
+/* SECTION 6: EXPORTING THE APP */
+
+// Exporting the app for use by other files
+module.exports = app;
