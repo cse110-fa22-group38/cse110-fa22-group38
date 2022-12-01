@@ -1,8 +1,7 @@
-// fetch() is not preinstalled in node environment (but might be in browsers) 
+// fetch() is not preinstalled in node.js environment (but yes most in browsers) 
 // so I have to import it from an external module called "node-fetch"
-// This way, I can directly run the file using "node"
-// But when we connect these codes to the mains script and have them directly running
-// on a browser, we might don't need this line.
+// This way, I can directly fetch the calendar events from Canvas in node.js environment
+
 /**
  * import fetch from nodefetch
  */
@@ -17,16 +16,15 @@ const ical = require('ical.js');
 const db = require("./database.js");
 
 /* CANVAS API SECTION */
-// Storing the user's api token to fetch calendar events from Canvas
 /**
- * apiToken to fetch ics file and correspond information
+ * user's apiToken to fetch ics file(s) from Canvas 
+ * and corresponding information
  */
 let apiToken;
 
 // Available type of events
-// Event
 /**
- * event
+ * Event
  */
 const REGULAR_EVENT = {
     name: "event-calendar-event-",
@@ -42,18 +40,15 @@ const TASK = {
 }
 
 /**
- * Exam
+ * Exams
  */
 const SPECIAL_EVENT = {
     name: ["midterm", "exam", "final", "quiz"],
     color: "#FF0000", // Red
 }
 
-// To store date and end of quarter TODO
-const QUARTER = {}
-
 /**
- * color for class
+ * Some preset colors for class
  */
 const colors = [
     "#da2d39", //red
@@ -89,7 +84,8 @@ INSERT INTO events (
     VALUES (?,?,?,?,?,?,?,?,?,?,?)
 `;
 
-/**  Main function
+/**  
+ * Main function:
  * Welcome to the Canvas API. This function can be exported and used by other
  * files in the same directory. It queries Canvas API's for the user's calendar events
  * for their "currently active" courses, based on their provided Canvas API token. 
@@ -99,10 +95,8 @@ INSERT INTO events (
  * PRECONDITION: queryUsername nor queryAPIToken
  *               (recommended) queryAPIToken is a valid API token.
  *  
- * @param queryUsername The username whose we are grabbing calendar events for
- * @param queryAPIToken The Canvas API Token of the user
- * 
- * @return None
+ * @param {string} queryUsername username whose we are grabbing calendar events for
+ * @param {string} queryAPIToken The Canvas API Token of the user
  * 
  * POSTCONDITION: 
  * If the queryAPIToken was not null and valid, 
@@ -115,7 +109,7 @@ INSERT INTO events (
  */
 module.exports = async function(queryUsername, queryAPIToken) {
     /**
-     * // Assign the api token
+     * Assign the api token
      */
     apiToken = await queryAPIToken;
 
@@ -221,9 +215,6 @@ module.exports = async function(queryUsername, queryAPIToken) {
     console.log("Successfully grabbed calendar events from Canvas's API");
 };
 
-
-
-
 /**
  * This function checks if an even is a special event based on the
  * event's name (or ics's "summary"). Canvas's ics file is unfortunately 
@@ -231,31 +222,30 @@ module.exports = async function(queryUsername, queryAPIToken) {
  * check. The special events are:
  *  Final, Quiz, Exam, Midterm
  * 
- * If the event 's name contains any of these strings, it will return true. 
- * Otherwise, returns false 
+ * If the event's name contains any of these strings, it will return true. 
+ * Otherwise, returns false.
  * 
  * PRECONDITION: input is not null and correctly parsed from ics file.
  * 
- * input The name of the event we want to determine the event type on
- * @param {*} input 
- * 
- * @returns true if a special event, false otherwise
+ * @param {string} input The name of the event we want to base the event type on
+ *
+ * @returns {Boolean} true if a special event, false otherwise.
  */
 function isSpecialEvent(input) {
     return SPECIAL_EVENT.name.some(event =>
         input.toLowerCase().includes(event.toLowerCase()));
 }
 
-/** Given a valid API Token, we fetch all the related info of still active
+/** 
+ * Given a valid API Token, we fetch all the related info of still active
  * courses for the user. Among these info is a link to the ics file which is what
  * we are interested about. 
  * 
  * PRECONDITION: apiToken is not null and valid.
  *  
- * @param No param needed
- * @return An array of "active" course OBJECTS.
- *         An empty array if no currently "active" courses.
- *         An error message from Canvas otherwise.
+ * @return {Array} An array of "active" course OBJECTS.
+ * @return {Array} An empty array if no currently "active" courses.
+ * @return {string} An error message from Canvas otherwise.
  */
 async function getCurrentCourses() {
     try {
@@ -277,7 +267,8 @@ async function getCurrentCourses() {
     }
 }
 
-/**  Given that we have fetched the "active" courses from Canvas,
+/**  
+ * Given that we have fetched the "active" courses from Canvas,
  * we want to parse the ics file included in each course object to extract
  * the calendar info from them. Currently, it is unknown which standard
  * Canvas used for their ics file. But we will just hand it to node-module
@@ -289,10 +280,10 @@ async function getCurrentCourses() {
  *               dataArray is not null or undefined.
  *               (recommended) dataArray is not empty.
  *  
- * @param dataArray An array of all "truly active" course objects, if any.
- * @return An array of raw ics texts.
- *         An empty array dataArray was empty.
- *         An error message from Canvas otherwise.
+ * @param {Array} dataArray An array of all "still active" course objects, if any.
+ * @return {Array} An array of raw ics texts.
+ * @return {Array} An empty array dataArray was empty.
+ * @return {string} An error message from Canvas otherwise.
  */
 async function getICStexts(dataArray) {
     try {
