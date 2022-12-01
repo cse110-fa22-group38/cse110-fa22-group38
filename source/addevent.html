@@ -96,7 +96,7 @@
             <div>
                 <div>Type of Event</div>
                 <div>
-                    <input type="radio" id="event" name="event_type" value="event">
+                    <input type="radio" id="event" name="event_type" value="event" checked>
                     <label for="event">Event</label>
                 </div>
                 <div>
@@ -143,5 +143,27 @@
                 <input type="submit">
             </div>
         </form>
+        <script>
+            window.onload = async function () {
+                let startElement = document.getElementById('start');
+                let endElement = document.getElementById('end');
+
+                let currentDate = new Date(Date.now());
+
+                // update time
+                let timeZoneOffsetMinutes = await new Date(Date.now()).getTimezoneOffset();
+                let timeZoneOffsetHours = timeZoneOffsetMinutes / 60;
+
+                
+                currentDate.setHours(currentDate.getHours() - timeZoneOffsetHours);
+                
+
+                startElement.value = currentDate.toJSON().substring(0,16);
+
+                currentDate.setHours(currentDate.getHours() + 2);
+
+                endElement.value = currentDate.toJSON().substring(0,16);
+            }
+        </script>
     </body>
 </html>

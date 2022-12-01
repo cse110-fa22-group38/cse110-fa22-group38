@@ -97,7 +97,9 @@
       let eventId = hrefArray[hrefArray.length - 1];
     
       // Fetch from the database the event that matches the id
-      let dataentry = await getEvent(eventId);
+      let dataentries = await getEvent(eventId);
+      let dataentry = dataentries[0];
+      console.log(dataentry);
       
       // Assigning the value for the buttons so
       // that the server knows which event to handle.
@@ -107,15 +109,15 @@
       update_button.value = eventId;
     
       // Populate the entry pop up with the data we just from our database
-      document.getElementById("name").innerHTML = dataentry[0]["event_name"];
-      document.getElementById("location").innerHTML = dataentry[0]["event_location"];
+      document.getElementById("name").innerHTML = dataentry["event_name"];
+      document.getElementById("location").innerHTML = dataentry["event_location"];
       document.getElementById("start-end").innerHTML = parseTime(
-        dataentry[0]["event_start"],
-        dataentry[0]["event_end"]
+        dataentry["event_start"],
+        dataentry["event_end"]
       );
-      document.getElementById("details").innerHTML = dataentry[0]["event_details"];
-      document.getElementsByClassName("details-content")[0].style.backgroundColor =
-        dataentry[0]["event_color"];
+      document.getElementById("details").innerHTML = dataentry["event_details"];
+      let popupElement = document.querySelector(".details-content");
+      popupElement.style = `background-color: ${dataentry['event_color']}`;
     };
     
     async function getEvent(event_id) {

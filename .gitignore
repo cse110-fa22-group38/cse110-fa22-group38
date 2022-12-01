@@ -2,3 +2,4 @@
 /node-express/node_modules
 /node-express/source
 user.sqlite
+/node_modules
