@@ -1,20 +1,25 @@
 /**
- * importing express object
+ * Importing express module (UNUSED)
  */
 const express = require('express');
+
 /**
- * initializing app
+ * Initializing app (UNUSED)
  */
 const app = express();
+
 /**
- * importing sqlite 3 to js file
+ * Importing sqlite3 database to js file
  */
 const sqlite3 = require('sqlite3').verbose();
-/** use md 5 to encrypt */
+
+/** 
+ * Using md 5 to encrypt (UNUSED) 
+ */
 const md5 = require('md5');
 
 /**
- *  usertable to hold user data
+ * Table users to hold all users' data
  */
 let usersTable =
     `
@@ -24,9 +29,8 @@ CREATE TABLE IF NOT EXISTS users (
   api_token)
 `;
 
-
 /**
- * eventTable to hold events
+ * Table events to hold all users' events
  */
 let eventTable =
     `
@@ -45,20 +49,48 @@ CREATE TABLE IF NOT EXISTS events (
 `;
 
 /**
- * insertNew User query
+ * Insert new User query (template)
  */
-let insertNewUser =
-    `
+const insertNewUser =
+`
 INSERT INTO users (
   username,
   password_hash,
-  api_token) VALUES (?,?,?,?)
+  api_token) 
+  VALUES (?,?,?,?)
 `;
 
-/** source of db */
+/**
+ * Insert new Event query (template)
+ */
+const insertNewEvent = 
+`
+INSERT INTO events (
+    username,
+    event_id,
+    event_type,
+    event_name,
+    event_relation,
+    event_location,
+    event_details,
+    event_start,
+    event_end,
+    event_completed,
+    event_color) 
+    VALUES (?,?,?,?,?,?,?,?,?,?,?)
+`;
+
+/** Path to source file of our database */
 const DBSOURCE = "./database/user.sqlite";
 
-/**actual db */
+/**
+ * Our database to be used by other js files within the same node.js environment.
+ * 
+ * @module
+ * @param {String} DBSOURCE The path + file name 
+ *                          where we will create/access our database
+ * @throw Any critical errors (Most likely failed to create/access database)
+ */
 let db = new sqlite3.Database(DBSOURCE,
     sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
         if (err) {
@@ -82,10 +114,15 @@ let db = new sqlite3.Database(DBSOURCE,
         }
     })
 
-// Exporting our db via module, ready for use 
+/**
+ * Exporting our database as a module, ready to be used 
+ * by other js files within the same node.js environment.
+ */
 module.exports = db;
 
-// Example of a dataentry object
+/**
+ * Example of an event object (template)
+ */
 var dataentry = {
     "username": "Tung",
     "event_id": "dataentryID",
