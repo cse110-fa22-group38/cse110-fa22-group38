@@ -183,6 +183,7 @@ describe('Powell Puff Planner Basic Tests', () => {
       expect(qeventCount).toBe(1);  
     }, 20000);
 
+    let newpassword = "test321"
     
      /* ACCOUNT SETTINGS TEST */
      it('Change password and using old password to log in should return error message', async () => {
@@ -192,7 +193,6 @@ describe('Powell Puff Planner Basic Tests', () => {
       await page.waitForSelector("[name='old_pass']");
       await page.type("[name='old_pass']", testpassword);
 
-      let newpassword = "test321"
       await page.waitForSelector("[name='new_pass']");
       await page.type("[name='new_pass']", newpassword);
 
@@ -218,5 +218,90 @@ describe('Powell Puff Planner Basic Tests', () => {
       let errorMessage = await page.$eval('body', errorMessage => errorMessage.innerText);
       console.log(errorMessage);
       expect(errorMessage).toBe("Incorrect Username and/or Password!");
+    }, 10000);
+
+    /* UPDATE EVENT TEST */
+    it('Checking update an event', async () => {
+      /* Log in using new password */
+      await page.goto('http://localhost:6900/login'); 
+      // Wait for the page to select the username
+      await page.waitForSelector("[name='username']");
+      // Type the username in the username input
+      await page.type("[name='username']", testusername);
+      // press tab to go to the next input
+      await page.keyboard.down('Tab');
+      // Type the password in the password input
+      await page.type("[name='password']", newpassword);
+      // Press submit to add event and wait for the page to navigate
+      await Promise.all([page.click("button[type='submit']"),page.waitForNavigation({waitUntil: 'networkidle2'})]);
+
+
+      console.log('Checking update an event');
+      await page.goto('http://localhost:6900/today'); 
+      await page.reload();
+      
+      // click on the event
+      await page.waitForSelector('.levent');
+      await page.click('.levent');
+      
+      // click on update event button
+      await page.waitForSelector("[id='update_but']");
+      await page.click("[id='update_but']");
+
+      let updateName = "CSE110";
+      // update name of event
+      await page.click("[name='event_name']");
+
+      for (let i = 0; i < 20; i++) {
+        await page.keyboard.press('Backspace');
+      }
+
+      await page.type("[name='event_name']", updateName);
+
+      // submit
+      await Promise.all([page.click("input[type='submit']"),page.waitForNavigation({waitUntil: 'networkidle2'})]);
+
+      // click on the event
+      await page.waitForSelector('.levent');
+      await page.click('.levent');
+      
+      // Get the new content of the event
+      const levent = await page.$('#name');
+      let leventName = await levent.getProperty('innerHTML');
+      leventName = await leventName.jsonValue();
+      // Expect the new name appear
+      expect(leventName).toBe(updateName);
+    }, 10000);
+
+    /* DELETE USER TEST */
+    it('Checking delete user account', async () => {
+      console.log('Checking delete user account');
+      await page.goto('http://localhost:6900/settings'); 
+      await page.reload();
+
+      await page.waitForSelector("[name='old_pass']");
+      await page.type("[name='old_pass']", newpassword);
+
+      // Count the number of event
+      await Promise.all([page.click("[id='deleteButton']"),page.waitForNavigation({waitUntil: 'networkidle2'})]);
+
+
+      /* Log in using new password */
+      await page.goto('http://localhost:6900/login'); 
+      // Wait for the page to select the username
+      await page.waitForSelector("[name='username']");
+      // Type the username in the username input
+      await page.type("[name='username']", testusername);
+      // press tab to go to the next input
+      await page.keyboard.down('Tab');
+      // Type the password in the password input
+      await page.type("[name='password']", newpassword);
+      // Press submit to add event and wait for the page to navigate
+      await Promise.all([page.click("button[type='submit']"),page.waitForNavigation({waitUntil: 'networkidle2'})]);
+
+      let errorMessage = await page.$eval('body', errorMessage => errorMessage.innerText);
+      console.log(errorMessage);
+      expect(errorMessage).toBe("Incorrect Username and/or Password!");
+
     }, 10000);
 });
