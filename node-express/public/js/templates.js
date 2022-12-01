@@ -1,8 +1,6 @@
 /**
- * sample test data
+ * Sample test event object
  */
-
-// sample event
 var dataentry = {
     "username": "Tung",
     "event_id": "dataentryID",
@@ -17,13 +15,15 @@ var dataentry = {
     "event_color": "#ffffff"
 }
 
+/**
+ * Sample test array of event object
+ */
 var darray = [dataentry];
 
 /**
  * These are functions that add html components to an object you pass in
  * with a particular data-entry object.
  */
-
 /************************************************************************* 
  * IMPORTANT USAGE INFORMATION:
     
@@ -40,12 +40,16 @@ var darray = [dataentry];
     container.appendChild(Div);
 **************************************************************************/
 
-
-
 /**************************************************************************************** 
  * Templates for timelines of objects on the Today/Week views: tevent, ttask */
 
-
+/**
+ * Helper function that redirect to a "pop up" page 
+ * that displays more details for an event 
+ * based on the provided event's id
+ * 
+ * @param {String} event_id The id of the event
+ */
  function displayPopUp(event_id) {
     let URL = `/popup/${event_id}`;
     window.location.href = URL;
@@ -55,7 +59,7 @@ var darray = [dataentry];
  * Timeline Event
  * 
  * This function attaches html elements and fills in appropriate data from the dataentry object.
- * This element goes in a timeline
+ * This element goes in a timeline.
  * 
  * @param {HTMLElement} element element to attach data to
  * @param {dataentry} de data entry object to attacht to the element
