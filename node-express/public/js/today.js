@@ -3,6 +3,11 @@ import * as dbAPI from "/js/databaseAPI.js";
 // Once the skeleton loaded, run the script to populate the page
 window.addEventListener('DOMContentLoaded', init);
 
+/**
+ * Main function to populate today day's 3 containers:
+ * Timeline, event and tasks
+ * based on the provided event objects.
+ */
 async function init() {
     let timeline = document.getElementById('timelinecontainer');
 
