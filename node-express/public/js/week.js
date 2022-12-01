@@ -3,24 +3,41 @@ import * as dbAPI from "/js/databaseAPI.js";
 // Once the skeleton loaded, run the script to populate the page
 window.addEventListener('DOMContentLoaded', init);
 
+/**
+ * Main function to populate this week's timeline containers:
+ * Last Monday to Next Sunday,
+ * based on the provided event objects.
+ */
 async function init() {
     // Retrieve calendar events for this week
     let deArray = await retrieveFromDatabase();
 
-    // Logging whatever was returned from the database
-    console.log(deArray);
-
-    // Populate the timeline lists from Monday to Sunday
+    // Populate the timeline lists from Last Monday to Next Sunday
     populateLists(deArray);
 
+    // Title each containers with the appropriate weekday
     titleDays();
 }
 
-// Retrieve this week event from the database
+/**
+ * Helper function to grab all event objects for user's this week
+ * in their local time
+ * 
+ * @returns {Array} Array of event objects from the database
+ *                  Each event object is already initialized 
+ */
 async function retrieveFromDatabase() {
   return await dbAPI.queryThisWeekEvents();
 }
 
+/**
+ * Helper function to populate the timeline containers with our event
+ * objects. "event" and "exam" are considered events; tasks otherwise.
+ * Event that has weekday 0 (i.e) goes into Sunday. 1 into Monday...
+ * 6 into Saturday.
+ * 
+ * @param {Array} deArray An array of event objects for this week
+ */
 function populateLists(deArray) {
   if (!deArray) return;
 
@@ -59,7 +76,7 @@ function populateLists(deArray) {
 function titleDays() {
   const curDate = new Date(Date.now());
 
-  // if sunday, do stuff differently
+  // If sunday, do stuff differently
   if (curDate.getDay() == 0) {
     curDate.setDate(curDate.getDate() - 6);
   } else {
@@ -67,7 +84,7 @@ function titleDays() {
   }
 
   let i = 0;
-
+  
   const DAYSOFTHEWEEK = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
   let weekdays = document.querySelectorAll('.weekday');
@@ -77,8 +94,6 @@ function titleDays() {
     i++;
   }
 
-  
- 
   for (let i = 0; i < darray.length; i++) {
       let newEvent = document.createElement('div');
       if ((darray[i].type == "event") || (darray[i].type == "exam")) {

@@ -11,7 +11,7 @@ window.addEventListener('DOMContentLoaded', init);
 async function init() {
     let timeline = document.getElementById('timelinecontainer');
 
-    //puts all the hours into the timeline.
+    // Puts all the hours into the timeline.
     setInterval(setNow(), 60000);
 
     // Retrieving data entry array from database
@@ -35,6 +35,8 @@ async function init() {
  * Currently unsued, and timeline is now hard-coded from 6AM to 12AM
  * creates a time-markers from 6AM to 12PM inside a timeline holder
  * parameter: timelinecontainer.
+ * 
+ * @param {HTMLElement} timeline A container used to store all the time lines
 */
 function buildTimeline(timeline) {
   for (var i = 0; i < 19; i++) {
@@ -62,21 +64,25 @@ function buildTimeline(timeline) {
   }
 }
 
+/**
+ * This function set the numbers on the left of the timeline container
+ * (Kinda hardcoding)
+ */
 function setNow() {
-  //get time values using Date() Object
+  // Get time values using Date() Object
   let time = new Date();
   let hour = time.getHours();
   let minute = time.getMinutes();
   
-  // calendar starts at 6AM not 12AM
+  // Calendar starts at 6AM not 12AM
   hour = hour - 6;
   
-  // only set now-bar if time is after 6AM
+  // Only set now-bar if time is after 6AM
   if (hour >= 6) {
-    //convert minutes to fractions of an hour
+    // Convert minutes to fractions of an hour
     minute = minute/60; 
     
-     // divide by 18 and multiply by 100 to get percentage of container
+     // Divide by 18 and multiply by 100 to get percentage of container
     let percentage = (hour + minute)/.18;
     
     let now = document.getElementById('now-line');
@@ -85,17 +91,31 @@ function setNow() {
 }
 
 /* DATABSE RELATED FUNCTION */
+/**
+ * Helper function to grab all event objects for user's today
+ * in their local time
+ * 
+ * @returns {Array} Array of event objects from the database
+ *                  Each event object is already initialized 
+ */
 async function retrieveFromDatabase() {
-    //array of events in JSON format(key value)
+    // Array of event objects
     let deArray = [];
     
-    // Return an array of dataentry objects from the database
-    // Each de is already initialized
+    // Return an array of event objects from the database
+    // Each event object is already initialized
     deArray = await dbAPI.queryTodayEvents();
     
     return deArray;
 }
 
+/**
+ * Helper function to populate the timeline container with our event
+ * objects. "event" and "exam" are considered events; tasks otherwise.
+ * 
+ * @param {HTMLElement} element The appropriate container to populate 
+ * @param {Array} deArray An array of event objects
+ */
 function populateTimeContainer(element, deArray) {
     if (!element) return;
     if (!deArray) return;
@@ -116,6 +136,13 @@ function populateTimeContainer(element, deArray) {
     }
 }
 
+/**
+ * Helper function to populate the event container with our event
+ * objects. "event" and "exam" are considered events; tasks otherwise.
+ * 
+ * @param {HTMLElement} element The appropriate container to populate 
+ * @param {Array} deArray An array of event objects
+ */
 function populateEventContainer(element, deArray) {
     if (!element) return;
     if (!deArray) return;
@@ -131,6 +158,13 @@ function populateEventContainer(element, deArray) {
     }
 }
 
+/**
+ * Helper function to populate the assignment/tasks container with our event
+ * objects. "event" and "exam" are considered events; tasks otherwise.
+ * 
+ * @param {HTMLElement} element The appropriate container to populate 
+ * @param {Array} deArray An array of event objects
+ */
 function populateTaskContainer(element, deArray) {
     if (!element) return;
     if (!deArray) return;
