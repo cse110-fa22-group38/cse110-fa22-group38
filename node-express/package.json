@@ -7,7 +7,7 @@
         "server": "node server.js",
         "server-dev": "nodemon node_express/server.js",
         "test": "jest",
-        "doc": "jsdoc server.js main.js"
+        "doc": "jsdoc server.js main.js passport-config.js database.js canvasAPI.js"
     },
     "author": "Tung Nguyen",
     "license": "ISC",

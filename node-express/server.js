@@ -1,5 +1,5 @@
 /**
- * initialized app by importing main.js
+ * initialize the express app by importing main.js
  */
 const app = require("./main.js");
 /**
