@@ -23,7 +23,6 @@ let db = new sqlite3.Database(DBSOURCE, sqlite3.OPEN_READWRITE, (err) => {
     }
 })
 
-
 /**
  * initialize function
  * @param {*} passport 

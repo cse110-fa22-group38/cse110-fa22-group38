@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: public/js/databaseAPI.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: public/js/databaseAPI.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>let PORT = 6900;
+let baseURL = "http://localhost:" + PORT;
+
+/**
+ * User's related info API Endpoints
+ */
+let allUSERS = "/api/users";
+let loggedUSERNAME = "/api/username";
+let loggedEVENTS = "/api/events";
+let allEVENTS = "/api/events/all";
+
+/**
+ * Event's properties info API Endpoints
+ */
+let eventsDEID = "/api/events/event_id/";
+let eventsTYPE = "/api/events/event_type/";
+let eventsNAME = "/api/events/event_name/";
+let eventsLOCATION = "/api/events/event_location/";
+let eventsRELATION = "/api/events/event_relation/";
+let eventsDETAILS = "/api/events/event_details/";
+let eventsSTART = "/api/events/event_start/";
+let eventsEND = "/api/events/event_end/";
+let eventsCOMPLETED = "/api/events/event_completed/";
+let eventsCOLOR = "/api/events/event_color/";
+
+/**
+ * Modify API Endpoints
+ */
+let deleteByUSERNAME = "/api/users/delete/";
+
+/**
+ * API Endpoints for query events
+ */
+let eventsTODAY = "/api/events/today";
+let eventsTHISWEEK = "/api/events/this_week";
+let eventsTHISMONTH = "/api/events/this_month";
+let eventsTHISQUARTER = "/api/events/";
+
+/**
+ * GET header for fetch()
+ */
+const getHeader =  {
+    method: 'GET',
+}
+
+/**
+ * GET header for fetch()
+ */
+const deleteHeader = {
+    method: 'DELETE',
+}
+
+/* PRIVATE INTERNAL ENDPOINTS */
+/**
+ * Query all users info (Security risk)
+ * 
+ * @returns {Array} An array of all user's info objects
+ */
+ export async function queryAllUsers() {
+    let URL = baseURL + allUSERS;
+    return await fetchForMe(URL, getHeader);
+}
+
+/**
+ * Query all events info of all users (Security risk)
+ * 
+ * @returns {Array} An array of all evnet's info objects
+ */
+ export async function queryAllEvents() {
+    let URL = baseURL + allEVENTS;
+    return await fetchForMe(URL, getHeader);
+}
+
+/**
+ * Query the username of the currently logged in 
+ * username
+ * 
+ * @returns {String} The username of the logged in user
+ */
+export async function queryLoggedUsername() {
+    let URL = baseURL + loggedUSERNAME;
+    return await fetchForMe(URL, getHeader);
+}
+
+/**
+ * Query all events for the logged in user
+ * 
+ * @returns {Array} An array of all events 
+ *                  belonging to the logged in user
+ */
+ export async function queryLoggedEvents() {
+    let URL = baseURL + loggedEVENTS;
+    return await fetchForMe(URL, getHeader);
+}
+
+/**
+ * Query row(s) from table events based on the event's id
+ * 
+ * @param {String} deid The id of the event
+ * @returns {Array} An array of all event objects that matched
+ *                  event's id
+ */
+export async function queryDEIDFromEvents(deid) {
+    let URL = baseURL + eventsDEID + deid;
+    return await fetchForMe(URL, getHeader);
+}
+
+/**
+ * Query row(s) from table events based on the event's type
+ * 
+ * @param {String} type The type of the event
+ * @returns {Array} An array of all event objects that matched
+ *                  event's type
+ */
+export async function queryTypeFromEvents(type) {
+    let URL = baseURL + eventsTYPE + type;
+    return await fetchForMe(URL, getHeader);
+}
+
+/**
+ * Query row(s) from table events based on the event's name
+ * 
+ * @param {String} type The name of the event
+ * @returns {Array} An array of all event objects that matched
+ *                  event's name
+ */
+export async function queryNameFromEvents(name) {
+    let URL = baseURL + eventsNAME + name;
+    return await fetchForMe(URL, getHeader);
+}
+
+/**
+ * Query row(s) from table events based on the event's location
+ * 
+ * @param {String} location The location of the event
+ * @returns {Array} An array of all event objects that matched
+ *                  event's location
+ */
+export async function queryLocationFromEvents(location) {
+    let URL = baseURL + eventsLOCATION + location;
+    return await fetchForMe(URL, getHeader);
+}
+
+/**
+ * Query row(s) from table events based on the event's relation
+ * 
+ * @param {String} relation The relation of the event
+ * @returns {Array} An array of all event objects that matched
+ *                  event's relation
+ */
+export async function queryRelationFromEvents(relation) {
+    let URL = baseURL + eventsRELATION + relation;
+    return await fetchForMe(URL, getHeader);
+}
+
+/**
+ * Query row(s) from table events based on the event's details
+ * 
+ * @param {String} details The details of the event
+ * @returns {Array} An array of all event objects that matched
+ *                  event's details
+ */
+export async function queryDetailsFromEvents(details) {
+    let URL = baseURL + eventsDETAILS + details;
+    return await fetchForMe(URL, getHeader);
+}
+
+/**
+ * Query row(s) from table events based on the 
+ * event's start time in UTC time
+ * 
+ * @param {String} start An ISO 8601 datetime string
+ *                       in format "yyyy-mm-ddThh:mm:00Z"
+ * @returns {Array} An array of all event objects that 
+ *                  EXACTLY matched event's start time                   
+ */
+export async function queryStartFromEvents(start) {
+    let URL = baseURL + eventsSTART + start;
+    return await fetchForMe(URL, getHeader);
+}
+
+/**
+ * Query row(s) from table events based on the 
+ * event's end time in UTC time
+ * 
+ * @param {String} end An ISO 8601 datetime string
+ *                     in format "yyyy-mm-ddThh:mm:00Z"
+ * @returns {Array} An array of all event objects that 
+ *                  EXACTLY matched event's end time                   
+ */
+export async function queryEndFromEvents(end) {
+    let URL = baseURL + eventsEND + end;
+    return await fetchForMe(URL, getHeader);
+}
+
+/**
+ * Query row(s) from table events based on the event's 
+ * completeness
+ * 
+ * @param {Boolean} done true or false
+ * @returns {Array} An array of all event objects that matched
+ *                  either true or false
+ */
+export async function queryDoneFromEvents(done) {
+    let URL = baseURL + eventsCOMPLETED + done;
+    return await fetchForMe(URL, getHeader);
+}
+
+/**
+ * Query row(s) from table events based on the event's color
+ * 
+ * @param {String} color A 6-digits hex code in "#ffffff" format
+ * @returns {Array} An array of all event objects that matched
+ *                  the color
+ */
+export async function queryColorFromEvents(color) {
+    let URL = baseURL + eventsCOLOR + color;
+    return await fetchForMe(URL, getHeader);
+}
+
+/* QUERYING EVENTS FROM TABLE */
+/**
+ * This function contacts the database to grab today's events 
+ * for the logged in user (full 24 hours) based on their LOCAL TIME.
+ * 
+ * @returns {Array} An ARRAY of dataentry objects if any events
+ * @returns {Array} An empty ARRAY otherwise
+ */
+export async function queryTodayEvents() {
+    let URL = baseURL + eventsTODAY;
+    return await fetchForMe(URL, getHeader);
+}
+
+/**
+ * This function contacts the database to grab this week's events 
+ * for the logged in user (full 24 hours) based on their LOCAL TIME.
+ * 
+ * @returns {Array} An ARRAY of dataentry objects if any events
+ * @returns {Array} An empty ARRAY otherwise
+ */
+export async function queryThisWeekEvents() {
+    let URL = baseURL + eventsTHISWEEK;
+    return await fetchForMe(URL, getHeader);
+}
+
+/**
+ * This function contacts the database to grab this month's events 
+ * for the logged in user (full 24 hours) based on their LOCAL TIME.
+ * 
+ * @returns {Array} An ARRAY of dataentry objects if any events
+ * @returns {Array} An empty ARRAY otherwise
+ */
+export async function queryThisMonthEvents() {
+    let URL = baseURL + eventsTHISMONTH;
+    return await fetchForMe(URL, getHeader);
+}
+
+/**
+ * This function contacts the database to grab this quarter's events 
+ * within a specified date range 
+ * for the logged in user (full 24 hours) based on their LOCAL TIME.
+ * 
+ * @param {String} start_date The start date of the quarter in UTC
+ *                            in ISO 8601 format "yyyy-mm-ddThh:mm:00Z"
+ * @param {String} end_date The end date of the quarter in UTC
+ *                          in ISO 8601 format "yyyy-mm-ddThh:mm:00Z"
+ * 
+ * @returns {Array} An ARRAY of dataentry objects if any events
+ * @returns {Array} An empty ARRAY otherwise
+ */
+export async function queryThisQuarterEvents(start_date, end_date) {
+    let URL = baseURL + eventsTHISQUARTER + start_date + "/" + end_date;
+    return await fetchForMe(URL, getHeader);
+}
+
+/**
+ * Example of a dataentry object
+ */
+var dataentry = {
+    "username": "Tung",
+    "event_id": "dataentryID",
+    "event_type": "event",
+    "event_name": "class 100a",
+    "event_relation": "class 100a",
+    "event_location": "9500 Gilman Drive",
+    "event_details": "description",
+    "event_start": "yyyy-mm-ddThh:mm:00Z",
+    "event_end": "yyyy-mm-ddThh:mm:00Z",
+    "event_completed": Boolean(false),
+    "event_color": "#ffffff"
+}
+
+/* MODIFYING EVENTS FROM TABLE */
+/** 
+ * Deleting everything related to the provided username.
+ * THIS FUNCTION ALWAYS RETURNS AN EMPTY ARRAY.
+ * DOES NOTHING IF LOGGED IN USER"S INFO IS NOT IN THE DATABASE.
+ * 
+ * @param {String} username The username of the user you want to delete
+ * @return {Array} Always an empty array
+ */
+export async function deleteUserByUsername(username) {
+    let URL = baseURL + deleteByUSERNAME + username;
+    await fetchForMe(URL, deleteHeader);
+}
+
+/* HELPER FUNCTION(S) */
+/**
+ * Helper function to fetch data from our local server/database
+ * via the API Endpoints using the browser's fetch().
+ * (The server does not have direct access to our database,
+ * which is why we need to create this "middle man")
+ * 
+ * @param {string} URL The URL of the Endpoint
+ * @param {Object} header An object that contains "method" property with
+ *                        the following values: GET, POST, DELETE, UP
+ * @returns {*} Whatever was returned by the Endpoint after parsed with json()
+ */
+async function fetchForMe(URL, header) {
+    let retData = [];
+
+    try {
+        let response = await fetch(URL, header);
+        let rows = await response.json();
+
+        if (rows) {
+            for (let i = 0; i &lt; rows.length; i++) {
+                retData.push(rows[i]);
+            }
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+
+    return retData;
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-node-express_database.html">node-express/database</a></li></ul><h3>Global</h3><ul><li><a href="global.html#DBSOURCE">DBSOURCE</a></li><li><a href="global.html#INSERT">INSERT</a></li><li><a href="global.html#PORT">PORT</a></li><li><a href="global.html#REGULAR_EVENT">REGULAR_EVENT</a></li><li><a href="global.html#SPECIAL_EVENT">SPECIAL_EVENT</a></li><li><a href="global.html#TASK">TASK</a></li><li><a href="global.html#activeCourses">activeCourses</a></li><li><a href="global.html#allUSERS">allUSERS</a></li><li><a href="global.html#apiToken">apiToken</a></li><li><a href="global.html#app">app</a></li><li><a href="global.html#bcrypt">bcrypt</a></li><li><a href="global.html#bodyParser">bodyParser</a></li><li><a href="global.html#buildCalendar">buildCalendar</a></li><li><a href="global.html#buildTimeline">buildTimeline</a></li><li><a href="global.html#colors">colors</a></li><li><a href="global.html#convertDate">convertDate</a></li><li><a href="global.html#darray">darray</a></li><li><a href="global.html#dataentry">dataentry</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#deleteByUSERNAME">deleteByUSERNAME</a></li><li><a href="global.html#deleteHeader">deleteHeader</a></li><li><a href="global.html#deleteUserByUsername">deleteUserByUsername</a></li><li><a href="global.html#displayPopUp">displayPopUp</a></li><li><a href="global.html#eventTable">eventTable</a></li><li><a href="global.html#eventsDEID">eventsDEID</a></li><li><a href="global.html#eventsTODAY">eventsTODAY</a></li><li><a href="global.html#express">express</a></li><li><a href="global.html#fetch">fetch</a></li><li><a href="global.html#fetchForMe">fetchForMe</a></li><li><a href="global.html#flash">flash</a></li><li><a href="global.html#getCurrentCourses">getCurrentCourses</a></li><li><a href="global.html#getHeader">getHeader</a></li><li><a href="global.html#getICStexts">getICStexts</a></li><li><a href="global.html#grabFromCanvas">grabFromCanvas</a></li><li><a href="global.html#ical">ical</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initialize">initialize</a></li><li><a href="global.html#initializePassport">initializePassport</a></li><li><a href="global.html#insertNewEvent">insertNewEvent</a></li><li><a href="global.html#insertNewUser">insertNewUser</a></li><li><a href="global.html#isSpecialEvent">isSpecialEvent</a></li><li><a href="global.html#levent">levent</a></li><li><a href="global.html#logged_user">logged_user</a></li><li><a href="global.html#ltask">ltask</a></li><li><a href="global.html#md5">md5</a></li><li><a href="global.html#methodOverride">methodOverride</a></li><li><a href="global.html#passport">passport</a></li><li><a href="global.html#path">path</a></li><li><a href="global.html#populateEventContainer">populateEventContainer</a></li><li><a href="global.html#populateLists">populateLists</a></li><li><a href="global.html#populateTaskContainer">populateTaskContainer</a></li><li><a href="global.html#populateTimeContainer">populateTimeContainer</a></li><li><a href="global.html#qevent">qevent</a></li><li><a href="global.html#qexam">qexam</a></li><li><a href="global.html#qtask">qtask</a></li><li><a href="global.html#quarter">quarter</a></li><li><a href="global.html#queryAllEvents">queryAllEvents</a></li><li><a href="global.html#queryAllUsers">queryAllUsers</a></li><li><a href="global.html#queryColorFromEvents">queryColorFromEvents</a></li><li><a href="global.html#queryDEIDFromEvents">queryDEIDFromEvents</a></li><li><a href="global.html#queryDetailsFromEvents">queryDetailsFromEvents</a></li><li><a href="global.html#queryDoneFromEvents">queryDoneFromEvents</a></li><li><a href="global.html#queryEndFromEvents">queryEndFromEvents</a></li><li><a href="global.html#queryLocationFromEvents">queryLocationFromEvents</a></li><li><a href="global.html#queryLoggedEvents">queryLoggedEvents</a></li><li><a href="global.html#queryLoggedUsername">queryLoggedUsername</a></li><li><a href="global.html#queryNameFromEvents">queryNameFromEvents</a></li><li><a href="global.html#queryRelationFromEvents">queryRelationFromEvents</a></li><li><a href="global.html#queryStartFromEvents">queryStartFromEvents</a></li><li><a href="global.html#queryThisMonthEvents">queryThisMonthEvents</a></li><li><a href="global.html#queryThisQuarterEvents">queryThisQuarterEvents</a></li><li><a href="global.html#queryThisWeekEvents">queryThisWeekEvents</a></li><li><a href="global.html#queryTodayEvents">queryTodayEvents</a></li><li><a href="global.html#queryTypeFromEvents">queryTypeFromEvents</a></li><li><a href="global.html#retrieveFromDatabase">retrieveFromDatabase</a></li><li><a href="global.html#router">router</a></li><li><a href="global.html#sde">sde</a></li><li><a href="global.html#session">session</a></li><li><a href="global.html#setNow">setNow</a></li><li><a href="global.html#sqlite3">sqlite3</a></li><li><a href="global.html#swaggerFile">swaggerFile</a></li><li><a href="global.html#swaggerUi">swaggerUi</a></li><li><a href="global.html#tevent">tevent</a></li><li><a href="global.html#titleDays">titleDays</a></li><li><a href="global.html#ttask">ttask</a></li><li><a href="global.html#users">users</a></li><li><a href="global.html#usersTable">usersTable</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Thu Dec 01 2022 17:36:13 GMT-0800 (Pacific Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

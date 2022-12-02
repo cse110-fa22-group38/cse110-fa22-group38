@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: public/js/templates.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: public/js/templates.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Sample test event object
+ */
+var dataentry = {
+    "username": "Tung",
+    "event_id": "dataentryID",
+    "event_type": "event",
+    "event_name": "class 100a",
+    "event_relation": "class 100a",
+    "event_location": "9500 Gilman Drive",
+    "event_details": "description",
+    "event_start": "yyyy-mm-ddThh:mm:00Z",
+    "event_end": "yyyy-mm-ddThh:mm:00Z",
+    "event_completed": Boolean(false),
+    "event_color": "#ffffff"
+}
+
+/**
+ * Sample test array of event object
+ */
+var darray = [dataentry];
+
+/**
+ * These are functions that add html components to an object you pass in
+ * with a particular data-entry object.
+ */
+/************************************************************************* 
+ * IMPORTANT USAGE INFORMATION:
+    
+    // pick the correct container for the element
+    let container = document.querySelector("&lt;where the element will go>");
+
+    // make an empty &lt;div> to pass in
+    let Emptydiv = document.createElement("div");
+    
+    // pass in &lt;div> and the dataentry you want used to fill the function.
+    tevent(Emptydiv, darray[0]); // this modifys the &lt;div> to make it an event for the timeline.
+
+    // add &lt;div> to the container
+    container.appendChild(Div);
+**************************************************************************/
+
+/**************************************************************************************** 
+ * Templates for timelines of objects on the Today/Week views: tevent, ttask */
+
+/**
+ * Helper function that redirect to a "pop up" page 
+ * that displays more details for an event 
+ * based on the provided event's id
+ * 
+ * @param {String} event_id The id of the event
+ */
+ function displayPopUp(event_id) {
+    let URL = `/popup/${event_id}`;
+    window.location.href = URL;
+}
+
+/**
+ * Timeline Event
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a timeline.
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
+function tevent(element, de) {
+    if (!element) return;
+    if (!de) return;
+
+    //setup absolute positioning for timing events
+
+    let start = new Date(de['event_start']);
+    let end = new Date(de['event_end']);
+
+    let bottom, top;
+
+    // check if start time is before 6AM
+    if (start.getHours() &lt; 6) {
+        top = 0;
+    } else {
+        top = ((start.getHours() - 6) + (start.getMinutes() / 60)) / .18;
+    }
+
+    // check if the end time for an event is on a different day (i.e. tomorrow or like 12:00AM)
+    if (end.getDate() != start.getDate()) {
+        bottom = 0;
+    } else {
+        bottom = (100 - ((end.getHours() - 6) + (end.getMinutes() / 60)) / .18);
+    }
+
+    
+
+    // if time is shorter than 1 hour, use a different display type with less information
+    if ((end - start) &lt; 3600000) {
+        let elapsedTime = ((end.getTime() - start.getTime()) / 60000) % 61; //in minutes
+
+        element.innerHTML = `
+        &lt;div class="tevent-box">
+            &lt;p class="name">${de['event_name']}&lt;/p>
+            &lt;p class="location">${elapsedTime} min | ${de['event_location']}&lt;/p>
+        &lt;/div>
+        `;
+        element.style=`background-color: ${de['event_color']}; width: 100%; top: ${top}%; bottom: ${bottom}%; overflow: hidden;`;
+        // if event is longer than 18 hours it is an all-day event
+    } else if ((end - start) > 72000000) {
+        element.innerHTML = `
+        &lt;div class="tevent-box">
+            &lt;p class="name">All Day: ${de['event_name']}&lt;/p>
+        &lt;/div>
+        `;
+        element.style=`background-color: ${de['event_color']}; position: relative; width: 50%; height: 22pt; left: 0%; overflow: hidden;`;
+        // if event is more than 4 hours, make it less wide
+    } else if ((end - start) > 14400000) {
+        element.innerHTML = `
+        &lt;div class="tevent-box">
+            &lt;p class="name">${de['event_name']}&lt;/p>
+            &lt;p class="location">${de['event_location']}&lt;/p>
+            &lt;p class="time">${start.toLocaleTimeString()} — ${end.toLocaleTimeString()}&lt;/p>
+        &lt;/div>
+        `;
+        element.style=`background-color: ${de['event_color']}; top: ${top}%; bottom: ${bottom}%; left: 50%; right: 0%; overflow: hidden;`;
+    } else {
+        element.innerHTML = `
+        &lt;div class="tevent-box">
+            &lt;p class="name">${de['event_name']}&lt;/p>
+            &lt;p class="location">${de['event_location']}&lt;/p>
+            &lt;p class="time">${start.toLocaleTimeString()} — ${end.toLocaleTimeString()}&lt;/p>
+        &lt;/div>
+        `;
+        element.style=`background-color: ${de['event_color']}; width: 100%; top: ${top}%; bottom: ${bottom}%; overflow: hidden;`;
+    }
+    element.classList.add("ID" + de['event_id']);
+    element.classList.add("tevent");
+
+    element.addEventListener('click', () => {
+        displayPopUp(de["event_id"]);
+    });
+}
+
+/**
+ * Timeline Task
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a timeline.
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
+function ttask(element, de) {
+    if (!element) return;
+    if (!de) return;
+    let end = new Date(de['event_end']);
+
+    let top = ((end.getHours() - 6) + (end.getMinutes() / 60)) / .18;
+
+    element.innerHTML = `
+        &lt;div style="background-color: ${de['event_color']};">&lt;/div>
+        `;
+    element.style = `top: ${top}%`;
+    element.classList.add("ID" + de['event_id']);
+    element.classList.add("ttask");
+
+    element.addEventListener('click', () => {
+        displayPopUp(de["event_id"]);
+    });
+    ;
+}
+
+/*******************************************************************
+ * Templates for lists of objects on the Today view: ltask, levent */
+
+/**
+ * List Event
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a list.
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
+function levent(element, de) {
+    if (!element) return;
+    if (!de) return;
+
+    //create start and end Date objects for time manipulation
+    let start = new Date(de['event_start']);
+    let end = new Date(de['event_end']);
+
+    //define contents and fill in using information from de object
+    element.innerHTML = `
+    &lt;div class="levent-box">
+        &lt;p class="name">${de['event_name']}&lt;/p>
+        &lt;p class="location">${de['event_location']}&lt;/p>
+        &lt;p class="time">${start.toDateString()} | ${start.toLocaleTimeString()} — ${end.toLocaleTimeString()}&lt;/p>
+        &lt;p class="details">${de['event_details']} &lt;/p>
+    &lt;/div>
+    `;
+    element.style=`background-color: ${de['event_color']}; height: match-content;`;
+    element.classList.add("ID" + de['event_id']);
+    element.classList.add("levent");
+    element.addEventListener('click', () => {
+        displayPopUp(de["event_id"]);
+    });
+}
+
+/**
+ * List Task
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a list.
+ * 
+ * Note: checkbox can be accessed using id=done${DEID}
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
+function ltask(element, de) {
+    if (!element) return;
+    if (!de) return;
+
+    //create start and end Date objects for time manipulation
+    let start = new Date(de['event_start']);
+    let end = new Date(de['event_end']);
+
+    //set checked or not checked
+
+    let checked = '';
+
+    if (de['event_completed']) {
+        checked = "checked";
+    }
+
+    //define contents and fill in using information from de object
+    element.innerHTML = `
+    &lt;div class="ltask-box">
+        &lt;span style="display: flex; gap: 10px; height: match-content; align-items: center;">
+            &lt;input id="done${de['event_id']}" style="height: 12pt; width: 12pt; margin: 0px;" type="checkbox" ${checked}>&lt;/input>
+            &lt;div style="margin: 0px;" class="name">${de['event_name']} | ${de['event_relation']}&lt;/div>
+        &lt;/span>
+        &lt;p class="location">${de['event_location']}&lt;/p>
+        &lt;p class="time">Due ${start.toDateString()} @ ${end.toLocaleTimeString()}&lt;/p>
+        &lt;p class="details">${de['event_details']}&lt;/p>
+    &lt;/div>
+    `;
+    element.style=`background-color: ${de['event_color']}; height: match-content;`;
+    element.classList.add("ID" + de['event_id']);
+    element.classList.add("ltask");
+    element.addEventListener('click', () => {
+        displayPopUp(de["event_id"]);
+    });
+}
+
+/********************************
+ * Templates for the Quarter View
+ */
+
+/**
+ * Quarter Event
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a quarter view day.
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
+function qevent(element, de) {
+    if (!element) return;
+    if (!de) return;
+    element.classList.add("qevent");
+    element.classList.add("ID" + de['event_id']);
+    element.style = `background-color: ${de['event_color']}`;
+    element.addEventListener('click', () => {
+        displayPopUp(de["event_id"]);
+    });
+}
+
+/**
+ * Quarter Task
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a quarter view day.
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
+function qtask(element, de) {
+    if (!element) return;
+    if (!de) return;
+    element.classList.add("qtask");
+    element.classList.add("ID" + de['event_id']);
+    element.style = `background-color: ${de['event_color']}`;
+    element.addEventListener('click', () => {
+        displayPopUp(de["event_id"]);
+    });
+}
+
+/**
+ * Quarter Exam
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a quarter view day.
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
+function qexam(element, de) {
+    if (!element) return;
+    if (!de) return;
+    element.classList.add("qexam");
+    element.classList.add("ID" + de['event_id']);
+    element.innerHTML = `
+    &lt;div class="qexam-dot">&lt;/div>
+    `;
+    element.style = `background-color: ${de['event_color']}`;
+    element.addEventListener('click', () => {
+        displayPopUp(de["event_id"]);
+    });
+}
+
+/**
+ * Settings Dataentry
+ * 
+ * This function attaches html elements and fills in appropriate data from the dataentry object.
+ * This element goes in a table on the settings page.
+ * 
+ * @param {HTMLElement} element element to attach data to
+ * @param {dataentry} de data entry object to attacht to the element
+ */
+function sde(element, de) {
+    let i = 0;
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-node-express_database.html">node-express/database</a></li></ul><h3>Global</h3><ul><li><a href="global.html#DBSOURCE">DBSOURCE</a></li><li><a href="global.html#INSERT">INSERT</a></li><li><a href="global.html#PORT">PORT</a></li><li><a href="global.html#REGULAR_EVENT">REGULAR_EVENT</a></li><li><a href="global.html#SPECIAL_EVENT">SPECIAL_EVENT</a></li><li><a href="global.html#TASK">TASK</a></li><li><a href="global.html#activeCourses">activeCourses</a></li><li><a href="global.html#allUSERS">allUSERS</a></li><li><a href="global.html#apiToken">apiToken</a></li><li><a href="global.html#app">app</a></li><li><a href="global.html#bcrypt">bcrypt</a></li><li><a href="global.html#bodyParser">bodyParser</a></li><li><a href="global.html#buildCalendar">buildCalendar</a></li><li><a href="global.html#buildTimeline">buildTimeline</a></li><li><a href="global.html#colors">colors</a></li><li><a href="global.html#convertDate">convertDate</a></li><li><a href="global.html#darray">darray</a></li><li><a href="global.html#dataentry">dataentry</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#deleteByUSERNAME">deleteByUSERNAME</a></li><li><a href="global.html#deleteHeader">deleteHeader</a></li><li><a href="global.html#deleteUserByUsername">deleteUserByUsername</a></li><li><a href="global.html#displayPopUp">displayPopUp</a></li><li><a href="global.html#eventTable">eventTable</a></li><li><a href="global.html#eventsDEID">eventsDEID</a></li><li><a href="global.html#eventsTODAY">eventsTODAY</a></li><li><a href="global.html#express">express</a></li><li><a href="global.html#fetch">fetch</a></li><li><a href="global.html#fetchForMe">fetchForMe</a></li><li><a href="global.html#flash">flash</a></li><li><a href="global.html#getCurrentCourses">getCurrentCourses</a></li><li><a href="global.html#getHeader">getHeader</a></li><li><a href="global.html#getICStexts">getICStexts</a></li><li><a href="global.html#grabFromCanvas">grabFromCanvas</a></li><li><a href="global.html#ical">ical</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initialize">initialize</a></li><li><a href="global.html#initializePassport">initializePassport</a></li><li><a href="global.html#insertNewEvent">insertNewEvent</a></li><li><a href="global.html#insertNewUser">insertNewUser</a></li><li><a href="global.html#isSpecialEvent">isSpecialEvent</a></li><li><a href="global.html#levent">levent</a></li><li><a href="global.html#logged_user">logged_user</a></li><li><a href="global.html#ltask">ltask</a></li><li><a href="global.html#md5">md5</a></li><li><a href="global.html#methodOverride">methodOverride</a></li><li><a href="global.html#passport">passport</a></li><li><a href="global.html#path">path</a></li><li><a href="global.html#populateEventContainer">populateEventContainer</a></li><li><a href="global.html#populateLists">populateLists</a></li><li><a href="global.html#populateTaskContainer">populateTaskContainer</a></li><li><a href="global.html#populateTimeContainer">populateTimeContainer</a></li><li><a href="global.html#qevent">qevent</a></li><li><a href="global.html#qexam">qexam</a></li><li><a href="global.html#qtask">qtask</a></li><li><a href="global.html#quarter">quarter</a></li><li><a href="global.html#queryAllEvents">queryAllEvents</a></li><li><a href="global.html#queryAllUsers">queryAllUsers</a></li><li><a href="global.html#queryColorFromEvents">queryColorFromEvents</a></li><li><a href="global.html#queryDEIDFromEvents">queryDEIDFromEvents</a></li><li><a href="global.html#queryDetailsFromEvents">queryDetailsFromEvents</a></li><li><a href="global.html#queryDoneFromEvents">queryDoneFromEvents</a></li><li><a href="global.html#queryEndFromEvents">queryEndFromEvents</a></li><li><a href="global.html#queryLocationFromEvents">queryLocationFromEvents</a></li><li><a href="global.html#queryLoggedEvents">queryLoggedEvents</a></li><li><a href="global.html#queryLoggedUsername">queryLoggedUsername</a></li><li><a href="global.html#queryNameFromEvents">queryNameFromEvents</a></li><li><a href="global.html#queryRelationFromEvents">queryRelationFromEvents</a></li><li><a href="global.html#queryStartFromEvents">queryStartFromEvents</a></li><li><a href="global.html#queryThisMonthEvents">queryThisMonthEvents</a></li><li><a href="global.html#queryThisQuarterEvents">queryThisQuarterEvents</a></li><li><a href="global.html#queryThisWeekEvents">queryThisWeekEvents</a></li><li><a href="global.html#queryTodayEvents">queryTodayEvents</a></li><li><a href="global.html#queryTypeFromEvents">queryTypeFromEvents</a></li><li><a href="global.html#retrieveFromDatabase">retrieveFromDatabase</a></li><li><a href="global.html#router">router</a></li><li><a href="global.html#sde">sde</a></li><li><a href="global.html#session">session</a></li><li><a href="global.html#setNow">setNow</a></li><li><a href="global.html#sqlite3">sqlite3</a></li><li><a href="global.html#swaggerFile">swaggerFile</a></li><li><a href="global.html#swaggerUi">swaggerUi</a></li><li><a href="global.html#tevent">tevent</a></li><li><a href="global.html#titleDays">titleDays</a></li><li><a href="global.html#ttask">ttask</a></li><li><a href="global.html#users">users</a></li><li><a href="global.html#usersTable">usersTable</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Thu Dec 01 2022 17:36:13 GMT-0800 (Pacific Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

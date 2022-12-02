@@ -26,11 +26,10 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>// fetch() is not preinstalled in node environment (but might be in browsers) 
+            <pre class="prettyprint source linenums"><code>// fetch() is not preinstalled in node.js environment (but yes most in browsers) 
 // so I have to import it from an external module called "node-fetch"
-// This way, I can directly run the file using "node"
-// But when we connect these codes to the mains script and have them directly running
-// on a browser, we might don't need this line.
+// This way, I can directly fetch the calendar events from Canvas in node.js environment
+
 /**
  * import fetch from nodefetch
  */
@@ -45,16 +44,15 @@ const ical = require('ical.js');
 const db = require("./database.js");
 
 /* CANVAS API SECTION */
-// Storing the user's api token to fetch calendar events from Canvas
 /**
- * apiToken to fetch ics file and correspond information
+ * user's apiToken to fetch ics file(s) from Canvas 
+ * and corresponding information
  */
 let apiToken;
 
 // Available type of events
-// Event
 /**
- * event
+ * Event
  */
 const REGULAR_EVENT = {
     name: "event-calendar-event-",
@@ -70,18 +68,15 @@ const TASK = {
 }
 
 /**
- * Exam
+ * Exams
  */
 const SPECIAL_EVENT = {
     name: ["midterm", "exam", "final", "quiz"],
     color: "#FF0000", // Red
 }
 
-// To store date and end of quarter TODO
-const QUARTER = {}
-
 /**
- * color for class
+ * Some preset colors for class
  */
 const colors = [
     "#da2d39", //red
@@ -117,7 +112,8 @@ INSERT INTO events (
     VALUES (?,?,?,?,?,?,?,?,?,?,?)
 `;
 
-/**  Main function
+/**  
+ * Main function:
  * Welcome to the Canvas API. This function can be exported and used by other
  * files in the same directory. It queries Canvas API's for the user's calendar events
  * for their "currently active" courses, based on their provided Canvas API token. 
@@ -127,10 +123,8 @@ INSERT INTO events (
  * PRECONDITION: queryUsername nor queryAPIToken
  *               (recommended) queryAPIToken is a valid API token.
  *  
- * @param queryUsername The username whose we are grabbing calendar events for
- * @param queryAPIToken The Canvas API Token of the user
- * 
- * @return None
+ * @param {string} queryUsername username whose we are grabbing calendar events for
+ * @param {string} queryAPIToken The Canvas API Token of the user
  * 
  * POSTCONDITION: 
  * If the queryAPIToken was not null and valid, 
@@ -143,7 +137,7 @@ INSERT INTO events (
  */
 module.exports = async function(queryUsername, queryAPIToken) {
     /**
-     * // Assign the api token
+     * Assign the api token
      */
     apiToken = await queryAPIToken;
 
@@ -249,9 +243,6 @@ module.exports = async function(queryUsername, queryAPIToken) {
     console.log("Successfully grabbed calendar events from Canvas's API");
 };
 
-
-
-
 /**
  * This function checks if an even is a special event based on the
  * event's name (or ics's "summary"). Canvas's ics file is unfortunately 
@@ -259,31 +250,30 @@ module.exports = async function(queryUsername, queryAPIToken) {
  * check. The special events are:
  *  Final, Quiz, Exam, Midterm
  * 
- * If the event 's name contains any of these strings, it will return true. 
- * Otherwise, returns false 
+ * If the event's name contains any of these strings, it will return true. 
+ * Otherwise, returns false.
  * 
  * PRECONDITION: input is not null and correctly parsed from ics file.
  * 
- * input The name of the event we want to determine the event type on
- * @param {*} input 
- * 
- * @returns true if a special event, false otherwise
+ * @param {string} input The name of the event we want to base the event type on
+ *
+ * @returns {Boolean} true if a special event, false otherwise.
  */
 function isSpecialEvent(input) {
     return SPECIAL_EVENT.name.some(event =>
         input.toLowerCase().includes(event.toLowerCase()));
 }
 
-/** Given a valid API Token, we fetch all the related info of still active
+/** 
+ * Given a valid API Token, we fetch all the related info of still active
  * courses for the user. Among these info is a link to the ics file which is what
  * we are interested about. 
  * 
  * PRECONDITION: apiToken is not null and valid.
  *  
- * @param No param needed
- * @return An array of "active" course OBJECTS.
- *         An empty array if no currently "active" courses.
- *         An error message from Canvas otherwise.
+ * @return {Array} An array of "active" course OBJECTS.
+ * @return {Array} An empty array if no currently "active" courses.
+ * @return {string} An error message from Canvas otherwise.
  */
 async function getCurrentCourses() {
     try {
@@ -305,7 +295,8 @@ async function getCurrentCourses() {
     }
 }
 
-/**  Given that we have fetched the "active" courses from Canvas,
+/**  
+ * Given that we have fetched the "active" courses from Canvas,
  * we want to parse the ics file included in each course object to extract
  * the calendar info from them. Currently, it is unknown which standard
  * Canvas used for their ics file. But we will just hand it to node-module
@@ -317,10 +308,10 @@ async function getCurrentCourses() {
  *               dataArray is not null or undefined.
  *               (recommended) dataArray is not empty.
  *  
- * @param dataArray An array of all "truly active" course objects, if any.
- * @return An array of raw ics texts.
- *         An empty array dataArray was empty.
- *         An error message from Canvas otherwise.
+ * @param {Array} dataArray An array of all "still active" course objects, if any.
+ * @return {Array} An array of raw ics texts.
+ * @return {Array} An empty array dataArray was empty.
+ * @return {string} An error message from Canvas otherwise.
  */
 async function getICStexts(dataArray) {
     try {
@@ -355,13 +346,13 @@ async function getICStexts(dataArray) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#DBSOURCE">DBSOURCE</a></li><li><a href="global.html#INSERT">INSERT</a></li><li><a href="global.html#PORT">PORT</a></li><li><a href="global.html#REGULAR_EVENT">REGULAR_EVENT</a></li><li><a href="global.html#SPECIAL_EVENT">SPECIAL_EVENT</a></li><li><a href="global.html#TASK">TASK</a></li><li><a href="global.html#activeCourses">activeCourses</a></li><li><a href="global.html#apiToken">apiToken</a></li><li><a href="global.html#app">app</a></li><li><a href="global.html#bcrypt">bcrypt</a></li><li><a href="global.html#bodyParser">bodyParser</a></li><li><a href="global.html#colors">colors</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#eventTable">eventTable</a></li><li><a href="global.html#express">express</a></li><li><a href="global.html#fetch">fetch</a></li><li><a href="global.html#flash">flash</a></li><li><a href="global.html#getCurrentCourses">getCurrentCourses</a></li><li><a href="global.html#getICStexts">getICStexts</a></li><li><a href="global.html#grabFromCanvas">grabFromCanvas</a></li><li><a href="global.html#ical">ical</a></li><li><a href="global.html#initialize">initialize</a></li><li><a href="global.html#initializePassport">initializePassport</a></li><li><a href="global.html#insertNewUser">insertNewUser</a></li><li><a href="global.html#isSpecialEvent">isSpecialEvent</a></li><li><a href="global.html#logged_user">logged_user</a></li><li><a href="global.html#md5">md5</a></li><li><a href="global.html#methodOverride">methodOverride</a></li><li><a href="global.html#passport">passport</a></li><li><a href="global.html#path">path</a></li><li><a href="global.html#session">session</a></li><li><a href="global.html#sqlite3">sqlite3</a></li><li><a href="global.html#users">users</a></li><li><a href="global.html#usersTable">usersTable</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-node-express_database.html">node-express/database</a></li></ul><h3>Global</h3><ul><li><a href="global.html#DBSOURCE">DBSOURCE</a></li><li><a href="global.html#INSERT">INSERT</a></li><li><a href="global.html#PORT">PORT</a></li><li><a href="global.html#REGULAR_EVENT">REGULAR_EVENT</a></li><li><a href="global.html#SPECIAL_EVENT">SPECIAL_EVENT</a></li><li><a href="global.html#TASK">TASK</a></li><li><a href="global.html#activeCourses">activeCourses</a></li><li><a href="global.html#allUSERS">allUSERS</a></li><li><a href="global.html#apiToken">apiToken</a></li><li><a href="global.html#app">app</a></li><li><a href="global.html#bcrypt">bcrypt</a></li><li><a href="global.html#bodyParser">bodyParser</a></li><li><a href="global.html#buildCalendar">buildCalendar</a></li><li><a href="global.html#buildTimeline">buildTimeline</a></li><li><a href="global.html#colors">colors</a></li><li><a href="global.html#convertDate">convertDate</a></li><li><a href="global.html#darray">darray</a></li><li><a href="global.html#dataentry">dataentry</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#deleteByUSERNAME">deleteByUSERNAME</a></li><li><a href="global.html#deleteHeader">deleteHeader</a></li><li><a href="global.html#deleteUserByUsername">deleteUserByUsername</a></li><li><a href="global.html#displayPopUp">displayPopUp</a></li><li><a href="global.html#eventTable">eventTable</a></li><li><a href="global.html#eventsDEID">eventsDEID</a></li><li><a href="global.html#eventsTODAY">eventsTODAY</a></li><li><a href="global.html#express">express</a></li><li><a href="global.html#fetch">fetch</a></li><li><a href="global.html#fetchForMe">fetchForMe</a></li><li><a href="global.html#flash">flash</a></li><li><a href="global.html#getCurrentCourses">getCurrentCourses</a></li><li><a href="global.html#getHeader">getHeader</a></li><li><a href="global.html#getICStexts">getICStexts</a></li><li><a href="global.html#grabFromCanvas">grabFromCanvas</a></li><li><a href="global.html#ical">ical</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initialize">initialize</a></li><li><a href="global.html#initializePassport">initializePassport</a></li><li><a href="global.html#insertNewEvent">insertNewEvent</a></li><li><a href="global.html#insertNewUser">insertNewUser</a></li><li><a href="global.html#isSpecialEvent">isSpecialEvent</a></li><li><a href="global.html#levent">levent</a></li><li><a href="global.html#logged_user">logged_user</a></li><li><a href="global.html#ltask">ltask</a></li><li><a href="global.html#md5">md5</a></li><li><a href="global.html#methodOverride">methodOverride</a></li><li><a href="global.html#passport">passport</a></li><li><a href="global.html#path">path</a></li><li><a href="global.html#populateEventContainer">populateEventContainer</a></li><li><a href="global.html#populateLists">populateLists</a></li><li><a href="global.html#populateTaskContainer">populateTaskContainer</a></li><li><a href="global.html#populateTimeContainer">populateTimeContainer</a></li><li><a href="global.html#qevent">qevent</a></li><li><a href="global.html#qexam">qexam</a></li><li><a href="global.html#qtask">qtask</a></li><li><a href="global.html#quarter">quarter</a></li><li><a href="global.html#queryAllEvents">queryAllEvents</a></li><li><a href="global.html#queryAllUsers">queryAllUsers</a></li><li><a href="global.html#queryColorFromEvents">queryColorFromEvents</a></li><li><a href="global.html#queryDEIDFromEvents">queryDEIDFromEvents</a></li><li><a href="global.html#queryDetailsFromEvents">queryDetailsFromEvents</a></li><li><a href="global.html#queryDoneFromEvents">queryDoneFromEvents</a></li><li><a href="global.html#queryEndFromEvents">queryEndFromEvents</a></li><li><a href="global.html#queryLocationFromEvents">queryLocationFromEvents</a></li><li><a href="global.html#queryLoggedEvents">queryLoggedEvents</a></li><li><a href="global.html#queryLoggedUsername">queryLoggedUsername</a></li><li><a href="global.html#queryNameFromEvents">queryNameFromEvents</a></li><li><a href="global.html#queryRelationFromEvents">queryRelationFromEvents</a></li><li><a href="global.html#queryStartFromEvents">queryStartFromEvents</a></li><li><a href="global.html#queryThisMonthEvents">queryThisMonthEvents</a></li><li><a href="global.html#queryThisQuarterEvents">queryThisQuarterEvents</a></li><li><a href="global.html#queryThisWeekEvents">queryThisWeekEvents</a></li><li><a href="global.html#queryTodayEvents">queryTodayEvents</a></li><li><a href="global.html#queryTypeFromEvents">queryTypeFromEvents</a></li><li><a href="global.html#retrieveFromDatabase">retrieveFromDatabase</a></li><li><a href="global.html#router">router</a></li><li><a href="global.html#sde">sde</a></li><li><a href="global.html#session">session</a></li><li><a href="global.html#setNow">setNow</a></li><li><a href="global.html#sqlite3">sqlite3</a></li><li><a href="global.html#swaggerFile">swaggerFile</a></li><li><a href="global.html#swaggerUi">swaggerUi</a></li><li><a href="global.html#tevent">tevent</a></li><li><a href="global.html#titleDays">titleDays</a></li><li><a href="global.html#ttask">ttask</a></li><li><a href="global.html#users">users</a></li><li><a href="global.html#usersTable">usersTable</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Thu Dec 01 2022 11:33:24 GMT-0800 (北美太平洋标准时间)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Thu Dec 01 2022 17:36:13 GMT-0800 (Pacific Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
