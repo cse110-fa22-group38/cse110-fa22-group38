@@ -6,26 +6,38 @@
  * Initializing express
  */
 const express = require('express')
-    /**
-     * initializing app
-     */
-const app = express();
 /**
- * intializing path
+* Initializing app
+*/
+const app = express();
+
+/**
+ * Intializing path
  */
 const path = require('path');
+
 /**
- * initializing md5 to encrypt
+ * Initializing md5 to encrypt
  */
 const md5 = require('md5');
 
-// 1 security risk
 /**
- * initializing db from our database.js
+ * Importing db from our database.js
  */
 const db = require("./database.js");
+
 /**
- * initializing canvas api to grab from canvas
+ * Importing our swagger file
+ */
+const swaggerFile = require("./devs/swagger.json");
+
+/**
+ * UI Module to display our swagger file
+ */
+const swaggerUi = require('swagger-ui-express')
+
+/**
+ * Importing main function from canvas API to grab calendar events from canvas
  */
 const grabFromCanvas = require("./canvasAPI.js");
 
@@ -34,45 +46,54 @@ const grabFromCanvas = require("./canvasAPI.js");
  */
 let logged_user = null;
 
-// Importing all the modules
-const router = express.Router();
 /**
- * importing bcrypt
+ * Initializing router
+ */
+const router = express.Router();
+
+/**
+ * Initializing bcrypt
  */
 const bcrypt = require('bcrypt');
 /**
- * importing passport
+ * Initializing passport
  */
 const passport = require('passport');
+
 /**
- * importing express flash
+ * Initializing express flash
  */
 const flash = require('express-flash');
+
 /**
- * importing express session
+ * Initializing express session
  */
 const session = require('express-session');
+
 /**
- * importing method Overide
+ * Initializing method Overide
  */
 const methodOverride = require('method-override');
+
 /**
- * importing bodyparser
+ * Initializing bodyparser
  */
 const bodyParser = require('body-parser');
 
-// The port number to start our local server at
-/**
- * initialize port number in main.js
- */
-const PORT = 6900;
-
 // passport-config.js should be in the same folder
-/** initialize initialize passport */
+/** 
+ * Importing our app's passport config (UNUSED)
+ */
 const initializePassport = require('./passport-config');
-/**import worker threads */
-const { resourceLimits } = require('worker_threads');
-/**import http */
+
+/** 
+ * Initializing worker threads 
+ */
+const {resourceLimits} = require('worker_threads');
+
+/**
+ * Importing http 
+ */
 const { request } = require('http');
 initializePassport(
     passport,
@@ -111,16 +132,19 @@ app.use(methodOverride('_method'))
 
 // Rendering the login.html page
 app.get('/login', checkNotAuthenticated, (req, res) => {
+    // #swagger.description = 'Getting the login page html'
     res.sendFile(path.join(__dirname + '/../source/login.html'));
 })
 
 // index page
 app.get('/', checkNotAuthenticated, (req, res) => {
+    // #swagger.description = 'Getting the index page html'
     res.sendFile(path.join(__dirname + '/../source/index.html'));
 })
 
 // signup page
 app.get('/register', checkNotAuthenticated, (req, res) => {
+    // #swagger.description = 'Getting the signup page html'
     res.sendFile(path.join(__dirname + '/../source/signup.html'));
 })
 
@@ -130,6 +154,7 @@ app.get('/today', checkNotAuthenticated, (req, res) => {
         res.redirect("/login");
     }
 
+    // #swagger.description = 'Getting the today page html'
     res.sendFile(path.join(__dirname + '/../source/today.html'));
 })
 
@@ -139,6 +164,7 @@ app.get('/week', checkNotAuthenticated, (req, res) => {
         res.redirect("/login");
     }
 
+    // #swagger.description = 'Getting the weekly page html'
     res.sendFile(path.join(__dirname + '/../source/week.html'));
 })
 
@@ -148,6 +174,7 @@ app.get('/quarter', checkNotAuthenticated, (req, res) => {
         res.redirect("/login");
     }
 
+    // #swagger.description = 'Getting the quarterly page html'
     res.sendFile(path.join(__dirname + '/../source/quarter.html'));
 })
 
@@ -157,6 +184,7 @@ app.get('/settings', checkNotAuthenticated, (req, res) => {
         res.redirect("/login");
     }
 
+    // #swagger.description = 'Getting the settings page html'
     res.sendFile(path.join(__dirname + '/../source/settings.html'));
 })
 
@@ -166,6 +194,7 @@ app.get('/add', checkNotAuthenticated, (req, res) => {
         res.redirect("/login");
     }
 
+    // #swagger.description = 'Getting the event page html'
     res.sendFile(path.join(__dirname + '/../source/addevent.html'));
 })
 
@@ -177,6 +206,7 @@ app.get('/popup/:event_id', checkNotAuthenticated, (req, res) => {
         res.redirect("/login");
     }
 
+    // #swagger.description = 'Getting the pop-up page'
     res.sendFile(path.join(__dirname + '/../source/entriesPopup.html'));
 })
 
@@ -188,20 +218,41 @@ app.get('/update/:event_id', checkNotAuthenticated, (req, res) => {
         res.redirect("/login");
     }
 
+    // #swagger.description = 'Getting the update event page html'
     res.sendFile(path.join(__dirname + '/../source/updateevent.html'));
 })
 
 // Logging out
 app.get('/logout', (req, res) => {
     logged_user = null;
+    // #swagger.description = 'Logging out the user, setting logged_user to null'
     res.redirect('/') // Redirect to login
 })
 
+// Add swagger doc page
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile), ()=> {
+    // #swagger.description = 'Logging out the user, setting logged_user to null'
+})
+    
 /**************************************************************************/
 /* SECTION 3: SETTING UP FUNCTIONS TO HANDLE OUTPUTS ON CERTAIN PAGES */
 
 // Handling the output on the login page
 app.post('/login', checkNotAuthenticated, async(req, res) => {
+    // #swagger.description = 'Handling the outputs on the login page.'
+    /* #swagger.parameters['username'] = {
+        in: "body",
+        description: "The username you want to log in",
+        required: true,
+        type: "String",
+    } */
+    /* #swagger.parameters['password'] = {
+        in: "body",
+        description: "The password of said username",
+        required: true,
+        type: "String",
+    } */
+    
     // Capture the input fields,
     let username = await req.body.username;
     let password = await req.body.password;
@@ -242,6 +293,25 @@ app.post('/login', checkNotAuthenticated, async(req, res) => {
 
 // Handling the output on the register page
 app.post('/register', checkNotAuthenticated, async(req, res) => {
+    // #swagger.description = 'Handling the output on the register page.'
+    /* #swagger.parameters['username'] = {
+        in: "body",
+        description: "The username you want to register",
+        required: true,
+        type: "String",
+    } */
+    /* #swagger.parameters['password'] = {
+        in: "body",
+        description: "The new password for given username",
+        required: true,
+        type: "String",
+    } */
+    /* #swagger.parameters['apiToken'] = {
+        in: "body",
+        description: "The valid Canvas API token for the new account",
+        required: true,
+        type: "String",
+    } */
     try {
         let username = await req.body.username; // Grabbing the username
         let hashedPassword = bcrypt.hashSync(req.body.password, 10); // Hasing the password
@@ -278,6 +348,58 @@ app.post('/register', checkNotAuthenticated, async(req, res) => {
 
 // Handling the outputs on the add event page
 app.post('/add', checkNotAuthenticated, async(req, res) => {
+    /* #swagger.parameters['event_name'] = {
+        in: "body",
+        description: "The name of the new event",
+        required: true,
+        type: "String",
+    } */
+    /* #swagger.parameters['event_type'] = {
+        in: "body",
+        description: "The type of the new event: event, task, exam or quarter",
+        required: true,
+        type: "String",
+    } */
+    /* #swagger.parameters['event_relation'] = {
+        in: "body",
+        description: "The relation of the new event",
+        required: true,
+        type: "String",
+    } */
+    /* #swagger.parameters['event_location'] = {
+        in: "body",
+        description: "The location of the new event",
+        required: true,
+        type: "String",
+    } */
+    /* #swagger.parameters['event_start_time'] = {
+        in: "body",
+        description: "The start time of the new event",
+        required: true,
+        type: "String",
+        format: "ISO 8601 yyyy-mm-ddThh:mm:00",
+    } */
+    /* #swagger.parameters['event_end_time'] = {
+        in: "body",
+        description: "The end time of the new event",
+        required: true,
+        type: "String",
+        format: "ISO 8601 yyyy-mm-ddThh:mm:00",
+    } */
+    /* #swagger.parameters['event_details'] = {
+        in: "body",
+        description: "The details of the new event",
+        required: true,
+        type: "String",
+    } */
+    /* #swagger.parameters['event_color'] = {
+        in: "body",
+        description: "The color of the new event",
+        required: true,
+        type: "String",
+        format: "6-digits hex #ffffff",
+    } */
+
     try {
         let event_id = String(Date.now() + Math.floor(Math.random() * 1000));
         let username = logged_user;
@@ -347,6 +469,25 @@ app.post('/add', checkNotAuthenticated, async(req, res) => {
 
 // Handling the output from the settings page
 app.post('/settings', checkNotAuthenticated, async(req, res) => {
+    // #swagger.description = 'Handling the output from the settings page.'
+    /* #swagger.parameters['button'] = {
+        in: "body",
+        description: "The button: either update or delete",
+        required: true,
+        type: "String",
+    } */
+    /* #swagger.parameters['old_pass'] = {
+        in: "body",
+        description: "The old password of the user",
+        required: true,
+        type: "String",
+    } */
+    /* #swagger.parameters['new_pass'] = {
+        in: "body",
+        description: "The new password for the user",
+        required: false,
+        type: "String",
+    } */
     try {
         let button = req.body.button;
 
@@ -449,6 +590,14 @@ app.post('/settings', checkNotAuthenticated, async(req, res) => {
 
 // Handling the delete button from entriesPopUp page
 app.post("/deleteEvent", checkNotAuthenticated, async(req, res) => {
+    // #swagger.description = 'Handling the output from the settings page.'
+    /* #swagger.parameters['button'] = {
+        in: "body",
+        description: "The button contains the event_id of the event",
+        required: true,
+        type: "String",
+        format: "String/Number",
+    } */
     let eventId = req.body.button;
 
     try {
@@ -472,6 +621,14 @@ app.post("/deleteEvent", checkNotAuthenticated, async(req, res) => {
 
 // Pressing update button on pop up page
 app.post("/updateEvent", checkNotAuthenticated, async(req, res) => {
+    // #swagger.description = 'Redirect to the update event page.'
+    /* #swagger.parameters['button'] = {
+        in: "body",
+        description: "The button contains the event_id of the event",
+        required: true,
+        type: "String",
+        format: "String/Number",
+    } */
     let eventId = req.body.button;
 
     try {
@@ -486,6 +643,64 @@ app.post("/updateEvent", checkNotAuthenticated, async(req, res) => {
 
 // Handling the update button on update event page
 app.post("/update", checkNotAuthenticated, async(req, res) => {
+    // #swagger.description = 'Handling the update button on update event page.'
+    /* #swagger.parameters['event_id'] = {
+        in: "body",
+        description: "The id of this event",
+        required: true,
+        type: "String",
+    } */
+    /* #swagger.parameters['event_name'] = {
+        in: "body",
+        description: "The name of this event",
+        required: true,
+        type: "String",
+    } */
+    /* #swagger.parameters['event_type'] = {
+        in: "body",
+        description: "The type of this event: event, task, exam or quarter",
+        required: true,
+        type: "String",
+    } */
+    /* #swagger.parameters['event_relation'] = {
+        in: "body",
+        description: "The relation of this event",
+        required: true,
+        type: "String",
+    } */
+    /* #swagger.parameters['event_location'] = {
+        in: "body",
+        description: "The location of this event",
+        required: true,
+        type: "String",
+    } */
+    /* #swagger.parameters['event_start_time'] = {
+        in: "body",
+        description: "The start time of this event",
+        required: true,
+        type: "String",
+        format: "ISO 8601 yyyy-mm-ddThh:mm:00",
+    } */
+    /* #swagger.parameters['event_end_time'] = {
+        in: "body",
+        description: "The end time of this event",
+        required: true,
+        type: "String",
+        format: "ISO 8601 yyyy-mm-ddThh:mm:00",
+    } */
+    /* #swagger.parameters['event_details'] = {
+        in: "body",
+        description: "The details of this event",
+        required: true,
+        type: "String",
+    } */
+    /* #swagger.parameters['event_color'] = {
+        in: "body",
+        description: "The color of this event",
+        required: true,
+        type: "String",
+        format: "6-digits hex #ffffff",
+    } */
     try {
         let event_id = req.body.event_id;
         let username = logged_user;
@@ -554,7 +769,7 @@ app.post("/update", checkNotAuthenticated, async(req, res) => {
 
 /*
  * This function checks authentication from the array 
- * and checks the output of the query
+ * and checks the output of the query (UNUSED)
  */
 function checkAuthenticated(req, res, next) {
     //check if the user is authenticated
@@ -569,7 +784,7 @@ function checkAuthenticated(req, res, next) {
 
 /*
  * This function checks authentication from the array 
- * and checks the output of the query
+ * and checks the output of the query (BROKEN)
  */
 function checkNotAuthenticated(req, res, next) {
     //check if the user is authenticated
@@ -594,6 +809,7 @@ app.get("/api/username", (req, res, next) => {
     };
 
     res.json(logged_user);
+    // #swagger.description = 'Get currently logged in user's username'
 })
 
 // Get all users' info (SECURITY RISK)
@@ -609,6 +825,7 @@ app.get("/api/users", (req, res, next) => {
 
         res.json(row);
     })
+    // #swagger.description = 'Get all users' info (SECURITY RISK)'
 });
 
 // Get all events for all users (SECURITY RISK)
@@ -623,10 +840,11 @@ app.get("/api/events/all", (req, res, next) => {
 
         res.json(rows);
     });
+    // #swagger.description = 'Get all events for all users (SECURITY RISK)'
 });
 
 // Get all events belonging to the logged in user
-app.get("/api/events/", (req, res, next) => {
+app.get("/api/events", (req, res, next) => {
     var sql = "select * from events where username = ?"
     var params = [logged_user]
 
@@ -644,6 +862,7 @@ app.get("/api/events/", (req, res, next) => {
 
         res.json(rows);
     });
+    // #swagger.description = 'Get all events belonging to the logged in user'
 });
 
 // Get all by event_color for the logged in user
@@ -665,6 +884,14 @@ app.get("/api/events/event_color/:event_color", (req, res, next) => {
 
         res.json(rows);
     });
+    // #swagger.description = 'Get all by event_color for the logged in user'
+    /* #swagger.parameters['event_color'] = {
+        in: "params",
+        description: "The color of the the events",
+        required: true,
+        type: "String",
+        format: "6-digits hex #ffffff",
+    } */
 });
 
 // Get all by event_completed for the logged in user
@@ -686,6 +913,13 @@ app.get("/api/events/event_completed/:event_completed", (req, res, next) => {
 
         res.json(rows);
     });
+    // #swagger.description = 'Get all by event_completed for the logged in user'
+    /* #swagger.parameters['event_completed'] = {
+        in: "params",
+        description: "Whether the events are done",
+        required: true,
+        type: "Boolean",
+    } */
 });
 
 // Get all by event_end for the logged in user
@@ -707,6 +941,14 @@ app.get("/api/events/event_end/:event_end", (req, res, next) => {
 
         res.json(rows)
     });
+    // #swagger.description = 'Get all by event_end for the logged in user'
+    /* #swagger.parameters['event_end'] = {
+        in: "params",
+        description: "The end time of the events",
+        required: true,
+        type: "Boolean",
+        format: "ISO 8601 yyyy-mm-ddThh:mm:00",
+    } */
 });
 
 
@@ -729,6 +971,14 @@ app.get("/api/events/event_start/:event_start", (req, res, next) => {
 
         res.json(rows);
     });
+    // #swagger.description = 'Get all by event_start for the logged in user'
+    /* #swagger.parameters['event_start'] = {
+        in: "params",
+        description: "The start time of the events",
+        required: true,
+        type: "String",
+        format: "ISO 8601 yyyy-mm-ddThh:mm:00",
+    } */
 });
 
 // Get all by event_details for the logged in user
@@ -750,6 +1000,13 @@ app.get("/api/events/event_details/:event_details", (req, res, next) => {
 
         res.json(rows);
     });
+    // #swagger.description = 'Get all by event_details for the logged in user'
+    /* #swagger.parameters['event_details'] = {
+        in: "params",
+        description: "The details of the events",
+        required: true,
+        type: "String",
+    } */
 });
 
 // Get all by event_relation for the logged in user
@@ -771,6 +1028,13 @@ app.get("/api/events/event_relation/:event_relation", (req, res, next) => {
 
         res.json(rows);
     });
+    // #swagger.description = 'Get all by event_relation for the logged in user'
+    /* #swagger.parameters['event_relation'] = {
+        in: "params",
+        description: "The relation of the events",
+        required: true,
+        type: "String",
+    } */
 });
 
 // Get all by event_location for the logged in user
@@ -792,6 +1056,13 @@ app.get("/api/events/event_location/:event_location", (req, res, next) => {
 
         res.json(rows);
     });
+    // #swagger.description = 'Get all by event_location for the logged in user'
+    /* #swagger.parameters['event_locationt'] = {
+        in: "params",
+        description: "The location of the events",
+        required: true,
+        type: "String",
+    } */
 });
 
 // Get all by event_name for the logged in user
@@ -813,6 +1084,13 @@ app.get("/api/events/event_name/:event_name", (req, res, next) => {
 
         res.json(rows);
     });
+    // #swagger.description = 'Get all by event_name for the logged in user'
+    /* #swagger.parameters['event_name'] = {
+        in: "params",
+        description: "The name of the events",
+        required: true,
+        type: "String",
+    } */
 });
 
 // Get all by event_type for the logged in user
@@ -834,7 +1112,13 @@ app.get("/api/events/event_type/:event_type", (req, res, next) => {
 
         res.json(rows);
     });
-
+    // #swagger.description = 'Get all by event_type for the logged in user'
+    /* #swagger.parameters['event_type'] = {
+        in: "params",
+        description: "The type of the events",
+        required: true,
+        type: "String",
+    } */
 });
 
 // Get all by event_id for the logged in user
@@ -856,6 +1140,13 @@ app.get("/api/events/event_id/:event_id", (req, res, next) => {
 
         res.json(rows);
     });
+    // #swagger.description = 'Get all by event_id for the logged in user'
+    /* #swagger.parameters['event_id'] = {
+        in: "params",
+        description: "The id of an event",
+        required: true,
+        type: "String/Number",
+    } */
 });
 
 // Delete a user in the users table by their username
@@ -875,6 +1166,13 @@ app.delete("/api/users/delete/:username", (req, res, next) => {
             }
         }
     });
+    // #swagger.description = 'Delete a user in the users table by their username'
+    /* #swagger.parameters['username'] = {
+        in: "params",
+        description: "The username we want to delete any related info to",
+        required: true,
+        type: "String",
+    } */
 });
 
 // Getting today's events
@@ -901,6 +1199,7 @@ app.get("/api/events/today", (req, res, next) => {
         }
         res.json(rows);
     });
+    // #swagger.description = 'Getting today's events'
 });
 
 // Getting this week's events
@@ -926,6 +1225,7 @@ app.get("/api/events/this_week", (req, res, next) => {
         }
         res.json(rows);
     });
+    // #swagger.description = 'Getting this week's events'
 });
 
 // Getting this month's events
@@ -953,6 +1253,7 @@ app.get("/api/events/this_month", (req, res, next) => {
         }
         res.json(rows);
     });
+    // #swagger.description = 'Getting this month's events'
 });
 
 // Getting this quarter's events 
@@ -979,10 +1280,29 @@ app.get("/api/events/:start_date/:end_date", (req, res, next) => {
         }
         res.json(rows);
     });
+    // #swagger.description = 
+    // 'Getting this quarter's events within the specified date range'
+    /* #swagger.parameters['event_start'] = {
+        in: "params",
+        description: "The start time of the quarter",
+        required: true,
+        type: "String",
+        format: "ISO 8601 yyyy-mm-ddThh:mm:00",
+    } */
+    /* #swagger.parameters['event_end'] = {
+        in: "params",
+        description: "The end time of the quarter",
+        required: true,
+        type: "Boolean",
+        format: "ISO 8601 yyyy-mm-ddThh:mm:00",
+    } */
 })
 
 /**************************************************************************/
 /* SECTION 6: EXPORTING THE APP */
 
-// Exporting the app for use by other files
+/*
+ * Exporting the app for use by other js files within the same node.js
+ * environment
+ */
 module.exports = app;
