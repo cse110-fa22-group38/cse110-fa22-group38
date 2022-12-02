@@ -71,7 +71,6 @@ const deleteHeader = {
     return await fetchForMe(URL, getHeader);
 }
 
-
 /**
  * Query the username of the currently logged in 
  * username
