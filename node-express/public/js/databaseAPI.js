@@ -34,7 +34,7 @@ let deleteByUSERNAME = "/api/users/delete/";
 let eventsTODAY = "/api/events/today";
 let eventsTHISWEEK = "/api/events/this_week";
 let eventsTHISMONTH = "/api/events/this_month";
-let eventsTHISQUARTER = "/api/events";
+let eventsTHISQUARTER = "/api/events/";
 
 /**
  * GET header for fetch()
