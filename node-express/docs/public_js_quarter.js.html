@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: public/js/quarter.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: public/js/quarter.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as dbAPI from "./databaseAPI.js";
+
+/**
+ * Quarter object to store the date range of this and next quarter
+ */
+let quarter = {
+	start: "",
+	end: "",
+	startNext: "",
+	endNext: "",
+};
+
+// Waiting for the html page 
+window.addEventListener('DOMContentLoaded', init);
+
+/**
+ * Main function to populate our quarter.html page. It first checks 
+ * if there is any quarter objects in our database with the date range inputted 
+ * by the user. If there is none, it will display a message on the page instead.
+ * 
+ * If yes, it will retrieve all events from the database that fall within the date range.
+ * Then convert the time in those events from UTC into local, then populate the pages with
+ * the events
+ */
+async function init() {
+	// 1.a) query for quarter objects from the database
+	let qA = await dbAPI.queryTypeFromEvents('quarter');
+
+	// 1.b) select the quarter we are currently in OR if not in a quarter, select the upcoming quarter
+	// Note: Date.parse returns milliseconds since 1970
+	const today = Date.parse(new Date()); // in milliseconds since 1970
+
+	// 1.c) Iterating over all the quarter objects to find the current quarter
+	for (let i = 0; i &lt; qA.length; i++) {
+		qA[i].start = Date.parse(qA[i]['event_start']); // in milliseconds since 1970
+		qA[i].end = Date.parse(qA[i]['event_end']); // in milliseconds since 1970
+
+		// We found the current quarter if both conditions are true
+		if (qA[i].start &lt; today &amp;&amp; qA[i].end > today) {
+			quarter.start = qA[i]["event_start"];
+			quarter.end = qA[i]["event_end"];
+			break;
+		}
+		// Saving the dates for upcoming quarter as well
+		if (qA[i].start > today) {
+			quarter.startNext = qA[i]["event_start"];
+			quarter.endNext = qA[i]["event_end"];
+			break;
+		}
+	}
+
+	// If current quarter is not found, we will take the upcoming quarter
+	if (quarter.start == "") {
+		// search for upcoming quarter
+		quarter.start = quarter.startNext;
+		quarter.end = quarter.endNext;
+	} 
+	// If there are still no valid quarters to choose from, 
+	// display a message 'add a quarter to show here'
+	if (quarter.start == "") {
+		// If there is no quarter
+		console.error("Can't display quarter if there is no quarter to display *taps head*");
+		let pageBody = document.querySelector('body');
+		let component = document.createElement('div');
+		component.classList.add('instructions');
+
+		component.innerHTML = `
+		&lt;p>It looks like there isn't a quarter setup in your database.
+		Go &lt;a style="color: #ee6fa8;" href="https://blink.ucsd.edu/instructors/resources/academic/calendars/index.html">here&lt;a> and take note of the 'instruction begins' and 'instruction ends' dates for the current or upcoming quarter
+		and then add a new Quarter event with those as the start and end times. Be sure to name your quarter!&lt;/p>
+		`
+
+		pageBody.appendChild(component);
+	} else {
+		// 2.a) Retrieve all the events for this quarter based on the date range
+		// From the database
+		let deArray = await retrieveFromDatabase(quarter.start, quarter.end);
+
+		// 2.b) Convert each UTC datetime string 
+		// into the user's local datetime object
+		convertDate(deArray);
+		
+		// 2.c) Build the calendar from the data that we just grabbed.
+		buildCalendar(deArray);
+	}
+}
+
+/**
+ * This helper function helps converting UTC datetime strings
+ * stored in each event object into user's local datetime js objects.
+ * For each event object, it will add in 2 new variables "start" and "end"
+ * which store the local datetime js objects.
+ * 
+ * @param {Array} deArray Array that stores all event 
+ * 					      objects for this quarter
+ */
+function convertDate(deArray) {
+	for (let i = 0; i &lt; deArray.length; i++) {
+		deArray[i].start = new Date(deArray[i]['event_start'])
+		deArray[i].end = new Date(deArray[i]['event_end'])
+	}
+}
+
+/**
+ * Assuming that all events for this quarter was successfully retrieved,
+ * we populate the page with our events. 
+ * 
+ * @param {Array} deArray Array that stores all event 
+ * 					      objects for this quarter
+ */
+async function buildCalendar(deArray) {
+	let qstart = new Date(quarter.start);
+	let qend = new Date(quarter.end);
+	
+	let currdate = qstart;
+	let calendar = document.querySelector(".calendar");
+	
+	let numweek = 1
+	let week = document.createElement("tr");
+	
+	if (qstart.getDay() == 4) {
+		//if we start on a thursday there is a week 0"
+		numweek = 0;
+	}
+	
+	// set up first week (becuase it is special :) )
+	let weeknum = document.createElement("td");
+	weeknum.innerHTML = `${numweek}`;
+	weeknum.classList.add("week-number");
+	week.appendChild(weeknum);
+	numweek++;
+	
+	for (let i = 0; i &lt; currdate.getDay(); i++) {
+		week.appendChild(document.createElement("td"));
+		calendar.appendChild(week);
+	}
+	let i = 0;
+
+	/*Putting elements in calendar happens here:*/
+	while (currdate &lt;= qend) {
+		//make a new week if we are on a sunday beucase sunday is the first day of the week
+		if(currdate.getDay() == 0) {
+			week = document.createElement("tr");
+			calendar.appendChild(week);
+			
+			let weeknum = document.createElement("td");
+			weeknum.innerHTML = `${numweek}`;
+			weeknum.classList.add("week-number");
+			numweek++;
+			week.appendChild(weeknum)
+		}
+		let day = document.createElement("td");
+		
+		/*Stuff in the boxes goes here:*/
+		//let events = Databaseething.getByDate(currday.toISOString);
+		
+		day.innerHTML = `
+		&lt;div class="date-value">${currdate.getDate()}&lt;/div>
+		
+		`;
+		day.classList.add("day-container");
+		day.classList.add(currdate.toISOString())
+		
+		let eventcontainer = document.createElement("div");
+		eventcontainer.classList.add("event-container");
+		
+		let taskcontainer = document.createElement("div");
+		taskcontainer.classList.add("task-container");
+
+		for(let i = 0; i &lt; deArray.length; i++) {
+			let event_type = deArray[i]['event_type'];
+			let event_start_local = deArray[i].start.toLocaleDateString();
+			let currdate_local = currdate.toLocaleDateString();
+
+			if (event_start_local == currdate_local) {
+				let newDiv = document.createElement('div');
+				if (event_type == 'event') {
+					qevent(newDiv, deArray[i]);
+					eventcontainer.appendChild(newDiv);
+				}
+				else if (event_type == 'exam') {
+					qexam(newDiv, deArray[i]);
+					eventcontainer.appendChild(newDiv);
+				}
+				else if (event_type == 'task'){
+					qtask(newDiv, deArray[i]);
+					taskcontainer.appendChild(newDiv);
+				}
+			}
+		}
+
+		//for each event in eventsfromdatabase {add the event to the box in some clever way}
+		//for each task in eventsfromdatabase {add the event to the box in some clever way}
+		
+		day.appendChild(eventcontainer);
+		day.appendChild(taskcontainer);
+		
+		week.appendChild(day);
+		currdate.setDate(currdate.getDate() + 1);
+		i++;
+	}
+}
+
+/**
+ * This small function contacts our datbase to grab all events that 
+ * fall within the date range of this/next quarter at UCSD.
+ * 
+ * @param {String} start_date start date of the quarter in UTC
+ *                     		  in ISO 8601 format "yyyy-mm-ddThh:mm:00Z"
+ * @param {String} end_date end date of the quarter in UTC
+ *                     		in ISO 8601 format "yyyy-mm-ddThh:mm:00Z"
+ * @returns {Array} An array that contains all event objects 
+ * 	                for this quarter if any
+ */
+async function retrieveFromDatabase(start_date, end_date) {
+    return await dbAPI.queryThisQuarterEvents(start_date, end_date);
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-node-express_database.html">node-express/database</a></li></ul><h3>Global</h3><ul><li><a href="global.html#DBSOURCE">DBSOURCE</a></li><li><a href="global.html#INSERT">INSERT</a></li><li><a href="global.html#PORT">PORT</a></li><li><a href="global.html#REGULAR_EVENT">REGULAR_EVENT</a></li><li><a href="global.html#SPECIAL_EVENT">SPECIAL_EVENT</a></li><li><a href="global.html#TASK">TASK</a></li><li><a href="global.html#activeCourses">activeCourses</a></li><li><a href="global.html#allUSERS">allUSERS</a></li><li><a href="global.html#apiToken">apiToken</a></li><li><a href="global.html#app">app</a></li><li><a href="global.html#bcrypt">bcrypt</a></li><li><a href="global.html#bodyParser">bodyParser</a></li><li><a href="global.html#buildCalendar">buildCalendar</a></li><li><a href="global.html#buildTimeline">buildTimeline</a></li><li><a href="global.html#colors">colors</a></li><li><a href="global.html#convertDate">convertDate</a></li><li><a href="global.html#darray">darray</a></li><li><a href="global.html#dataentry">dataentry</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#deleteByUSERNAME">deleteByUSERNAME</a></li><li><a href="global.html#deleteHeader">deleteHeader</a></li><li><a href="global.html#deleteUserByUsername">deleteUserByUsername</a></li><li><a href="global.html#displayPopUp">displayPopUp</a></li><li><a href="global.html#eventTable">eventTable</a></li><li><a href="global.html#eventsDEID">eventsDEID</a></li><li><a href="global.html#eventsTODAY">eventsTODAY</a></li><li><a href="global.html#express">express</a></li><li><a href="global.html#fetch">fetch</a></li><li><a href="global.html#fetchForMe">fetchForMe</a></li><li><a href="global.html#flash">flash</a></li><li><a href="global.html#getCurrentCourses">getCurrentCourses</a></li><li><a href="global.html#getHeader">getHeader</a></li><li><a href="global.html#getICStexts">getICStexts</a></li><li><a href="global.html#grabFromCanvas">grabFromCanvas</a></li><li><a href="global.html#ical">ical</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initialize">initialize</a></li><li><a href="global.html#initializePassport">initializePassport</a></li><li><a href="global.html#insertNewEvent">insertNewEvent</a></li><li><a href="global.html#insertNewUser">insertNewUser</a></li><li><a href="global.html#isSpecialEvent">isSpecialEvent</a></li><li><a href="global.html#levent">levent</a></li><li><a href="global.html#logged_user">logged_user</a></li><li><a href="global.html#ltask">ltask</a></li><li><a href="global.html#md5">md5</a></li><li><a href="global.html#methodOverride">methodOverride</a></li><li><a href="global.html#passport">passport</a></li><li><a href="global.html#path">path</a></li><li><a href="global.html#populateEventContainer">populateEventContainer</a></li><li><a href="global.html#populateLists">populateLists</a></li><li><a href="global.html#populateTaskContainer">populateTaskContainer</a></li><li><a href="global.html#populateTimeContainer">populateTimeContainer</a></li><li><a href="global.html#qevent">qevent</a></li><li><a href="global.html#qexam">qexam</a></li><li><a href="global.html#qtask">qtask</a></li><li><a href="global.html#quarter">quarter</a></li><li><a href="global.html#queryAllEvents">queryAllEvents</a></li><li><a href="global.html#queryAllUsers">queryAllUsers</a></li><li><a href="global.html#queryColorFromEvents">queryColorFromEvents</a></li><li><a href="global.html#queryDEIDFromEvents">queryDEIDFromEvents</a></li><li><a href="global.html#queryDetailsFromEvents">queryDetailsFromEvents</a></li><li><a href="global.html#queryDoneFromEvents">queryDoneFromEvents</a></li><li><a href="global.html#queryEndFromEvents">queryEndFromEvents</a></li><li><a href="global.html#queryLocationFromEvents">queryLocationFromEvents</a></li><li><a href="global.html#queryLoggedEvents">queryLoggedEvents</a></li><li><a href="global.html#queryLoggedUsername">queryLoggedUsername</a></li><li><a href="global.html#queryNameFromEvents">queryNameFromEvents</a></li><li><a href="global.html#queryRelationFromEvents">queryRelationFromEvents</a></li><li><a href="global.html#queryStartFromEvents">queryStartFromEvents</a></li><li><a href="global.html#queryThisMonthEvents">queryThisMonthEvents</a></li><li><a href="global.html#queryThisQuarterEvents">queryThisQuarterEvents</a></li><li><a href="global.html#queryThisWeekEvents">queryThisWeekEvents</a></li><li><a href="global.html#queryTodayEvents">queryTodayEvents</a></li><li><a href="global.html#queryTypeFromEvents">queryTypeFromEvents</a></li><li><a href="global.html#retrieveFromDatabase">retrieveFromDatabase</a></li><li><a href="global.html#router">router</a></li><li><a href="global.html#sde">sde</a></li><li><a href="global.html#session">session</a></li><li><a href="global.html#setNow">setNow</a></li><li><a href="global.html#sqlite3">sqlite3</a></li><li><a href="global.html#swaggerFile">swaggerFile</a></li><li><a href="global.html#swaggerUi">swaggerUi</a></li><li><a href="global.html#tevent">tevent</a></li><li><a href="global.html#titleDays">titleDays</a></li><li><a href="global.html#ttask">ttask</a></li><li><a href="global.html#users">users</a></li><li><a href="global.html#usersTable">usersTable</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Thu Dec 01 2022 17:36:13 GMT-0800 (Pacific Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

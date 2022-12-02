@@ -1,18 +1,39 @@
+/**
+ * Importing express module (UNUSED)
+ */
 const express = require('express');
+
+/**
+ * Initializing app (UNUSED)
+ */
 const app = express();
+
+/**
+ * Importing sqlite3 database to js file
+ */
 const sqlite3 = require('sqlite3').verbose();
+
+/** 
+ * Using md 5 to encrypt (UNUSED) 
+ */
 const md5 = require('md5');
 
-let usersTable = 
-`
+/**
+ * Table users to hold all users' data
+ */
+let usersTable =
+    `
 CREATE TABLE IF NOT EXISTS users (
   username type UNIQUE,
   password_hash,
   api_token)
 `;
 
-let eventTable = 
-`
+/**
+ * Table events to hold all users' events
+ */
+let eventTable =
+    `
 CREATE TABLE IF NOT EXISTS events (
   username,
   event_id,
@@ -27,44 +48,81 @@ CREATE TABLE IF NOT EXISTS events (
   event_color)
 `;
 
-let insertNewUser = 
+/**
+ * Insert new User query (template)
+ */
+const insertNewUser =
 `
 INSERT INTO users (
   username,
   password_hash,
-  api_token) VALUES (?,?,?,?)
+  api_token) 
+  VALUES (?,?,?,?)
 `;
 
+/**
+ * Insert new Event query (template)
+ */
+const insertNewEvent = 
+`
+INSERT INTO events (
+    username,
+    event_id,
+    event_type,
+    event_name,
+    event_relation,
+    event_location,
+    event_details,
+    event_start,
+    event_end,
+    event_completed,
+    event_color) 
+    VALUES (?,?,?,?,?,?,?,?,?,?,?)
+`;
+
+/** Path to source file of our database */
 const DBSOURCE = "./database/user.sqlite";
 
-let db = new sqlite3.Database(DBSOURCE, 
-  sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
-    if (err){
-        console.log(err);
-        throw(err);
-    }
-    else {
-        console.log("database.js: Connected to DB")
-        db.run(usersTable, (err) => {
-            if (err) {
-                // Table already created
-            } else {
-                // Table just created, creating a dummy user
-            }
-        });
+/**
+ * Our database to be used by other js files within the same node.js environment.
+ * 
+ * @module
+ * @param {String} DBSOURCE The path + file name 
+ *                          where we will create/access our database
+ * @throw Any critical errors (Most likely failed to create/access database)
+ */
+let db = new sqlite3.Database(DBSOURCE,
+    sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
+        if (err) {
+            console.log(err);
+            throw (err);
+        } else {
+            console.log("database.js: Connected to DB")
+            db.run(usersTable, (err) => {
+                if (err) {
+                    // Table already created
+                } else {
+                    // Table just created, creating a dummy user
+                }
+            });
 
-        db.run(eventTable, (err) => {
-            if (err) {
-                // Table already created
-            }
-        });
-    }
-})
+            db.run(eventTable, (err) => {
+                if (err) {
+                    // Table already created
+                }
+            });
+        }
+    })
 
-// Exporting our db via module, ready for use 
+/**
+ * Exporting our database as a module, ready to be used 
+ * by other js files within the same node.js environment.
+ */
 module.exports = db;
 
-// Example of a dataentry object
+/**
+ * Example of an event object (template)
+ */
 var dataentry = {
     "username": "Tung",
     "event_id": "dataentryID",

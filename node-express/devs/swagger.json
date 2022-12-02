@@ -1,0 +1,1014 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Powell Puff Planner API",
+    "description": "These are all the public API Endpoints for our localhost server",
+    "version": "1.0.0"
+  },
+  "host": "localhost:6900",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/login": {
+      "get": {
+        "description": "Getting the login page html",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "description": "Handling the outputs on the login page.",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "The username you want to log in",
+            "required": true
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "description": "The password of said username",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "description": "Getting the index page html",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/register": {
+      "get": {
+        "description": "Getting the signup page html",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "description": "Handling the output on the register page.",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                },
+                "apiToken": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "The username you want to register",
+            "required": true
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "description": "The new password for given username",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "apiToken",
+            "in": "body",
+            "description": "The valid Canvas API token for the new account",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/today": {
+      "get": {
+        "description": "Getting the today page html",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/week": {
+      "get": {
+        "description": "Getting the weekly page html",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/quarter": {
+      "get": {
+        "description": "Getting the quarterly page html",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/settings": {
+      "get": {
+        "description": "Getting the settings page html",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "description": "Handling the output from the settings page.",
+        "parameters": [
+          {
+            "name": "button",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "button": {
+                  "example": "any"
+                },
+                "old_pass": {
+                  "example": "any"
+                },
+                "new_pass": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "The button: either update or delete",
+            "required": true
+          },
+          {
+            "name": "old_pass",
+            "in": "body",
+            "description": "The old password of the user",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "new_pass",
+            "in": "body",
+            "description": "The new password for the user",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/add": {
+      "get": {
+        "description": "Getting the event page html",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "event_name",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "event_name": {
+                  "example": "any"
+                },
+                "event_type": {
+                  "example": "any"
+                },
+                "event_relation": {
+                  "example": "any"
+                },
+                "event_location": {
+                  "example": "any"
+                },
+                "event_start_time": {
+                  "example": "any"
+                },
+                "event_end_time": {
+                  "example": "any"
+                },
+                "event_details": {
+                  "example": "any"
+                },
+                "event_color": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "The name of the new event",
+            "required": true
+          },
+          {
+            "name": "event_type",
+            "in": "body",
+            "description": "The type of the new event: event, task, exam or quarter",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "event_relation",
+            "in": "body",
+            "description": "The relation of the new event",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "event_location",
+            "in": "body",
+            "description": "The location of the new event",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "event_start_time",
+            "in": "body",
+            "description": "The start time of the new event",
+            "required": true,
+            "format": "ISO 8601 yyyy-mm-ddThh:mm:00",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "event_end_time",
+            "in": "body",
+            "description": "The end time of the new event",
+            "required": true,
+            "format": "ISO 8601 yyyy-mm-ddThh:mm:00",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "event_details",
+            "in": "body",
+            "description": "The details of the new event",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "event_color",
+            "in": "body",
+            "description": "The color of the new event",
+            "required": true,
+            "format": "6-digits hex #ffffff",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/popup/{event_id}": {
+      "get": {
+        "description": "Getting the pop-up page",
+        "parameters": [
+          {
+            "name": "event_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/update/{event_id}": {
+      "get": {
+        "description": "Getting the update event page html",
+        "parameters": [
+          {
+            "name": "event_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/logout": {
+      "get": {
+        "description": "Logging out the user, setting logged_user to null",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/deleteEvent": {
+      "post": {
+        "description": "Handling the output from the settings page.",
+        "parameters": [
+          {
+            "name": "button",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "button": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "The button contains the event_id of the event",
+            "required": true,
+            "format": "String/Number"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/updateEvent": {
+      "post": {
+        "description": "Redirect to the update event page.",
+        "parameters": [
+          {
+            "name": "button",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "button": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "The button contains the event_id of the event",
+            "required": true,
+            "format": "String/Number"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/update": {
+      "post": {
+        "description": "Handling the update button on update event page.",
+        "parameters": [
+          {
+            "name": "event_id",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "event_id": {
+                  "example": "any"
+                },
+                "event_name": {
+                  "example": "any"
+                },
+                "event_type": {
+                  "example": "any"
+                },
+                "event_relation": {
+                  "example": "any"
+                },
+                "event_location": {
+                  "example": "any"
+                },
+                "event_start_time": {
+                  "example": "any"
+                },
+                "event_end_time": {
+                  "example": "any"
+                },
+                "event_details": {
+                  "example": "any"
+                },
+                "event_color": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "The id of this event",
+            "required": true
+          },
+          {
+            "name": "event_name",
+            "in": "body",
+            "description": "The name of this event",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "event_type",
+            "in": "body",
+            "description": "The type of this event: event, task, exam or quarter",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "event_relation",
+            "in": "body",
+            "description": "The relation of this event",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "event_location",
+            "in": "body",
+            "description": "The location of this event",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "event_start_time",
+            "in": "body",
+            "description": "The start time of this event",
+            "required": true,
+            "format": "ISO 8601 yyyy-mm-ddThh:mm:00",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "event_end_time",
+            "in": "body",
+            "description": "The end time of this event",
+            "required": true,
+            "format": "ISO 8601 yyyy-mm-ddThh:mm:00",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "event_details",
+            "in": "body",
+            "description": "The details of this event",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "event_color",
+            "in": "body",
+            "description": "The color of this event",
+            "required": true,
+            "format": "6-digits hex #ffffff",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/api/username": {
+      "get": {
+        "description": "Get currently logged in user",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "get": {
+        "description": "Get all users",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/events/all": {
+      "get": {
+        "description": "Get all events for all users (SECURITY RISK)",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/events": {
+      "get": {
+        "description": "Get all events belonging to the logged in user",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/events/event_color/{event_color}": {
+      "get": {
+        "description": "Get all by event_color for the logged in user",
+        "parameters": [
+          {
+            "name": "event_color",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "event_color",
+            "in": "params",
+            "required": true,
+            "type": "String",
+            "description": "The color of the the events",
+            "format": "6-digits hex #ffffff"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/events/event_completed/{event_completed}": {
+      "get": {
+        "description": "Get all by event_completed for the logged in user",
+        "parameters": [
+          {
+            "name": "event_completed",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "event_completed",
+            "in": "params",
+            "required": true,
+            "type": "Boolean",
+            "description": "Whether the events are done"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/events/event_end/{event_end}": {
+      "get": {
+        "description": "Get all by event_end for the logged in user",
+        "parameters": [
+          {
+            "name": "event_end",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "event_end",
+            "in": "params",
+            "required": true,
+            "type": "Boolean",
+            "description": "The end time of the events",
+            "format": "ISO 8601 yyyy-mm-ddThh:mm:00"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/events/event_start/{event_start}": {
+      "get": {
+        "description": "Get all by event_start for the logged in user",
+        "parameters": [
+          {
+            "name": "event_start",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "event_start",
+            "in": "params",
+            "required": true,
+            "type": "String",
+            "description": "The start time of the events",
+            "format": "ISO 8601 yyyy-mm-ddThh:mm:00"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/events/event_details/{event_details}": {
+      "get": {
+        "description": "Get all by event_details for the logged in user",
+        "parameters": [
+          {
+            "name": "event_details",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "event_details",
+            "in": "params",
+            "required": true,
+            "type": "String",
+            "description": "The details of the events"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/events/event_relation/{event_relation}": {
+      "get": {
+        "description": "Get all by event_relation for the logged in user",
+        "parameters": [
+          {
+            "name": "event_relation",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "event_relation",
+            "in": "params",
+            "required": true,
+            "type": "String",
+            "description": "The relation of the events"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/events/event_location/{event_location}": {
+      "get": {
+        "description": "Get all by event_location for the logged in user",
+        "parameters": [
+          {
+            "name": "event_location",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "event_locationt",
+            "in": "params",
+            "description": "The location of the events",
+            "required": true,
+            "type": "String"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/events/event_name/{event_name}": {
+      "get": {
+        "description": "Get all by event_name for the logged in user",
+        "parameters": [
+          {
+            "name": "event_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "event_name",
+            "in": "params",
+            "required": true,
+            "type": "String",
+            "description": "The name of the events"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/events/event_type/{event_type}": {
+      "get": {
+        "description": "Get all by event_type for the logged in user",
+        "parameters": [
+          {
+            "name": "event_type",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "event_type",
+            "in": "params",
+            "required": true,
+            "type": "String",
+            "description": "The type of the events"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/events/event_id/{event_id}": {
+      "get": {
+        "description": "Get all by event_id for the logged in user",
+        "parameters": [
+          {
+            "name": "event_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "event_id",
+            "in": "params",
+            "required": true,
+            "type": "String/Number",
+            "description": "The id of an event"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/users/delete/{username}": {
+      "delete": {
+        "description": "Delete a user in the users table by their username",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "username",
+            "in": "params",
+            "required": true,
+            "type": "String",
+            "description": "The username we want to delete any related info to"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/events/today": {
+      "get": {
+        "description": "Getting today",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/events/this_week": {
+      "get": {
+        "description": "Getting this week",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/events/this_month": {
+      "get": {
+        "description": "Getting this month",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/events/{start_date}/{end_date}": {
+      "get": {
+        "description": "#swagger.parameters['event_start'] = {   in: \"params\",   description: \"The start time of the quarter\",   required: true,   type: \"String\",   format: \"ISO 8601 yyyy-mm-ddThh:mm:00\",   }",
+        "parameters": [
+          {
+            "name": "start_date",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "end_date",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "event_start",
+            "in": "params",
+            "description": "The start time of the quarter",
+            "required": true,
+            "type": "String",
+            "format": "ISO 8601 yyyy-mm-ddThh:mm:00"
+          },
+          {
+            "name": "event_end",
+            "in": "params",
+            "description": "The end time of the quarter",
+            "required": true,
+            "type": "Boolean",
+            "format": "ISO 8601 yyyy-mm-ddThh:mm:00"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    }
+  }
+}
