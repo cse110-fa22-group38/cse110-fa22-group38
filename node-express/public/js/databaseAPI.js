@@ -1,10 +1,10 @@
 let PORT = 6900;
-let baseURL = "http://localhost:" + PORT + "/";
+let baseURL = "http://localhost:" + PORT;
 
 /**
  * User's related info API Endpoints
  */
-let allUSERS = "api/users";
+let allUSERS = "/api/users";
 let loggedUSERNAME = "/api/username";
 let loggedEVENTS = "/api/events";
 let allEVENTS = "/api/events/all";
@@ -66,7 +66,7 @@ const deleteHeader = {
  * 
  * @returns {Array} An array of all evnet's info objects
  */
- export async function queryAllUsers() {
+ export async function queryAllEvents() {
     let URL = baseURL + allEVENTS;
     return await fetchForMe(URL, getHeader);
 }
@@ -89,7 +89,7 @@ export async function queryLoggedUsername() {
  * @returns {Array} An array of all events 
  *                  belonging to the logged in user
  */
- export async function queryLoggedUsername() {
+ export async function queryLoggedEvents() {
     let URL = baseURL + loggedEVENTS;
     return await fetchForMe(URL, getHeader);
 }
