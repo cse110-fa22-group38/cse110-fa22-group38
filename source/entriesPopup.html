@@ -108,19 +108,20 @@
     }
     
     /*
-    let dataentry = {
-      UUID: "userID", // user ID
-      DEID: "dataentryID", // unique ID for this dataentry
-      type: "event", // event, exam (type of event), task, subtask (type of task, may or may not be implemented, not part of MVP)
-      name: "UYCERFZBQGTGODNKDGKY", // 20 char limit for display purposes
-      relation: "class 100a", // reference to associated event or task (group events together, and tasks to an event)
-      location: "9500 Gillman Dr", // address or URL
-      details: "s", // user provided notes for this event
-      start: "2022-11-09T05:00:00", // event start time
-      end: "2022-11-09T17:00:00", // event end time OR task completion time
-      done: Boolean(false), // whether a task has been completed or not
-      color: "#FE5656" // color of the dataentry object as it appears in a view
-    };
+    // Example of a dataentry object
+    var dataentry = {
+        "username": "Tung",
+        "event_id": "dataentryID",
+        "event_type": "event",
+        "event_name": "class 100a",
+        "event_relation": "class 100a",
+        "event_location": "9500 Gilman Drive",
+        "event_details": "description",
+        "event_start": "yyyy-mm-ddThh:mm:00Z",
+        "event_end": "yyyy-mm-ddThh:mm:00Z",
+        "event_completed": Boolean(false),
+        "event_color": "#ffffff"
+    }
     */
     
     window.onload = async function () {
@@ -132,9 +133,12 @@
       // Fetch from the database the event that matches the id
       let dataentry = await getEvent(eventId);
       
-      // Assigning the value for the button
-      let delete_button = document.querySelector('button');
+      // Assigning the value for the buttons so
+      // that the server knows which event to handle.
+      let delete_button = document.getElementById("delete_but");
       delete_button.value = eventId;
+      let update_button = document.getElementById("update_but");
+      update_button.value = eventId;
     
       // Populate the entry pop up with the data we just from our database
       document.getElementById("name").innerHTML = dataentry[0]["event_name"];
@@ -182,7 +186,10 @@
           </div>
         </div>
         <form action="/deleteEvent" method="POST">
-          <button type="submit" name="button">Delete</button>
+          <button id = "delete_but" type="submit" name="button">Delete Event</button>
+        </form>
+        <form action="/updateEvent" method="POST">
+          <button id="update_but" type="submit" name="button">Update Event</button>
         </form>
       </div>
     </div>

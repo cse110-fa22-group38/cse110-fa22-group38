@@ -1,6 +1,8 @@
 import * as dbAPI from "./databaseAPI.js";
 
-// predefined quarter start and end date for FA2022
+/**
+ * Quarter object to store the date range of this and next quarter
+ */
 let quarter = {
 	start: "",
 	end: "",
@@ -11,6 +13,15 @@ let quarter = {
 // Waiting for the html page 
 window.addEventListener('DOMContentLoaded', init);
 
+/**
+ * Main function to populate our quarter.html page. It first checks 
+ * if there is any quarter objects in our database with the date range inputted 
+ * by the user. If there is none, it will display a message on the page instead.
+ * 
+ * If yes, it will retrieve all events from the database that fall within the date range.
+ * Then convert the time in those events from UTC into local, then populate the pages with
+ * the events
+ */
 async function init() {
 	// 1.a) query for quarter objects from the database
 	let qA = await dbAPI.queryTypeFromEvents('quarter');
@@ -19,7 +30,7 @@ async function init() {
 	// Note: Date.parse returns milliseconds since 1970
 	const today = Date.parse(new Date()); // in milliseconds since 1970
 
-	// Iterating over all the quarter objects to find the current quarter
+	// 1.c) Iterating over all the quarter objects to find the current quarter
 	for (let i = 0; i < qA.length; i++) {
 		qA[i].start = Date.parse(qA[i]['event_start']); // in milliseconds since 1970
 		qA[i].end = Date.parse(qA[i]['event_end']); // in milliseconds since 1970
@@ -61,27 +72,28 @@ async function init() {
 
 		pageBody.appendChild(component);
 	} else {
-
-		// 2) Retrieve all the events for this quarter based on the date range
+		// 2.a) Retrieve all the events for this quarter based on the date range
 		// From the database
-		// Converting the strings into universal time first
-		/*
-		let universal_start = new Date(quarter.start);
-		let universal_end = new Date(quarter.end);
-		let universal_start_string = universal_start.toISOString();
-		let universal_end_string = universal_end.toISOString();
-		*/
-
 		let deArray = await retrieveFromDatabase(quarter.start, quarter.end);
-		console.log(deArray);
 
+		// 2.b) Convert each UTC datetime string 
+		// into the user's local datetime object
 		convertDate(deArray);
 		
-		// 2) Build the calendar from the data that we just grabbed.
+		// 2.c) Build the calendar from the data that we just grabbed.
 		buildCalendar(deArray);
 	}
 }
 
+/**
+ * This helper function helps converting UTC datetime strings
+ * stored in each event object into user's local datetime js objects.
+ * For each event object, it will add in 2 new variables "start" and "end"
+ * which store the local datetime js objects.
+ * 
+ * @param {Array} deArray Array that stores all event 
+ * 					      objects for this quarter
+ */
 function convertDate(deArray) {
 	for (let i = 0; i < deArray.length; i++) {
 		deArray[i].start = new Date(deArray[i]['event_start'])
@@ -89,6 +101,13 @@ function convertDate(deArray) {
 	}
 }
 
+/**
+ * Assuming that all events for this quarter was successfully retrieved,
+ * we populate the page with our events. 
+ * 
+ * @param {Array} deArray Array that stores all event 
+ * 					      objects for this quarter
+ */
 async function buildCalendar(deArray) {
 	let qstart = new Date(quarter.start);
 	let qend = new Date(quarter.end);
@@ -182,7 +201,17 @@ async function buildCalendar(deArray) {
 	}
 }
 
-// Retrieving this quarter's events within
+/**
+ * This small function contacts our datbase to grab all events that 
+ * fall within the date range of this/next quarter at UCSD.
+ * 
+ * @param {String} start_date start date of the quarter in UTC
+ *                     		  in ISO 8601 format "yyyy-mm-ddThh:mm:00Z"
+ * @param {String} end_date end date of the quarter in UTC
+ *                     		in ISO 8601 format "yyyy-mm-ddThh:mm:00Z"
+ * @returns {Array} An array that contains all event objects 
+ * 	                for this quarter if any
+ */
 async function retrieveFromDatabase(start_date, end_date) {
     return await dbAPI.queryThisQuarterEvents(start_date, end_date);
 }
