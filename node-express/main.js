@@ -42,11 +42,6 @@ const swaggerUi = require('swagger-ui-express')
 const grabFromCanvas = require("./canvasAPI.js");
 
 /**
- * Logged user's username, which we will use to query the tables:
- */
-let logged_user = null;
-
-/**
  * Initializing router
  */
 const router = express.Router();
@@ -66,7 +61,7 @@ const passport = require('passport');
 const flash = require('express-flash');
 
 /**
- * Initializing express session
+ * Initializing express sessions
  */
 const session = require('express-session');
 
@@ -114,18 +109,22 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname + '/public/')));
 
 // tells application form to access them inside req inside post method
-app.use(express.urlencoded({ extended: false }))
+const oneDay = 1000 * 60 * 60 * 24;
+const cookieParser = require("cookie-parser");
+app.use(express.urlencoded({extended: false}))
 app.use(flash())
+app.use(cookieParser())
 app.use(session({
     secret: "ThereIsNoSecret",
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: {maxAge: oneDay}
 }))
 
 // This is for passport-config.js
-app.use(passport.initialize())
-app.use(passport.session())
-app.use(methodOverride('_method'))
+// app.use(passport.initialize())
+// app.use(passport.sessions())
+// app.use(methodOverride('_method'))
 
 /**************************************************************************/
 /* SECTION 2: SETTING UP LINKS TO PAGES */
@@ -192,14 +191,20 @@ app.get('/update/:event_id', checkNotAuthenticated, (req, res) => {
 
 // Logging out
 app.get('/logout', checkNotAuthenticated, (req, res) => {
-    // #swagger.description = 'Logging out the user, setting logged_user to null'
-    logged_user = null;
-    res.redirect('/'); // Redirect to login
+    // #swagger.description = 'Logging out the user, setting req.session.userid to null'
+    req.session.destroy((err) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.redirect('/'); // Redirect to index page
+        }
+    });
 })
 
 // Add swagger doc page
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile), ()=> {
-    // #swagger.description = 'Logging out the user, setting logged_user to null'
+    // #swagger.description = 'Logging out the user, setting req.session.userid to null'
 })
     
 /**************************************************************************/
@@ -221,7 +226,7 @@ app.post('/login', async(req, res) => {
         type: "String",
     } */
     
-    // Capture the input fields,
+    // Capture the input fields to verify
     let username = await req.body.username;
     let password = await req.body.password;
 
@@ -240,9 +245,11 @@ app.post('/login', async(req, res) => {
                     let matched = bcrypt.compareSync(password, result.password_hash);
                     if (matched) {
                         // Authenticate the user
+                        // and create new session
+                        req.session.userid = username;
+                        console.log(req.session);
                         res.redirect('/today');
-                        console.log("SUCCESS");
-                        logged_user = username;
+                        
                     } else {
                         // PLACEBO
                         res.send("Incorrect Username and/or Password!");
@@ -370,7 +377,7 @@ app.post('/add', checkNotAuthenticated, async(req, res) => {
 
     try {
         let event_id = String(Date.now() + Math.floor(Math.random() * 1000));
-        let username = logged_user;
+        let username = req.session.userid;
         let event_n = req.body.event_name;
         let event_t = req.body.event_type;
         let event_rel = req.body.event_relation;
@@ -467,7 +474,7 @@ app.post('/settings', checkNotAuthenticated, async(req, res) => {
             let hashedNew = bcrypt.hashSync(req.body.new_pass, 10);
 
             // First check if the user knew the old password
-            db.all(queryOldPass, [logged_user], async(err, results) => {
+            db.all(queryOldPass, [req.session.userid], async(err, results) => {
                 if (err) {
                     console.err(err);
                     throw err;
@@ -479,12 +486,12 @@ app.post('/settings', checkNotAuthenticated, async(req, res) => {
 
                             if (matched) {
                                 // Update user with new passord
-                                db.run(sqlUpdate, [hashedNew, logged_user], async(err) => {
+                                db.run(sqlUpdate, [hashedNew, req.session.userid], async(err) => {
                                     if (err) {
                                         console.err(err);
                                         return;
                                     } else {
-                                        console.log("PASSWORD SUCCESSFULLY CHANGED FOR USER " + logged_user);
+                                        console.log("PASSWORD SUCCESSFULLY CHANGED FOR USER " + req.session.userid);
                                         res.redirect('/login');
                                     }
                                 })
@@ -504,7 +511,7 @@ app.post('/settings', checkNotAuthenticated, async(req, res) => {
             let queryOldPass = 'SELECT * from users WHERE username = ?';
             let password = await req.body.old_pass;
 
-            db.all(queryOldPass, [logged_user], async(err, results) => {
+            db.all(queryOldPass, [req.session.userid], async(err, results) => {
                 if (err) {
                     console.log(err);
                     throw err;
@@ -515,29 +522,26 @@ app.post('/settings', checkNotAuthenticated, async(req, res) => {
                             let matched = bcrypt.compareSync(password, result.password_hash);
                             if (matched) {
                                 // Delete the user
-                                db.run(sqlDelUsers, [logged_user], async(err) => {
+                                db.run(sqlDelUsers, [req.session.userid], async(err) => {
                                     if (err) {
                                         console.err(err);
                                         return;
                                     } else {
-                                        console.log("SUCCESSFULLY DELETED USER " + logged_user + " FROM TABLE USERS");
+                                        console.log("SUCCESSFULLY DELETED USER " + req.session.userid + " FROM TABLE USERS");
                                     }
                                 })
 
-                                db.run(sqlDelEvents, [logged_user], async(err) => {
+                                db.run(sqlDelEvents, [req.session.userid], async(err) => {
                                     if (err) {
                                         console.err(err);
                                         return;
                                     } else {
-                                        console.log("SUCCESSFULLY DELETED USER " + logged_user + " FROM TABLE EVENTS");
+                                        console.log("SUCCESSFULLY DELETED USER " + req.session.userid + " FROM TABLE EVENTS");
                                     }
                                 })
 
-                                // Log out the user
-                                logged_user = null;
-
-                                // Once finished deleting, redirect to index page
-                                res.redirect("/");
+                                // Log out the user and redirect to index
+                                res.redirect("/logout");
                             } else {
                                 // PLACEBO
                                 // WE WILL FIGURE OUT LATER
@@ -570,7 +574,7 @@ app.post("/deleteEvent", checkNotAuthenticated, async(req, res) => {
 
     try {
         let sqlDelEvent = 'DELETE from events WHERE username = ? and event_id = ?';
-        let params = [logged_user, eventId];
+        let params = [req.session.userid, eventId];
 
         db.run(sqlDelEvent, params, async(err) => {
             if (err) {
@@ -671,7 +675,7 @@ app.post("/update", checkNotAuthenticated, async(req, res) => {
     } */
     try {
         let event_id = req.body.event_id;
-        let username = logged_user;
+        let username = req.session.userid;
         let event_n = req.body.event_name;
         let event_t = req.body.event_type;
         let event_rel = req.body.event_relation;
@@ -706,8 +710,7 @@ app.post("/update", checkNotAuthenticated, async(req, res) => {
         `;
 
         let params = [username, event_t, event_n, event_rel, event_loc, event_details,
-            start_time, end_time, event_completed, event_color, event_id
-        ];
+            start_time, end_time, event_completed, event_color, event_id];
 
         // Update event that matches the event id in database
         db.run(UPDATE, params, async(err) => {
@@ -737,12 +740,13 @@ app.post("/update", checkNotAuthenticated, async(req, res) => {
 
 /*
  * This function simply checks for authentication by checking if
- * logged_user is populated
+ * req.session.userid is populated
  */
 function checkNotAuthenticated(req, res, next) {
     // Check if the user is authenticated
+    // req.session.userid only existed if user was authenticated (null by default)
     // If not redirect them to login page
-    if (!logged_user) {
+    if (!req.session.userid) {
         return res.redirect("/login");
     }
     // If yes, continue to the page
@@ -756,7 +760,7 @@ function checkNotAuthenticated(req, res, next) {
 
 // Get currently logged in user's username
 app.get("/api/username", checkNotAuthenticated, (req, res, next) => {
-    res.json(logged_user);
+    res.json(req.session.userid);
     // #swagger.description = 'Get currently logged in user's username'
 })
 
@@ -794,7 +798,7 @@ app.get("/api/events/all", (req, res, next) => {
 // Get all events belonging to the logged in user
 app.get("/api/events", checkNotAuthenticated, (req, res, next) => {
     var sql = "select * from events where username = ?"
-    var params = [logged_user]
+    var params = [req.session.userid]
 
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -810,7 +814,7 @@ app.get("/api/events", checkNotAuthenticated, (req, res, next) => {
 // Get all by event_color for the logged in user
 app.get("/api/events/event_color/:event_color", checkNotAuthenticated, (req, res, next) => {
     var sql = "select * from events where event_color = ? and username = ?";
-    var params = [req.params.event_color, logged_user];
+    var params = [req.params.event_color, req.session.userid];
 
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -833,7 +837,7 @@ app.get("/api/events/event_color/:event_color", checkNotAuthenticated, (req, res
 // Get all by event_completed for the logged in user
 app.get("/api/events/event_completed/:event_completed", checkNotAuthenticated, (req, res, next) => {
     var sql = "select * from events where event_completed = ? and username = ?"
-    var params = [req.params.event_completed, logged_user]
+    var params = [req.params.event_completed, req.session.userid]
 
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -855,7 +859,7 @@ app.get("/api/events/event_completed/:event_completed", checkNotAuthenticated, (
 // Get all by event_end for the logged in user
 app.get("/api/events/event_end/:event_end", checkNotAuthenticated, (req, res, next) => {
     var sql = "select * from events where event_end = ? and username = ?"
-    var params = [req.params.event_end, logged_user]
+    var params = [req.params.event_end, req.session.userid]
 
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -902,7 +906,7 @@ app.get("/api/events/event_start/:event_start", checkNotAuthenticated, (req, res
 // Get all by event_details for the logged in user
 app.get("/api/events/event_details/:event_details", checkNotAuthenticated, (req, res, next) => {
     var sql = "select * from events where event_details = ? and username = ?"
-    var params = [req.params.event_details, logged_user]
+    var params = [req.params.event_details, req.session.userid]
 
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -924,7 +928,7 @@ app.get("/api/events/event_details/:event_details", checkNotAuthenticated, (req,
 // Get all by event_relation for the logged in user
 app.get("/api/events/event_relation/:event_relation", checkNotAuthenticated, (req, res, next) => {
     var sql = "select * from events where event_relation = ? and username = ?"
-    var params = [req.params.event_relation, logged_user]
+    var params = [req.params.event_relation, req.session.userid]
 
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -946,7 +950,7 @@ app.get("/api/events/event_relation/:event_relation", checkNotAuthenticated, (re
 // Get all by event_location for the logged in user
 app.get("/api/events/event_location/:event_location", checkNotAuthenticated, (req, res, next) => {
     var sql = "select * from events where event_location = ? and username = ?"
-    var params = [req.params.event_location, logged_user]
+    var params = [req.params.event_location, req.session.userid]
 
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -968,7 +972,7 @@ app.get("/api/events/event_location/:event_location", checkNotAuthenticated, (re
 // Get all by event_name for the logged in user
 app.get("/api/events/event_name/:event_name", checkNotAuthenticated, (req, res, next) => {
     var sql = "select * from events where event_name = ? and username = ?"
-    var params = [req.params.event_name, logged_user];
+    var params = [req.params.event_name, req.session.userid];
 
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -990,7 +994,7 @@ app.get("/api/events/event_name/:event_name", checkNotAuthenticated, (req, res, 
 // Get all by event_type for the logged in user
 app.get("/api/events/event_type/:event_type", checkNotAuthenticated, (req, res, next) => {
     var sql = "select * from events where event_type = ? and username = ?"
-    var params = [req.params.event_type, logged_user]
+    var params = [req.params.event_type, req.session.userid]
 
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -1012,7 +1016,7 @@ app.get("/api/events/event_type/:event_type", checkNotAuthenticated, (req, res, 
 // Get all by event_id for the logged in user
 app.get("/api/events/event_id/:event_id", checkNotAuthenticated, (req, res, next) => {
     var sql = "select * from events where event_id = ? and username = ?"
-    var params = [req.params.event_id, logged_user]
+    var params = [req.params.event_id, req.session.userid]
 
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -1066,7 +1070,7 @@ app.get("/api/events/today", checkNotAuthenticated, (req, res, next) => {
     and username = ?
     ORDER BY event_start`;
 
-    var params = [logged_user]
+    var params = [req.session.userid]
 
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -1086,7 +1090,7 @@ app.get("/api/events/this_week", checkNotAuthenticated, (req, res, next) => {
     and username = ?
     ORDER BY event_start`;
 
-    var params = [logged_user];
+    var params = [req.session.userid];
 
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -1108,7 +1112,7 @@ app.get("/api/events/this_month", checkNotAuthenticated, (req, res, next) => {
     and username = ?
     ORDER BY event_start`;
 
-    var params = [logged_user];
+    var params = [req.session.userid];
 
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -1129,7 +1133,7 @@ app.get("/api/events/:start_date/:end_date", checkNotAuthenticated, (req, res, n
     and username = ?
     ORDER BY event_start`;
 
-    var params = [req.params.start_date, req.params.end_date, logged_user];
+    var params = [req.params.start_date, req.params.end_date, req.session.userid];
 
     db.all(sql, params, (err, rows) => {
         if (err) {
