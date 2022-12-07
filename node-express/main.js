@@ -17,11 +17,6 @@ const app = express();
 const path = require('path');
 
 /**
- * Initializing md5 to encrypt
- */
-const md5 = require('md5');
-
-/**
  * Importing db from our database.js
  */
 const db = require("./database.js");
@@ -42,18 +37,9 @@ const swaggerUi = require('swagger-ui-express')
 const grabFromCanvas = require("./canvasAPI.js");
 
 /**
- * Initializing router
- */
-const router = express.Router();
-
-/**
  * Initializing bcrypt
  */
 const bcrypt = require('bcrypt');
-/**
- * Initializing passport
- */
-const passport = require('passport');
 
 /**
  * Initializing express flash
@@ -66,50 +52,36 @@ const flash = require('express-flash');
 const session = require('express-session');
 
 /**
- * Initializing method Overide
- */
-const methodOverride = require('method-override');
-
-/**
  * Initializing bodyparser
  */
 const bodyParser = require('body-parser');
 
-// passport-config.js should be in the same folder
-/** 
- * Importing our app's passport config (UNUSED)
+// Experimental dependencies, may or may not be used
+/**
+ * Initializing router (EXPERIMENTAL/UNUSED)
  */
-const initializePassport = require('./passport-config');
+ const router = express.Router();
 
 /** 
- * Initializing worker threads 
+ * Initializing worker threads (EXPERIMENTAL/UNUSED)
  */
 const {resourceLimits} = require('worker_threads');
 
-/**
- * Importing http 
+/** 
+ * Importing http (EXPERIMENTAL/UNUSED)
  */
 const { request } = require('http');
-initializePassport(
-    passport,
-    username => users.find(user => user.username === username),
-    uuid => users.find(user => user.uuid === uuid)
-)
 
-/**
- * Store them in local variable inside server (UNUSED)
- */
-const users = [];
-
+/* Configs for our app */ 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 
-// Serving all the important files via express to our local server
-// 1) Serving the javascript files
+// Serving all the files in folder "public" to our 
+// local express server
 app.use(express.static(path.join(__dirname + '/public/')));
 
-// tells application form to access them inside req inside post method
-const oneDay = 1000 * 60 * 60 * 24;
+// Setting up a session
+const oneDay = 1000 * 60 * 60 * 24; // Cookie currently expires in 1 day
 const cookieParser = require("cookie-parser");
 app.use(express.urlencoded({extended: false}))
 app.use(flash())
@@ -120,11 +92,6 @@ app.use(session({
     saveUninitialized: true,
     cookie: {maxAge: oneDay}
 }))
-
-// This is for passport-config.js
-// app.use(passport.initialize())
-// app.use(passport.sessions())
-// app.use(methodOverride('_method'))
 
 /**************************************************************************/
 /* SECTION 2: SETTING UP LINKS TO PAGES */

@@ -13,11 +13,6 @@ const app = express();
  */
 const sqlite3 = require('sqlite3').verbose();
 
-/** 
- * Using md 5 to encrypt (UNUSED) 
- */
-const md5 = require('md5');
-
 /**
  * Table users to hold all users' data
  */
