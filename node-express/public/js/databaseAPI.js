@@ -1,5 +1,6 @@
 let PORT = 6900;
 let baseURL = "http://localhost:" + PORT;
+baseURL = "";
 
 /**
  * User's related info API Endpoints
