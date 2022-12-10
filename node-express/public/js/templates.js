@@ -109,7 +109,7 @@ function tevent(element, de) {
             <p class="name">All Day: ${de['event_name']}</p>
         </div>
         `;
-        element.style=`background-color: ${de['event_color']}; position: relative; width: 50%; height: 22pt; left: 0%; overflow: hidden;`;
+        element.style=`background-color: ${de['event_color']}; position: relative; width: 50%; height: match-content; left: 0%; overflow: hidden;`;
         // if event is more than 4 hours, make it less wide
     } else if ((end - start) > 14400000) {
         element.innerHTML = `
