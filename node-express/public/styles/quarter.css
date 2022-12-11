@@ -10,16 +10,16 @@ body {
 .task-container {
     display: flex;
     flex-direction: row;
-    justify-content: center;
     gap: 4px;
+    justify-content: center;
     margin-top: 5px;
 }
 
 .event-container {
     display: flex;
     flex-direction: row;
-    justify-content: center;
     gap: 4px;
+    justify-content: center;
     margin-top: 5px;
 }
 
@@ -29,23 +29,23 @@ body {
     color: white;
     font-weight: 800;
     height: 100px;
-    width: 100px;
-    text-align: left;
     position: relative;
+    text-align: left;
+    width: 100px;
 }
 
 .date-value {
+    display: block;
+    left: 10px;
     position: absolute;
     top: 10px;
-    left: 10px;
-    display: block;
 }
 
 .table {
     background-color: #000000;
+    border-spacing: 20px;
     margin-left: auto;
     margin-right: auto;
-    border-spacing: 20px;
 }
 
 .weekday {
@@ -69,8 +69,8 @@ body {
 }
 
 p {
-    text-align: center;
-    max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+    max-width: 600px;
+    text-align: center;
 }

@@ -16,27 +16,49 @@
     background-color: black;
     font-family: IBM Plex Sans;
     color: white;
-    display: flex;
-    flex-direction: column;
   }
   
   .details-content {
-    margin: 1.5% auto 10% auto;
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
     border: none;
-    width: 100%;
     border-radius: 20px;
     display: flex;
-    flex-direction: row;
-    flex-shrink: 0;
-    flex-grow: 1;
+    flex-direction: column;
     word-wrap: break-word;
     white-space: pre-line;
   }
   
   .content {
-    font-size: 200%;
+    font-size: 150%;
     margin: 5% 5%;
-    width: 100%
+    width: auto;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  button {
+    border-radius: 5px;
+    font-size: 150%;
+    border-style: solid;
+    border-color: white;
+    margin-bottom: 40px;
+  }
+
+  #delete_but {
+    background-color: #ee6666;
+    color: white;
+  }
+
+  #update_but {
+    background-color: #222;
+    color: white;
   }
   </style>
   <script>
@@ -48,8 +70,8 @@
     
     function parseTime(start, end) {
       // parse given time
-      const startTime = Date.parse(start);
-      const endTime = Date.parse(end);
+      const startTime = new Date(start);
+      const endTime = new Date(end);
       // find difference of times to find duration
       const duration = endTime - startTime;
       // initialize variables needed for later
@@ -57,51 +79,17 @@
       let parsedEnd = "";
       let timeNum = 0;
       let time = "";
-      // Rewrite the given times to be look like (%%:%% *M)
-      if (
-        start.split("T")[1].split(":")[0] >= 0 &&
-        start.split("T")[1].split(":")[0] < 12
-      ) {
-        parsedStart =
-          start.split("T")[1].split(":")[0] +
-          ":" +
-          start.split("T")[1].split(":")[1] +
-          "AM";
-      } else {
-        parsedStart =
-          start.split("T")[1].split(":")[0] -
-          12 +
-          ":" +
-          start.split("T")[1].split(":")[1] +
-          "PM";
-      }
-      if (
-        end.split("T")[1].split(":")[0] >= 0 &&
-        end.split("T")[1].split(":")[0] < 12
-      ) {
-        parsedEnd =
-          end.split("T")[1].split(":")[0] +
-          ":" +
-          end.split("T")[1].split(":")[1] +
-          "AM";
-      } else {
-        parsedEnd =
-          end.split("T")[1].split(":")[0] -
-          12 +
-          ":" +
-          end.split("T")[1].split(":")[1] +
-          "PM";
-      }
+
       // Evaluate duration to fit the right description of it
       if (duration < hour) {
         timeNum = Math.round(duration / minute);
-        time = `${parsedStart}` + "-" + `${parsedEnd}` + `   ${timeNum} minute(s)`;
+        time = `${startTime.toLocaleTimeString()}` + " – " + `${endTime.toLocaleTimeString()}` + `\n${timeNum} minutes`;
       } else if (duration < day) {
         timeNum = Math.round(duration / hour);
-        time = `${parsedStart}` + "-" + `${parsedEnd}` + `   ${timeNum} hour(s)`;
+        time = `${startTime.toLocaleTimeString()}` + " – " + `${endTime.toLocaleTimeString()}` + `\n${timeNum} hours`;
       } else if (duration < month) {
         timeNum = Math.round(duration / day);
-        time = `${parsedStart}` + "-" + `${parsedEnd}` + `   ${timeNum} day(s)`;
+        time = `${startTime.toLocaleTimeString()}` + " – " + `${endTime.toLocaleString()}` + `\n${timeNum} days`;
       }
     
       return time;
@@ -131,7 +119,9 @@
       let eventId = hrefArray[hrefArray.length - 1];
     
       // Fetch from the database the event that matches the id
-      let dataentry = await getEvent(eventId);
+      let dataentries = await getEvent(eventId);
+      let dataentry = dataentries[0];
+      console.log(dataentry);
       
       // Assigning the value for the buttons so
       // that the server knows which event to handle.
@@ -141,15 +131,15 @@
       update_button.value = eventId;
     
       // Populate the entry pop up with the data we just from our database
-      document.getElementById("name").innerHTML = dataentry[0]["event_name"];
-      document.getElementById("location").innerHTML = dataentry[0]["event_location"];
+      document.getElementById("name").innerHTML = dataentry["event_name"];
+      document.getElementById("location").innerHTML = dataentry["event_location"];
       document.getElementById("start-end").innerHTML = parseTime(
-        dataentry[0]["event_start"],
-        dataentry[0]["event_end"]
+        dataentry["event_start"],
+        dataentry["event_end"]
       );
-      document.getElementById("details").innerHTML = dataentry[0]["event_details"];
-      document.getElementsByClassName("details-content")[0].style.backgroundColor =
-        dataentry[0]["event_color"];
+      document.getElementById("details").innerHTML = dataentry["event_details"];
+      let popupElement = document.querySelector(".details-content");
+      popupElement.style = `background-color: ${dataentry['event_color']}`;
     };
     
     async function getEvent(event_id) {
@@ -175,22 +165,22 @@
   <main>
     <div id="detailsPopup" class="popup">
       <div class="details-content">
-        <div class="details-container">
-          <div id="name" class="content">
-          </div>
-          <div id="location" class="content">
-          </div>
-          <div id="start-end" class="content">
-          </div>
-          <div id="details" class="content">
-          </div>
+        <div id="name" class="content">
         </div>
-        <form action="/deleteEvent" method="POST">
-          <button id = "delete_but" type="submit" name="button">Delete Event</button>
-        </form>
-        <form action="/updateEvent" method="POST">
-          <button id="update_but" type="submit" name="button">Update Event</button>
-        </form>
+        <div id="location" class="content">
+        </div>
+        <div id="start-end" class="content">
+        </div>
+        <div id="details" class="content">
+        </div>
+        <div class="buttons">
+          <form action="/deleteEvent" method="POST">
+            <button id="delete_but" type="submit" name="button">Delete Event</button>
+          </form>
+          <form action="/updateEvent" method="POST">
+            <button id="update_but" type="submit" name="button">Update Event</button>
+          </form>
+        </div>
       </div>
     </div>
   </main>
