@@ -3,6 +3,13 @@ Team 38
 
 [Team Page](/admin/team.md)
 
+# Test out our project [here](http://favour-participant-deborah-hiv.trycloudflare.com)
+
+## Videos:
+[Public Video](https://youtu.be/_mwt6euJh20)
+
+[Private Video](https://youtu.be/hLw32NeTxMg)
+
 ### Assignment:
 
 For CSE 110 at UC San Diego we are tasked with building a _CRUD_ app using _core web technologies_ (HTML/CSS/JS) which organizes _personal data_ with a focus on _local first_ design.
