@@ -24,7 +24,7 @@ A senior in CS. I like arts, drawings, video games and cats. Hope to have fun wi
 
 I go by Jason. I'm a junior Math-CS major. I like video games a lot and I have a cat who's named after a famous Chinese moba player "Dian Gun".
 
-#### [Hieu Pham](https://hugompham.github.io/Week-0-1-Lab/) (Role or whatever you wanna put here)
+#### [Hieu Pham](https://hugompham.github.io/Week-0-1-Lab/) (Developer)
 
 I go by Hugo. I'm a third year Computer Engineering major. If I am not working or watching anime, you will probably see me in the gym.
 
