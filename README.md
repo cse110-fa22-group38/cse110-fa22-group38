@@ -3,8 +3,6 @@ Team 38
 
 [Team Page](/admin/team.md)
 
-# Test out our project [here](http://favour-participant-deborah-hiv.trycloudflare.com)
-
 ## Videos:
 [Public Video](https://youtu.be/_mwt6euJh20)
 
